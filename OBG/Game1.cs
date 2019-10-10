@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using OBG.Device;
 using OBG.Scene;
+using OBG.Actor;
 
 /// <summary>
 /// プロジェクト名がnamespaceとなります
@@ -21,12 +22,11 @@ namespace OBG
         // フィールド（このクラスの情報を記述）
         private GraphicsDeviceManager graphicsDeviceManager;//グラフィックスデバイスを管理するオブジェクト
         private GameDevice gameDevice;
-        private SpriteBatch spriteBatch;//画像をスクリーン上に描画するためのオブジェクト
         private Renderer renderer;
         private SceneManager sceneManager;
 
 
-        
+
         Ball ball;
         Pin pin;
 
@@ -43,7 +43,11 @@ namespace OBG
             //コンテンツデータ（リソースデータ）のルートフォルダは"Contentに設定
             Content.RootDirectory = "Content";
 
+            //スクリーンサイズ
+            graphicsDeviceManager.PreferredBackBufferWidth = 1280;
+            graphicsDeviceManager.PreferredBackBufferHeight = 720;
 
+            Window.Title = "ワン・ボタン・ゲーム";
         }
 
         /// <summary>
@@ -55,9 +59,11 @@ namespace OBG
             gameDevice = GameDevice.Instance(Content, GraphicsDevice);
 
             sceneManager = new SceneManager();
-            sceneManager.Add(Scene.Scene.Title, new Title());
+            IScene addScene = new Title();
+            sceneManager.Add(Scene.Scene.Title, addScene);
 
-
+            sceneManager.Add(Scene.Scene.Ending, new Ending(addScene));
+            sceneManager.Change(Scene.Scene.Title);
 
             //sceneManager.Add(Scene.Scene.Ending, addScene);
             ball = new Ball(new Vector2(200, 200));
@@ -75,22 +81,20 @@ namespace OBG
         /// </summary>
         protected override void LoadContent()
         {
-            // 画像を描画するために、スプライトバッチオブジェクトの実体生成
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            // ゲームデバイスから持ってきて格納
             renderer = gameDevice.GetRenderer();
+            Sound sound = gameDevice.GetSound();
 
             // この下にロジックを記述
-            string filepathT = "./Texture/";
-            string filepathS = "./SoundSE/";
-
+            string filepathT = "./Texture/"; //画像フォルダのパス
+            string filepathS = "./SoundSE/"; //サウンドフォルダのパス
 
             renderer.LoadContent("black", filepathT);
             renderer.LoadContent("pin", filepathT);
             renderer.LoadContent("stage", filepathT);
             renderer.LoadContent("white", filepathT);
             renderer.LoadContent("title", filepathT);
-
-            Sound sound = gameDevice.GetSound();
+            renderer.LoadContent("ending", filepathT);
 
             sound.LoadBGM("titlebgm", filepathS);
             sound.LoadBGM("gameplaybgm", filepathS);

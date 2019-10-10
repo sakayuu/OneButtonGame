@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OBG
+namespace OBG.Actor
 {
-    class Ball
+    class Ball : Character
     {
-        private Vector2 position; //自分の位置
+        private float speed = 0.1f; //スピード
         private Vector2 distance; //目的地
         private Vector2 velocity; //移動量
-        private float speed = 0.1f; //スピード
+
         public bool moveFlag = false; //動くかどうか
 
         public Ball(Vector2 position)
@@ -20,12 +20,9 @@ namespace OBG
             this.position = position;
         }
 
-        public void Update(GameTime gameTime)
-        {
-            Move();
-        }
 
-        public void Move()
+
+        public override void Move()
         {
             if (moveFlag)
             {
@@ -49,14 +46,34 @@ namespace OBG
             return distance;
         }
 
-        public Vector2 GetBallPos()
+        public override Vector2 GetPosition()
         {
-            return position;
+            return base.GetPosition();
         }
 
         public void SetBallPos(Vector2 pos)
         {
             position = pos;
+        }
+
+        public override void Initialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            Move();
+        }
+
+        public override void Shutdown()
+        {
+
+        }
+
+        public override void Hit(Character other)
+        {
+
         }
     }
 }

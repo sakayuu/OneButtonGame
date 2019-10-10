@@ -14,7 +14,6 @@ namespace OBG.Scene
         //終了フラグ
         private bool isEndFlag;//終了フラグ
         private Sound sound;//サウンドオブジェクト
-        //private Motion motion;//モーション管理
 
         ///<summary>
         ///コンストラクタ
@@ -34,7 +33,6 @@ namespace OBG.Scene
         {
             renderer.Begin();
             renderer.DrawTexture("title", Vector2.Zero);
-            //renderer.DrawTexture("puddle", new Vector2(200, 370), motion.DrawingRange());
             renderer.End();
         }
 
@@ -45,15 +43,6 @@ namespace OBG.Scene
         {
             isEndFlag = false;
 
-            //motion = new Motion();
-            //motion.Add(0, new Rectangle(64 * 0, 0, 64, 64));
-            //motion.Add(1, new Rectangle(64 * 1, 0, 64, 64));
-            //motion.Add(2, new Rectangle(64 * 2, 0, 64, 64));
-            //motion.Add(3, new Rectangle(64 * 3, 0, 64, 64));
-            //motion.Add(4, new Rectangle(64 * 4, 0, 64, 64));
-            //motion.Add(5, new Rectangle(64 * 5, 0, 64, 64));
-            //範囲は0～5、モーション切り替え時間は0.2秒で初期化
-            //motion.Initialize(new Range(0, 5), new CountDownTimer(0.05f));
         }
 
         /// <summary>
@@ -71,7 +60,8 @@ namespace OBG.Scene
         /// <returns>次のシーン</returns>
         public Scene Next()
         {
-            return Scene.GamePlay;
+            //return Scene.GamePlay; //ゲームプレイまだ作ってない
+            return Scene.Ending;
         }
 
         /// <summary>
@@ -89,7 +79,6 @@ namespace OBG.Scene
         public void Update(GameTime gameTime)
         {
             sound.PlayBGM("titlebgm");
-            //motion.Update(gameTime);
 
             //スペースキーが押されたか？
             if (Input.GetKeyTrigger(Keys.Space))

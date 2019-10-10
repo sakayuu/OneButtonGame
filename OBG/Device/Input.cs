@@ -32,7 +32,7 @@ namespace OBG.Device
             UpdateVelocity();//これがあるか確認
         }
 
-        //キーボード関連
+        #region キーボード関連
         public static Vector2 Velocity()
         {
             return velocity;
@@ -99,8 +99,9 @@ namespace OBG.Device
         {
             return currentKey.IsKeyDown(key);
         }
+        #endregion
 
-        //マウス関連
+        #region マウス関連
         ///<summary>
         ///マウスの左ボタンが押された瞬間か？
         ///</summary>
@@ -180,6 +181,6 @@ namespace OBG.Device
             return previousMouse.ScrollWheelValue -
                 currentMouse.ScrollWheelValue;
         }
-
+        #endregion
     }
 }
