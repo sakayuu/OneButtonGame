@@ -53,6 +53,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene\Ending.cs" />
+    <Compile Include="Scene\GamePlay.cs" />
     <Compile Include="Scene\IScene.cs" />
     <Compile Include="Scene\SceneManager.cs" />
     <Compile Include="Scene\Title.cs" />

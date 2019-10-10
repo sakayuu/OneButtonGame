@@ -60,8 +60,8 @@ namespace OBG.Scene
         /// <returns>次のシーン</returns>
         public Scene Next()
         {
-            //return Scene.GamePlay; //ゲームプレイまだ作ってない
-            return Scene.Ending;
+            return Scene.GamePlay; //ゲームプレイまだ作ってない
+            //return Scene.Ending;
         }
 
         /// <summary>

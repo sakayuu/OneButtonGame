@@ -15,37 +15,18 @@ namespace OBG.Actor
         float angle = 0;
         float radius; //プレイヤーとピンの半径
 
-        public Pin(Vector2 position)
+        public Pin(string name, Vector2 position)
         {
             radius = 0;
             this.position = position;
             catchPos = position + new Vector2(radius, 0);
-
+            this.name = name;
 
         }
 
         public override void Update(GameTime gameTime)
         {
-            if(Input.GetKeyTrigger(Microsoft.Xna.Framework.Input.Keys.P))
-            {
 
-            }
-
-
-            if (Input.GetKeyState(Microsoft.Xna.Framework.Input.Keys.P))
-            {
-                catchPos = new Vector2(position.X + (float)Math.Cos(angle) * radius, position.Y + (float)Math.Sin(angle) * radius);
-                angle += 0.1f;
-
-            }
-            else
-            {
-
-            }
-            if (Input.GetKeyTrigger(Microsoft.Xna.Framework.Input.Keys.E))
-            {
-                radius += 20;
-            }
         }
 
 
@@ -62,6 +43,11 @@ namespace OBG.Actor
         public Vector2 GetCatchPos()
         {
             return catchPos;
+        }
+
+        public void SetCatchPos(Vector2 pos)
+        {
+            catchPos = pos;
         }
 
         private double CheckDistance(Vector2 bPos, Vector2 pPos)
@@ -83,6 +69,11 @@ namespace OBG.Actor
         public override void Hit(Character other)
         {
 
+        }
+
+        public override void Draw(Renderer renderer)
+        {
+            base.Draw(renderer);
         }
     }
 }

@@ -59,17 +59,13 @@ namespace OBG
             gameDevice = GameDevice.Instance(Content, GraphicsDevice);
 
             sceneManager = new SceneManager();
-            IScene addScene = new Title();
-            sceneManager.Add(Scene.Scene.Title, addScene);
-
+            IScene addScene = new GamePlay();
+            sceneManager.Add(Scene.Scene.Title, new Title());
+            sceneManager.Add(Scene.Scene.GamePlay, addScene);
             sceneManager.Add(Scene.Scene.Ending, new Ending(addScene));
             sceneManager.Change(Scene.Scene.Title);
 
             //sceneManager.Add(Scene.Scene.Ending, addScene);
-            ball = new Ball(new Vector2(200, 200));
-            pin = new Pin(new Vector2(400, 100));
-
-
 
             // この上にロジックを記述
             base.Initialize();// 親クラスの初期化処理呼び出し。絶対に消すな！！
@@ -144,21 +140,20 @@ namespace OBG
 
             sceneManager.Update(gameTime);
 
-            ball.Update(gameTime);
-            pin.Update(gameTime);
-            if (Input.GetKeyTrigger(Keys.P))
-            {
-                ball.moveFlag = true;
-                ball.GetMoveDirection(pin.GetPinPosition());
-            }
-            if (CheckDistance(ball.GetBallPos(), pin.GetPinPosition()) < 20)
-            {
-                ball.moveFlag = false;
-                flag = true;
-            }
 
-            if (flag)
-                ball.SetBallPos(pin.GetCatchPos());
+            //if (Input.GetKeyTrigger(Keys.P))
+            //{
+            //    ball.moveFlag = true;
+            //    ball.GetMoveDirection(pin.GetPinPosition());
+            //}
+            //if (CheckDistance(ball.GetBallPos(), pin.GetPinPosition()) < 20)
+            //{
+            //    ball.moveFlag = false;
+            //    flag = true;
+            //}
+
+            //if (flag)
+            //    ball.SetBallPos(pin.GetCatchPos());
 
             // この上にロジックを記述
             base.Update(gameTime); // 親クラスの更新処理呼び出し。絶対に消すな！！
@@ -186,10 +181,5 @@ namespace OBG
         }
 
 
-        private double CheckDistance(Vector2 bPos, Vector2 pPos)
-        {
-            double dist = Math.Sqrt((pPos.X - bPos.X) * (pPos.X - bPos.X) + (pPos.Y - bPos.Y) * (pPos.Y - bPos.Y));
-            return dist;
-        }
     }
 }

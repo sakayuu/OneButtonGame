@@ -14,7 +14,7 @@ namespace OBG.Actor
     class CharacterManager
     {
         private Ball ball;
-        private List<Character> pins;
+        private List<Pin> pins;
         private List<Character> addNewCharacters;
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace OBG.Actor
             if (pins != null)
                 pins.Clear();
             else
-                pins = new List<Character>();
+                pins = new List<Pin>();
 
             if (addNewCharacters != null)
                 addNewCharacters.Clear();
@@ -55,8 +55,11 @@ namespace OBG.Actor
             {
                 return;
             }
-            //追加リストにキャラを追加
-            addNewCharacters.Add(character);
+            else if (character is Ball)
+                ball = (Ball)character;
+            else
+                //追加リストにキャラを追加
+                addNewCharacters.Add(character);
         }
 
         /// <summary>
@@ -92,7 +95,7 @@ namespace OBG.Actor
                 if (newChara is Pin)
                 {
                     newChara.Initialize();
-                    pins.Add(newChara);
+                    pins.Add((Pin)newChara);
                 }
             }
             //追加処理後、追加リストはクリア
@@ -117,8 +120,13 @@ namespace OBG.Actor
             }
         }
 
-
-        public Character GetShortestCheck(Ball ball, List<Character> charas)
+        /// <summary>
+        /// プレイヤーに一番近いピンの位置を返す
+        /// </summary>
+        /// <param name="ball">プレイヤー</param>
+        /// <param name="charas">ピンのリスト</param>
+        /// <returns></returns>
+        public Pin GetShortestCheck(Ball ball, List<Pin> charas)
         {
             List<double> minDists = new List<double>();
 
@@ -132,11 +140,21 @@ namespace OBG.Actor
             return charas[minDists.FindIndex(n => n == a)];
         }
 
-        private double CheckDistance(Vector2 bPos, Vector2 pPos)
+        public double CheckDistance(Vector2 bPos, Vector2 pPos)
         {
             double dist = Math.Sqrt((pPos.X - bPos.X) * (pPos.X - bPos.X) + (pPos.Y - bPos.Y) * (pPos.Y - bPos.Y));
             return dist;
         }
 
+
+        public Ball GetBall()
+        {
+            return ball;
+        }
+
+        public List<Pin> GetList()
+        {
+            return pins;
+        }
     }
 }
