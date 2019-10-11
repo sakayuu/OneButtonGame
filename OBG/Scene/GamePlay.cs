@@ -88,8 +88,8 @@ namespace OBG.Scene
                 characterManager.GetBall().moveFlag = false;
 
             }
-            else if (Input.GetKeyTrigger(Keys.O))
-                characterManager.GetBall().moveFlag = true;
+            //else if (Input.GetKeyTrigger(Keys.O))
+            //    characterManager.GetBall().moveFlag = true;
         }
     }
 }
