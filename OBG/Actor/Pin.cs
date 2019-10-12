@@ -21,7 +21,7 @@ namespace OBG.Actor
             this.position = position;
             catchPos = position + new Vector2(radius, 0);
             this.name = name;
-
+            pixelSize = 64;
         }
 
         public override void Update(GameTime gameTime)

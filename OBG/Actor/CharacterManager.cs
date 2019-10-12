@@ -140,18 +140,31 @@ namespace OBG.Actor
             return charas[minDists.FindIndex(n => n == a)];
         }
 
+        /// <summary>
+        /// 2点の距離を返す
+        /// </summary>
+        /// <param name="bPos">始め</param>
+        /// <param name="pPos">終わり</param>
+        /// <returns></returns>
         public double CheckDistance(Vector2 bPos, Vector2 pPos)
         {
             double dist = Math.Sqrt((pPos.X - bPos.X) * (pPos.X - bPos.X) + (pPos.Y - bPos.Y) * (pPos.Y - bPos.Y));
             return dist;
         }
 
-
+        /// <summary>
+        /// プレイヤーを渡す
+        /// </summary>
+        /// <returns></returns>
         public Ball GetBall()
         {
             return ball;
         }
 
+        /// <summary>
+        /// ピンのリストを渡す
+        /// </summary>
+        /// <returns></returns>
         public List<Pin> GetList()
         {
             return pins;

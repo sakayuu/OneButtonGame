@@ -12,44 +12,45 @@ namespace OBG.Actor
 {
     class Ball : Character
     {
-        private float speed = 0.1f; //スピード
+        private float speed = 10f; //スピード
         private Vector2 distance; //目的地
         private Vector2 velocity; //移動量
 
         public bool moveFlag = false; //動くかどうか
         public Vector2 catchPos;
 
-        public float radius;
-        public float angle;
+        public float radius; //プレイヤーとピンの間の距離（プレイヤーがピンを回る円における半径）
+        public float angle; //回転
 
-        public bool LRflag;
+        public bool LRflag; //ピンに対してプレイヤーが左にいるか右にいるか
+        public bool UDflag; //ピンに対してプレイヤーが上にいるか下にいるか
 
-        int LR;
+        int LR; //右回転か左回転かを制御
 
         public Vector2 pPosition;
 
-        private float moveStartAngle;
-
-        private int xx;
-
-        float X, Y;
-
         float rad = 0;
+
+        int x = 1;
+
+        public bool gameStartFlag;
 
         public Ball(string name, Vector2 position)
         {
             this.position = position;
             this.name = name;
+            pixelSize = 64;
         }
 
         public override void Initialize()
         {
+            isDeadFlag = false;
             radius = 0;
             angle = 0;
             LR = 0;
             LRflag = false;
-            X = 0;
-            Y = 0;
+            x = 1;
+            gameStartFlag = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -64,7 +65,8 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-
+            if (other is Pin)
+                isDeadFlag = true;
         }
 
         public override void Move()
@@ -74,37 +76,35 @@ namespace OBG.Actor
             else
                 LR = -1;
 
-            if (Input.GetKeyTrigger(Keys.I))
+            if (moveFlag) //移動可能なら
             {
-                rad = 0;
-                //var x = (distance - position) / 2;
-                //position += x * speed;
-                //position += 0.001f * new Vector2(catchPos.X + (float)Math.Cos(moveStartAngle), catchPos.Y + (float)Math.Sin(moveStartAngle));
-                velocity = (pPosition - position);
-
-                rad = GetRadian(position, pPosition);
-
-                velocity.Normalize();
-
-
-                //X = velocity.X + ((float)Math.Cos((90 / 360 * (Math.PI * 2)) * LR));
-                //Y = velocity.Y + ((float)Math.Sin((90 / 360 * (Math.PI * 2)) * LR));
-                moveFlag = true;
+                //まっすぐに移動
+                position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
             }
-
-            if (moveFlag)
+            else if (gameStartFlag)
             {
-                position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * 0.5f) * -LR;
-                position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * 0.5f) * -LR;
-
-            }
-            else
-            {
-                position = catchPos;
+                position = catchPos; //自身の位置をピンの周りを回転する位置に
                 catchPos = new Vector2(pPosition.X + (float)Math.Cos(angle) * radius, pPosition.Y + (float)Math.Sin(angle) * radius);
-                angle += 0.1f * LR;
-                moveStartAngle = angle;
+                angle = angle + (speed / 100) * LR;
+                if (Math.Abs(angle / MathHelper.ToRadians(360)) >= x)
+                {
+                    radius = radius + radius / 2;
+                    x++;
+                }
             }
+
+            if (Input.GetKeyRelease(Keys.P)) //キーが離されたら
+            {
+                angle = 0;
+                rad = 0; //角度初期化
+                velocity = (pPosition - position); //ベクトル取得
+                rad = GetRadian(position, pPosition); //ベクトルの角度を取得
+                velocity.Normalize(); //ベクトルの正規化
+
+                moveFlag = true; //移動可能
+            }
+
         }
 
         /// <summary>
@@ -133,11 +133,21 @@ namespace OBG.Actor
             base.Draw(renderer);
         }
 
+        /// <summary>
+        /// ピンの位置をもらう
+        /// </summary>
+        /// <param name="pos"></param>
         public void GetPPos(Vector2 pos)
         {
             pPosition = pos;
         }
 
+        /// <summary>
+        /// v1からv2までのベクトルの角度を求める
+        /// </summary>
+        /// <param name="v1">始めの位置</param>
+        /// <param name="v2">終わりの位置</param>
+        /// <returns></returns>
         public float GetRadian(Vector2 v1, Vector2 v2)
         {
             float w = v2.X - v1.X;

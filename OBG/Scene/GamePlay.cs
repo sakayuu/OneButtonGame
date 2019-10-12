@@ -39,14 +39,12 @@ namespace OBG.Scene
 
             //キャラクターマネージャーの実体生成
             characterManager = new CharacterManager();
-            Ball ball = new Ball("black", new Vector2(200, 200));
+            Ball ball = new Ball("black", new Vector2(300, 300));
             characterManager.Add(ball);
 
             characterManager.Add(new Pin("pin", new Vector2(400, 100)));
-            characterManager.Add(new Pin("pin", new Vector2(500, 50)));
-            characterManager.Add(new Pin("pin", new Vector2(350, 150)));
-
-
+            characterManager.Add(new Pin("pin", new Vector2(500, 300)));
+            characterManager.Add(new Pin("pin", new Vector2(350, 400)));
 
         }
 
@@ -57,7 +55,6 @@ namespace OBG.Scene
 
         public Scene Next()
         {
-
             Scene nextScene = Scene.Ending;
             return nextScene;
         }
@@ -70,26 +67,36 @@ namespace OBG.Scene
         public void Update(GameTime gameTime)
         {
             characterManager.Update(gameTime);
+
+            if (characterManager.GetBall().IsDead())
+                isEndFlag = true;
+
             if (Input.GetKeyTrigger(Keys.P))
             {
+                characterManager.GetBall().gameStartFlag = true;
                 characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).SetCatchPos(characterManager.GetBall().GetPosition());
-                float bP = characterManager.GetBall().GetPosition().X;
-                float pP = characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition().X;
+                Vector2 bP = characterManager.GetBall().GetPosition();
+                Vector2 pP = characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition();
 
-                characterManager.GetBall().radius = (float)characterManager.CheckDistance(characterManager.GetBall().GetPosition(), characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition());
+                characterManager.GetBall().radius
+                    = (float)characterManager.CheckDistance(characterManager.GetBall().GetPosition()
+                    , characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition());
 
-                if (bP < pP)
-                {
+                if (bP.X < pP.X)
                     characterManager.GetBall().LRflag = true;
-                }
                 else
                     characterManager.GetBall().LRflag = false;
+                if (bP.Y < pP.Y)
+                    characterManager.GetBall().UDflag = true;
+                else
+                    characterManager.GetBall().UDflag = false;
                 characterManager.GetBall().GetPPos(characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition());
                 characterManager.GetBall().moveFlag = false;
 
+
+
             }
-            //else if (Input.GetKeyTrigger(Keys.O))
-            //    characterManager.GetBall().moveFlag = true;
+
         }
     }
 }

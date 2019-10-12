@@ -99,6 +99,17 @@ namespace OBG.Device
         {
             return currentKey.IsKeyDown(key);
         }
+
+        ///<summary>
+        ///キーが離された瞬間か？
+        ///</summary>
+        ///<param name="key">チェックしたいキー</param>
+        ///<returns>離された瞬間ならtrue</returns>
+        public static bool GetKeyRelease(Keys key)
+        {
+            return currentKey.IsKeyUp(key) && previousKey.IsKeyDown(key);
+        }
+
         #endregion
 
         #region マウス関連
