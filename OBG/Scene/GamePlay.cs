@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,12 @@ using OBG.Device;
 
 namespace OBG.Scene
 {
-    class GamePlay : IScene
+    class GamePlay : IScene, IGameMediator
     {
         private CharacterManager characterManager;
         private bool isEndFlag;
+
+        private Pin pin;
 
         public GamePlay()
         {
@@ -26,7 +29,7 @@ namespace OBG.Scene
             //描画開始
             renderer.Begin();
             //背景を描画
-            renderer.DrawTexture("stage", Vector2.Zero);
+            //renderer.DrawTexture("stage", Vector2.Zero);
             characterManager.Draw(renderer);//キャラクター管理者の描画
 
             renderer.End();
@@ -42,9 +45,9 @@ namespace OBG.Scene
             Ball ball = new Ball("black", new Vector2(300, 300));
             characterManager.Add(ball);
 
-            characterManager.Add(new Pin("pin", new Vector2(400, 100)));
-            characterManager.Add(new Pin("pin", new Vector2(500, 300)));
-            characterManager.Add(new Pin("pin", new Vector2(350, 400)));
+            characterManager.Add(new Pin("pin", new Vector2(400, 100), this)); //継承してるのでthisでmediatorを渡せる
+            characterManager.Add(new Pin("pin", new Vector2(500, 300), this));
+            characterManager.Add(new Pin("pin", new Vector2(350, 400), this));
 
         }
 
@@ -66,37 +69,64 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
-            characterManager.Update(gameTime);
+            characterManager.Update(gameTime); //キャラ一括更新
 
-            if (characterManager.GetBall().IsDead())
+            if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 isEndFlag = true;
 
-            if (Input.GetKeyTrigger(Keys.P))
+            if (Input.GetKeyTrigger(Keys.Enter))
             {
-                characterManager.GetBall().gameStartFlag = true;
-                characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).SetCatchPos(characterManager.GetBall().GetPosition());
+                pin = null;
                 Vector2 bP = characterManager.GetBall().GetPosition();
-                Vector2 pP = characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition();
+                pin = characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList());
 
-                characterManager.GetBall().radius
-                    = (float)characterManager.CheckDistance(characterManager.GetBall().GetPosition()
-                    , characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition());
+                pin.radius = (float)characterManager.CheckDistance(bP, pin.GetPosition());
+                characterManager.GetBall().SetRadius(pin.radius);
 
-                if (bP.X < pP.X)
+                characterManager.GetBall().GetPPos(pin.GetPosition());
+
+                characterManager.GetBall().vector = characterManager.GetBall().GetPosition() - pin.GetPosition();
+                characterManager.GetBall().vector.Normalize();
+
+                var rad = Math.Atan2(characterManager.GetBall().vector.Y, characterManager.GetBall().vector.X);
+
+                Debug.WriteLine(rad);
+                characterManager.GetBall().ang = (float)-Math.Cos(rad);
+                characterManager.GetBall().ang2 = (float)-Math.Sin(rad);
+
+                if (bP.X < pin.GetPosition().X)
+                {
                     characterManager.GetBall().LRflag = true;
+
+                    pin.LRflag = true;
+                }
                 else
+                {
                     characterManager.GetBall().LRflag = false;
-                if (bP.Y < pP.Y)
-                    characterManager.GetBall().UDflag = true;
-                else
-                    characterManager.GetBall().UDflag = false;
-                characterManager.GetBall().GetPPos(characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList()).GetPosition());
-                characterManager.GetBall().moveFlag = false;
+                    pin.LRflag = false;
+                }
 
 
-
+                characterManager.GetBall().ballState = BallState.Link;
+                pin.catchFlag = true;
             }
 
+            if (characterManager.GetBall().ballState == BallState.Link)
+            {
+                pin.bPos = characterManager.GetBall().GetPosition();
+                //characterManager.GetBall().SetBallPos(pin.catchPos);
+                characterManager.GetBall().angle = pin.SetAngle();
+            }
+            else if (characterManager.GetBall().ballState == BallState.Free)
+            {
+                pin.catchFlag = false;
+            }
+
+        }
+
+        public void AddActor(Collider collider)
+        {
+            characterManager.Add(collider);
         }
     }
 }

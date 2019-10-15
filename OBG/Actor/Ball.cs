@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using OBG.Device;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,30 +11,39 @@ using System.Threading.Tasks;
 
 namespace OBG.Actor
 {
+    enum BallState
+    {
+        Start,
+        Free,
+        Link,
+    }
+
     class Ball : Character
     {
         private float speed = 10f; //スピード
         private Vector2 distance; //目的地
         private Vector2 velocity; //移動量
+        public Vector2 vector; //ベクトルの向き
 
         public bool moveFlag = false; //動くかどうか
         public Vector2 catchPos;
 
-        public float radius; //プレイヤーとピンの間の距離（プレイヤーがピンを回る円における半径）
-        public float angle; //回転
+        int LR; //右回転か左回転かを制御
 
         public bool LRflag; //ピンに対してプレイヤーが左にいるか右にいるか
         public bool UDflag; //ピンに対してプレイヤーが上にいるか下にいるか
 
-        int LR; //右回転か左回転かを制御
+        public float angle;
 
         public Vector2 pPosition;
 
         float rad = 0;
 
-        int x = 1;
+        public BallState ballState;
 
-        public bool gameStartFlag;
+        float radius;
+
+        public float ang, ang2;
 
         public Ball(string name, Vector2 position)
         {
@@ -45,16 +55,19 @@ namespace OBG.Actor
         public override void Initialize()
         {
             isDeadFlag = false;
-            radius = 0;
-            angle = 0;
             LR = 0;
             LRflag = false;
-            x = 1;
-            gameStartFlag = false;
+            ang = 0;
+            ang2 = 0;
+            ballState = BallState.Start;
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (LRflag)
+                LR = 1;
+            else
+                LR = -1;
             Move();
         }
 
@@ -65,44 +78,38 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            if (other is Pin)
+            if (other is Pin || other is Collider)
                 isDeadFlag = true;
         }
 
         public override void Move()
         {
-            if (LRflag)
-                LR = 1;
-            else
-                LR = -1;
-
-            if (moveFlag) //移動可能なら
+            if (ballState == BallState.Start)
+                position = position + new Vector2(0, -1) * (speed / 10);
+            else if (ballState == BallState.Free) //移動可能なら
             {
                 //まっすぐに移動
                 position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
                 position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                ang = 0;
+                ang2 = 0;
             }
-            else if (gameStartFlag)
+            else if (ballState == BallState.Link)
             {
-                position = catchPos; //自身の位置をピンの周りを回転する位置に
-                catchPos = new Vector2(pPosition.X + (float)Math.Cos(angle) * radius, pPosition.Y + (float)Math.Sin(angle) * radius);
-                angle = angle + (speed / 100) * LR;
-                if (Math.Abs(angle / MathHelper.ToRadians(360)) >= x)
-                {
-                    radius = radius + radius / 2;
-                    x++;
-                }
+                Debug.WriteLine(angle);
+                vector.Normalize();
+                position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(ang + angle)) * radius;
+                position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang2 + angle)) * radius;
+
             }
 
-            if (Input.GetKeyRelease(Keys.P)) //キーが離されたら
+            if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
             {
-                angle = 0;
                 rad = 0; //角度初期化
-                velocity = (pPosition - position); //ベクトル取得
-                rad = GetRadian(position, pPosition); //ベクトルの角度を取得
-                velocity.Normalize(); //ベクトルの正規化
 
-                moveFlag = true; //移動可能
+                rad = GetRadian(position, pPosition); //ベクトルの角度を取得
+
+                ballState = BallState.Free; //移動可能
             }
 
         }
@@ -126,10 +133,13 @@ namespace OBG.Actor
         public void SetBallPos(Vector2 pos)
         {
             position = pos;
+
         }
 
         public override void Draw(Renderer renderer)
         {
+            if (ballState == BallState.Link)
+                renderer.DrawLine(position, catchPos);
             base.Draw(renderer);
         }
 
@@ -152,22 +162,14 @@ namespace OBG.Actor
         {
             float w = v2.X - v1.X;
             float h = v2.Y - v1.Y;
-            //if (w != 0)
-            //{
-            //    float t = h / w;
-            //    if (v1.X < v2.X)
-            //    {
-            //        return (float)Math.Atan(t);
-            //    }
-            //    return (float)Math.Atan(t) + (float)Math.PI;
-            //}
 
-            //if (v1.Y < v2.Y)
-            //{
-            //    return (float)Math.PI / 2;
-            //}
-            //return -(float)Math.PI / 2;
             return (float)Math.Atan2(h, w);
+        }
+
+
+        public void SetRadius(float rd)
+        {
+            radius = rd;
         }
     }
 }

@@ -44,6 +44,7 @@
     <Compile Include="Actor\Ball.cs" />
     <Compile Include="Actor\Character.cs" />
     <Compile Include="Actor\CharacterManager.cs" />
+    <Compile Include="Actor\Collider.cs" />
     <Compile Include="Device\GameDevice.cs" />
     <Compile Include="Device\Input.cs" />
     <Compile Include="Device\Renderer.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene\Ending.cs" />
     <Compile Include="Scene\GamePlay.cs" />
+    <Compile Include="Scene\IGameMediator.cs" />
     <Compile Include="Scene\IScene.cs" />
     <Compile Include="Scene\SceneManager.cs" />
     <Compile Include="Scene\Title.cs" />

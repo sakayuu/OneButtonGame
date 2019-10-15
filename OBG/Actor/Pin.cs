@@ -5,35 +5,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OBG.Scene;
+using System.Diagnostics;
 
 namespace OBG.Actor
 {
-    class Pin : Character
+    class Pin : Character, IGameMediator
     {
-        Vector2 catchPos; //プレイヤーが回り始める位置
+        public Vector2 catchPos; //プレイヤーが回り始める位置
 
         float angle = 0;
-        float radius; //プレイヤーとピンの半径
+        public float radius; //プレイヤーとピンの半径
 
-        public Pin(string name, Vector2 position)
+        public bool catchFlag;
+
+        int LR;
+
+        public bool LRflag;
+
+        float speed = 10;
+
+        int x = 1;
+
+        IGameMediator mediator;
+
+        public Vector2 bPos;
+
+        public Pin(string name, Vector2 position, IGameMediator mediator)
         {
             radius = 0;
             this.position = position;
-            catchPos = position + new Vector2(radius, 0);
+            catchPos = position;
             this.name = name;
             pixelSize = 64;
+            this.mediator = mediator;
+            angle = 0;
         }
 
         public override void Update(GameTime gameTime)
         {
-
+            if (LRflag)
+                LR = 1;
+            else
+                LR = -1;
+            if (catchFlag)
+            {
+                angle += speed * LR;
+                if (Math.Abs(angle / 360) >= 1)
+                {
+                    Collider collider = new Collider(position, radius);
+                    AddActor(collider);
+                }
+            }
+            else
+                angle = 0;
         }
-
-
-        //public Vector2 RotationCatchPos()
-        //{
-        //    float add_x = Math.Cos()
-        //}
 
         public override Vector2 GetPosition()
         {
@@ -45,20 +71,15 @@ namespace OBG.Actor
             return catchPos;
         }
 
-        public void SetCatchPos(Vector2 pos)
+        public Vector2 SetCatchPos(Vector2 pos)
         {
             catchPos = pos;
-        }
-
-        private double CheckDistance(Vector2 bPos, Vector2 pPos)
-        {
-            double dist = Math.Sqrt((pPos.X - bPos.X) * (pPos.X - bPos.X) + (pPos.Y - bPos.Y) * (pPos.Y - bPos.Y));
-            return dist;
+            return catchPos;
         }
 
         public override void Initialize()
         {
-
+            LR = 0;
         }
 
         public override void Shutdown()
@@ -74,6 +95,21 @@ namespace OBG.Actor
         public override void Draw(Renderer renderer)
         {
             base.Draw(renderer);
+        }
+
+        public void AddActor(Collider collider)
+        {
+            mediator.AddActor(collider);
+        }
+
+        public void GetBPos(Vector2 pos)
+        {
+            bPos = pos;
+        }
+
+        public float SetAngle()
+        {
+            return angle;
         }
     }
 }

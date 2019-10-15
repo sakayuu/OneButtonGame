@@ -16,6 +16,7 @@ namespace OBG.Actor
         private Ball ball;
         private List<Pin> pins;
         private List<Character> addNewCharacters;
+        private List<Collider> cols;
 
         /// <summary>
         /// コンストラクタ
@@ -37,6 +38,11 @@ namespace OBG.Actor
                 pins.Clear();
             else
                 pins = new List<Pin>();
+
+            if (cols != null)
+                cols.Clear();
+            else
+                cols = new List<Collider>();
 
             if (addNewCharacters != null)
                 addNewCharacters.Clear();
@@ -74,6 +80,12 @@ namespace OBG.Actor
                     ball.Hit(pin);
                 }
             }
+            if (cols.Count != 0)
+                foreach (var c in cols)
+                {
+                    if (ball.IsCollision(c))
+                        ball.Hit(c);
+                }
         }
 
         /// <summary>
@@ -88,6 +100,12 @@ namespace OBG.Actor
             {
                 p.Update(gameTime);
             }
+            if (cols.Count != 0)
+                foreach (var c in cols)
+                {
+                    c.Update(gameTime);
+                }
+
 
             //キャラ判別
             foreach (var newChara in addNewCharacters)
@@ -96,6 +114,11 @@ namespace OBG.Actor
                 {
                     newChara.Initialize();
                     pins.Add((Pin)newChara);
+                }
+                else if (newChara is Collider)
+                {
+                    newChara.Initialize();
+                    cols.Add((Collider)newChara);
                 }
             }
             //追加処理後、追加リストはクリア
@@ -118,6 +141,11 @@ namespace OBG.Actor
             {
                 p.Draw(renderer);
             }
+            if (cols.Count != 0)
+                foreach (var c in cols)
+                {
+                    c.Draw(renderer);
+                }
         }
 
         /// <summary>

@@ -25,6 +25,7 @@ namespace OBG
         private Renderer renderer;
         private SceneManager sceneManager;
 
+        private VertexBuffer lineListVertexBuffer = null;
 
 
         Ball ball;
@@ -91,6 +92,15 @@ namespace OBG
             renderer.LoadContent("white", filepathT);
             renderer.LoadContent("title", filepathT);
             renderer.LoadContent("ending", filepathT);
+            renderer.LoadContent("particle", filepathT);
+
+            Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
+            Color[] colors = new Color[1 * 1];
+            colors[0] = Color.Gold;
+            col.SetData(colors);
+            renderer.LoadContent("col", col);
+
+
 
             sound.LoadBGM("titlebgm", filepathS);
             sound.LoadBGM("gameplaybgm", filepathS);
@@ -173,7 +183,7 @@ namespace OBG
 
             //renderer.DrawTexture("black", ball.GetBallPos(), Color.White);
             //renderer.DrawTexture("pin", pin.GetPinPosition(), Color.White);
-
+            
 
 
             //この上にロジックを記述
