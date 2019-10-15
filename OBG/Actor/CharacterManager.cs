@@ -2,6 +2,7 @@
 using OBG.Device;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace OBG.Actor
         private List<Pin> pins;
         private List<Character> addNewCharacters;
         private List<Collider> cols;
+        private List<RayLine> rayLines;
 
         /// <summary>
         /// コンストラクタ
@@ -43,6 +45,11 @@ namespace OBG.Actor
                 cols.Clear();
             else
                 cols = new List<Collider>();
+
+            if (rayLines != null)
+                rayLines.Clear();
+            else
+                rayLines = new List<RayLine>();
 
             if (addNewCharacters != null)
                 addNewCharacters.Clear();
@@ -79,7 +86,18 @@ namespace OBG.Actor
                 {
                     ball.Hit(pin);
                 }
+                if (rayLines.Count != 0)
+                    foreach (var rl in rayLines)
+                    {
+                        //if (enemy.IsCollision(rl))
+                        //    ball.Hit(pin);
+                        if (rl.IsCollision(pin))
+                        {
+                            rl.Hit(pin);
+                        }
+                    }
             }
+
             if (cols.Count != 0)
                 foreach (var c in cols)
                 {
@@ -105,7 +123,13 @@ namespace OBG.Actor
                 {
                     c.Update(gameTime);
                 }
-
+            if (rayLines.Count != 0)
+            {
+                foreach (var rl in rayLines)
+                {
+                    rl.Update(gameTime);
+                }
+            }
 
             //キャラ判別
             foreach (var newChara in addNewCharacters)
@@ -120,13 +144,33 @@ namespace OBG.Actor
                     newChara.Initialize();
                     cols.Add((Collider)newChara);
                 }
+                else if (newChara is RayLine)
+                {
+                    newChara.Initialize();
+                    rayLines.Add((RayLine)newChara);
+                }
             }
             //追加処理後、追加リストはクリア
             addNewCharacters.Clear();
 
+
+            //Debug.WriteLine(cols.Count);
+
             //当たり判定
             HitToCharacters();
 
+            //死亡時に削除
+            RemoveDeadCharacters();
+
+        }
+
+        /// <summary>
+        /// 死亡キャラの削除
+        /// </summary>
+        private void RemoveDeadCharacters()
+        {
+            //死んでいたら、リストから削除
+            rayLines.RemoveAll(rl => rl.IsDead());
         }
 
         /// <summary>
@@ -145,6 +189,11 @@ namespace OBG.Actor
                 foreach (var c in cols)
                 {
                     c.Draw(renderer);
+                }
+            if (rayLines.Count != 0)
+                foreach (var rl in rayLines)
+                {
+                    rl.Draw(renderer);
                 }
         }
 

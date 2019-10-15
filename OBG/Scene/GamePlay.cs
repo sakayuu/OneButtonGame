@@ -17,6 +17,7 @@ namespace OBG.Scene
         private bool isEndFlag;
 
         private Pin pin;
+        private Ball ball;
 
         public GamePlay()
         {
@@ -42,12 +43,12 @@ namespace OBG.Scene
 
             //キャラクターマネージャーの実体生成
             characterManager = new CharacterManager();
-            Ball ball = new Ball("black", new Vector2(300, 300));
+            Ball ball = new Ball("black", new Vector2(300, 300), this);
             characterManager.Add(ball);
 
-            characterManager.Add(new Pin("pin", new Vector2(400, 100), this)); //継承してるのでthisでmediatorを渡せる
-            characterManager.Add(new Pin("pin", new Vector2(500, 300), this));
-            characterManager.Add(new Pin("pin", new Vector2(350, 400), this));
+            characterManager.Add(new Pin("pin", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
+            characterManager.Add(new Pin("pin", new Vector2(400, 300), this));
+            characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
 
         }
 
@@ -70,31 +71,39 @@ namespace OBG.Scene
         public void Update(GameTime gameTime)
         {
             characterManager.Update(gameTime); //キャラ一括更新
-
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 isEndFlag = true;
 
+            //float degree = 0.0f;
             if (Input.GetKeyTrigger(Keys.Enter))
             {
-                pin = null;
-                Vector2 bP = characterManager.GetBall().GetPosition();
+                ball = characterManager.GetBall();
                 pin = characterManager.GetShortestCheck(characterManager.GetBall(), characterManager.GetList());
 
-                pin.radius = (float)characterManager.CheckDistance(bP, pin.GetPosition());
-                characterManager.GetBall().SetRadius(pin.radius);
+                pin.radius = (float)characterManager.CheckDistance(ball.GetPosition(),
+                    pin.GetPosition());
 
-                characterManager.GetBall().GetPPos(pin.GetPosition());
+                ball.SetRadius((float)characterManager.CheckDistance(ball.GetPosition(),
+                    pin.GetPosition()));
 
-                characterManager.GetBall().vector = characterManager.GetBall().GetPosition() - pin.GetPosition();
-                characterManager.GetBall().vector.Normalize();
+                ball.GetPPos(pin.GetPosition());
 
-                var rad = Math.Atan2(characterManager.GetBall().vector.Y, characterManager.GetBall().vector.X);
+                ball.vector = ball.GetPosition() - pin.GetPosition();
+                ball.vector.Normalize();
 
-                Debug.WriteLine(rad);
-                characterManager.GetBall().ang = (float)-Math.Cos(rad);
-                characterManager.GetBall().ang2 = (float)-Math.Sin(rad);
+                var rad = Math.Atan2(ball.vector.Y, ball.vector.X);
+                var degree = MathHelper.ToDegrees((float)rad);
+                if (degree < 0)
+                {
+                    degree = (360 + degree);
+                }
+                ball.ang = MathHelper.ToRadians(degree);
 
-                if (bP.X < pin.GetPosition().X)
+                //position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(MathHelper.ToRadians(degree))) * pin.radius;
+                //position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(MathHelper.ToRadians(degree))) * pin.radius;
+
+
+                if (characterManager.GetBall().GetPosition().X < pin.GetPosition().X)
                 {
                     characterManager.GetBall().LRflag = true;
 
@@ -113,9 +122,9 @@ namespace OBG.Scene
 
             if (characterManager.GetBall().ballState == BallState.Link)
             {
-                pin.bPos = characterManager.GetBall().GetPosition();
+                ball.angle = pin.SetAngle();
+                //pin.bPos = characterManager.GetBall().GetPosition();
                 //characterManager.GetBall().SetBallPos(pin.catchPos);
-                characterManager.GetBall().angle = pin.SetAngle();
             }
             else if (characterManager.GetBall().ballState == BallState.Free)
             {
@@ -124,9 +133,12 @@ namespace OBG.Scene
 
         }
 
-        public void AddActor(Collider collider)
+        public void AddActor(Character character)
         {
-            characterManager.Add(collider);
+            if (character is Collider)
+                characterManager.Add((Collider)character);
+            else if (character is RayLine)
+                characterManager.Add((RayLine)character);
         }
     }
 }

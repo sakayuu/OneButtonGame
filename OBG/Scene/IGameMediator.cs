@@ -9,6 +9,6 @@ namespace OBG.Scene
 {
     interface IGameMediator
     {
-        void AddActor(Collider collider);
+        void AddActor(Character character);
     }
 }

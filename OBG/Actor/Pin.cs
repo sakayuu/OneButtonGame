@@ -35,7 +35,6 @@ namespace OBG.Actor
         {
             radius = 0;
             this.position = position;
-            catchPos = position;
             this.name = name;
             pixelSize = 64;
             this.mediator = mediator;
@@ -50,8 +49,8 @@ namespace OBG.Actor
                 LR = -1;
             if (catchFlag)
             {
-                angle += speed * LR;
-                if (Math.Abs(angle / 360) >= 1)
+                angle += (speed / 10) * LR;
+                if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 2)
                 {
                     Collider collider = new Collider(position, radius);
                     AddActor(collider);
@@ -65,12 +64,7 @@ namespace OBG.Actor
         {
             return base.GetPosition();
         }
-
-        public Vector2 GetCatchPos()
-        {
-            return catchPos;
-        }
-
+        
         public Vector2 SetCatchPos(Vector2 pos)
         {
             catchPos = pos;
@@ -97,9 +91,12 @@ namespace OBG.Actor
             base.Draw(renderer);
         }
 
-        public void AddActor(Collider collider)
+        public void AddActor(Character character)
         {
-            mediator.AddActor(collider);
+            if (character is Collider)
+                mediator.AddActor((Collider)character);
+            else if (character is RayLine)
+                mediator.AddActor((RayLine)character);
         }
 
         public void GetBPos(Vector2 pos)

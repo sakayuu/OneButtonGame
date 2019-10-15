@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OBG.Device;
+using OBG.Scene;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,7 +19,7 @@ namespace OBG.Actor
         Link,
     }
 
-    class Ball : Character
+    class Ball : Character, IGameMediator
     {
         private float speed = 10f; //スピード
         private Vector2 distance; //目的地
@@ -41,14 +42,17 @@ namespace OBG.Actor
 
         public BallState ballState;
 
+        IGameMediator mediator;
+
         float radius;
 
-        public float ang, ang2;
+        public float ang;
 
-        public Ball(string name, Vector2 position)
+        public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
             this.name = name;
+            this.mediator = mediator;
             pixelSize = 64;
         }
 
@@ -58,7 +62,7 @@ namespace OBG.Actor
             LR = 0;
             LRflag = false;
             ang = 0;
-            ang2 = 0;
+            
             ballState = BallState.Start;
         }
 
@@ -92,14 +96,15 @@ namespace OBG.Actor
                 position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
                 position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
                 ang = 0;
-                ang2 = 0;
+
             }
             else if (ballState == BallState.Link)
             {
-                Debug.WriteLine(angle);
-                vector.Normalize();
+                AddActor(new RayLine("particle", position, pPosition));
+                //position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(ang + angle)) * radius;
+                //position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang + angle)) * radius;
                 position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(ang + angle)) * radius;
-                position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang2 + angle)) * radius;
+                position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang + angle)) * radius;
 
             }
 
@@ -139,7 +144,7 @@ namespace OBG.Actor
         public override void Draw(Renderer renderer)
         {
             if (ballState == BallState.Link)
-                renderer.DrawLine(position, catchPos);
+                renderer.DrawLine(position, pPosition);
             base.Draw(renderer);
         }
 
@@ -170,6 +175,14 @@ namespace OBG.Actor
         public void SetRadius(float rd)
         {
             radius = rd;
+        }
+
+        public void AddActor(Character character)
+        {
+            if (character is Collider)
+                mediator.AddActor((Collider)character);
+            else if (character is RayLine)
+                mediator.AddActor((RayLine)character);
         }
     }
 }
