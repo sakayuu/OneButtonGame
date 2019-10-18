@@ -48,6 +48,8 @@ namespace OBG.Actor
 
         public float ang;
 
+        public bool freeFlag = false;
+
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
@@ -62,7 +64,7 @@ namespace OBG.Actor
             LR = 0;
             LRflag = false;
             ang = 0;
-            
+
             ballState = BallState.Start;
         }
 
@@ -92,19 +94,28 @@ namespace OBG.Actor
                 position = position + new Vector2(0, -1) * (speed / 10);
             else if (ballState == BallState.Free) //移動可能なら
             {
-                //まっすぐに移動
-                position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
-                position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
-                ang = 0;
-
+                if (freeFlag)
+                {
+                    //まっすぐに移動
+                    position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                    position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                    ang = 0;
+                }
             }
             else if (ballState == BallState.Link)
             {
                 AddActor(new RayLine("particle", position, pPosition));
-                //position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(ang + angle)) * radius;
-                //position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang + angle)) * radius;
-                position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(ang + angle)) * radius;
-                position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang + angle)) * radius;
+
+                position = pPosition + new Vector2((float)-Math.Cos(MathHelper.ToRadians(ang + angle)), (float)-Math.Sin(MathHelper.ToRadians(ang + angle))) * radius;
+                //position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(ang /*(float)-Math.Cos(angle))*/)) * radius;
+                //position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang /*(float)-Math.Cos(angle))*/)) * radius;
+
+                //var f = position - pPosition;
+                //f.Normalize();
+                //var s = Math.Atan2(f.Y, f.X);
+                //if (MathHelper.ToDegrees((float)s) < 0)
+                //    s = (MathHelper.ToRadians(361) + s);
+                //Debug.WriteLine(MathHelper.ToDegrees((float)s));
 
             }
 
@@ -120,20 +131,14 @@ namespace OBG.Actor
         }
 
         /// <summary>
-        /// 目的地を入れる
+        /// 自分の位置を渡す
         /// </summary>
-        /// <param name="hisPos"></param>
         /// <returns></returns>
-        public Vector2 GetMoveDirection(Vector2 hisPos)
-        {
-            distance = hisPos;
-            return distance;
-        }
-
         public override Vector2 GetPosition()
         {
             return base.GetPosition();
         }
+
 
         public void SetBallPos(Vector2 pos)
         {

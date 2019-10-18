@@ -49,7 +49,7 @@ namespace OBG.Actor
                 LR = -1;
             if (catchFlag)
             {
-                angle += (speed / 10) * LR;
+                angle += speed / 2 * LR;
                 if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 2)
                 {
                     Collider collider = new Collider(position, radius);
@@ -64,7 +64,7 @@ namespace OBG.Actor
         {
             return base.GetPosition();
         }
-        
+
         public Vector2 SetCatchPos(Vector2 pos)
         {
             catchPos = pos;

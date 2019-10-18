@@ -20,6 +20,8 @@ namespace OBG.Actor
         private List<Collider> cols;
         private List<RayLine> rayLines;
 
+        public Pin pin = null;
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -153,9 +155,6 @@ namespace OBG.Actor
             //追加処理後、追加リストはクリア
             addNewCharacters.Clear();
 
-
-            //Debug.WriteLine(cols.Count);
-
             //当たり判定
             HitToCharacters();
 
@@ -229,6 +228,29 @@ namespace OBG.Actor
             return dist;
         }
 
+        public void GetAngleForBallToPins()
+        {
+            if (pin != null)
+                return;
+            else
+                pin = GetShortestCheck(ball, pins);
+            Debug.WriteLine(pin.GetPosition());
+            ball.vector = ball.GetPosition() - pin.GetPosition();
+            ball.vector.Normalize();
+
+            pin.radius = (float)CheckDistance(ball.GetPosition(), pin.GetPosition());
+
+            var ballRad = Math.Atan2(ball.vector.Y, ball.vector.X);
+            //var degree = MathHelper.ToDegrees((float)ballRad);
+            //if (degree < 0)
+            //    degree = (361 + degree);
+            if (MathHelper.ToDegrees((float)ballRad) < 0)
+                ballRad = (MathHelper.ToRadians(361) + ballRad);
+            //ball.ang = MathHelper.ToRadians(degree);
+            ball.ang = (float)ballRad;
+            Debug.WriteLine(MathHelper.ToDegrees((float)ballRad));
+
+        }
         /// <summary>
         /// プレイヤーを渡す
         /// </summary>
