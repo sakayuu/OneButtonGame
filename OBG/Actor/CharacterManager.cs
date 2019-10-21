@@ -15,6 +15,7 @@ namespace OBG.Actor
     class CharacterManager
     {
         private Ball ball;
+        private Enemy enemy;
         private List<Pin> pins;
         private List<Character> addNewCharacters;
         private List<Collider> cols;
@@ -37,7 +38,8 @@ namespace OBG.Actor
         {
             if (ball != null)
                 ball.Initialize();
-
+            if (enemy != null)
+                enemy.Initialize();
             if (pins != null)
                 pins.Clear();
             else
@@ -72,6 +74,8 @@ namespace OBG.Actor
             }
             else if (character is Ball)
                 ball = (Ball)character;
+            else if (character is Enemy)
+                enemy = (Enemy)character;
             else
                 //追加リストにキャラを追加
                 addNewCharacters.Add(character);
@@ -91,15 +95,16 @@ namespace OBG.Actor
                 if (rayLines.Count != 0)
                     foreach (var rl in rayLines)
                     {
-                        //if (enemy.IsCollision(rl))
-                        //    ball.Hit(pin);
+                        if (enemy.IsCollision(rl))
+                            ball.Hit(pin);
                         if (rl.IsCollision(pin))
                         {
                             rl.Hit(pin);
                         }
                     }
-            }
 
+            }
+            
             if (cols.Count != 0)
                 foreach (var c in cols)
                 {
@@ -114,8 +119,10 @@ namespace OBG.Actor
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
+            GetBPosition();
             //全キャラ更新
             ball.Update(gameTime);
+            enemy.Update(gameTime);
             foreach (var p in pins)
             {
                 p.Update(gameTime);
@@ -180,6 +187,7 @@ namespace OBG.Actor
         {
             //全キャラ描画
             ball.Draw(renderer);
+            enemy.Draw(renderer);
             foreach (var p in pins)
             {
                 p.Draw(renderer);
@@ -259,7 +267,11 @@ namespace OBG.Actor
         {
             return ball;
         }
-
+        public  void GetBPosition()
+        {
+            
+            enemy.Pposition = ball.GetPosition();
+        }
         /// <summary>
         /// ピンのリストを渡す
         /// </summary>

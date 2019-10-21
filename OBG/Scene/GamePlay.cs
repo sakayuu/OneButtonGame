@@ -42,7 +42,8 @@ namespace OBG.Scene
             characterManager = new CharacterManager();
             Ball ball = new Ball("black", new Vector2(300, 300), this);
             characterManager.Add(ball);
-
+            Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+            characterManager.Add(enemy);
             characterManager.Add(new Pin("pin", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
             characterManager.Add(new Pin("pin", new Vector2(400, 300), this));
             characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
@@ -120,7 +121,11 @@ namespace OBG.Scene
                 characterManager.Add((Collider)character);
             else if (character is RayLine)
                 characterManager.Add((RayLine)character);
+            else if (character is Ball)
+                characterManager.Add((Ball)character);
         }
+
+        
 
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using OBG.Device;
 using OBG.Scene;
 using OBG.Actor;
+using OBG.Def;
 
 /// <summary>
 /// プロジェクト名がnamespaceとなります
@@ -45,8 +46,8 @@ namespace OBG
             Content.RootDirectory = "Content";
 
             //スクリーンサイズ
-            graphicsDeviceManager.PreferredBackBufferWidth = 1280;
-            graphicsDeviceManager.PreferredBackBufferHeight = 720;
+            graphicsDeviceManager.PreferredBackBufferWidth = Screen.Width;
+            graphicsDeviceManager.PreferredBackBufferHeight = Screen.Height;
 
             Window.Title = "ワン・ボタン・ゲーム";
         }
@@ -110,11 +111,6 @@ namespace OBG
             sound.LoadSE("titlese", filepathS);
             sound.LoadSE("gameplayse", filepathS);
             sound.LoadSE("endingse", filepathS);
-
-
-
-
-
 
             // この上にロジックを記述
         }

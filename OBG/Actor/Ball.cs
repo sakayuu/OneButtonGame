@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using OBG.Def;
 using OBG.Device;
 using OBG.Scene;
 using System;
@@ -35,21 +36,24 @@ namespace OBG.Actor
         public bool UDflag; //ピンに対してプレイヤーが上にいるか下にいるか
 
         public float angle;
+        public int rr;
 
         public Vector2 pPosition;
 
         float rad = 0;
+        public float w = 0;
+        public float h = 0;
 
         public BallState ballState;
 
         IGameMediator mediator;
 
         float radius;
-
+        private int count = 0;
         public float ang;
-
+        private bool hitflag = false;
         public bool freeFlag = false;
-
+        private bool yflag = false;
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
@@ -64,7 +68,7 @@ namespace OBG.Actor
             LR = 0;
             LRflag = false;
             ang = 0;
-
+            rr = -1;
             ballState = BallState.Start;
         }
 
@@ -75,6 +79,15 @@ namespace OBG.Actor
             else
                 LR = -1;
             Move();
+            Debug.WriteLine(rad);
+            if(hitflag == true)
+            {
+                count++;
+                if(count>= 60)
+                {
+                    hitflag = false;
+                }
+            }
         }
 
         public override void Shutdown()
@@ -84,8 +97,24 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            if (other is Pin || other is Collider)
+            if (other is Enemy || other is Enemy )
+            {
                 isDeadFlag = true;
+            }
+            if (other is Pin && yflag == false && hitflag == false && ballState == BallState.Free)
+            {
+                hitflag = true;
+                //rad *= -1;
+                yflag = true;
+            }
+            if (other is Pin && yflag == true && hitflag == false && ballState == BallState.Free)
+            {
+                hitflag = true;
+                //rad *= -1;
+                yflag = false;
+            }
+
+            //  hitflag = true;
         }
 
         public override void Move()
@@ -97,13 +126,43 @@ namespace OBG.Actor
                 if (freeFlag)
                 {
                     //まっすぐに移動
-                    position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
-                    position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                    
+                    if (position.X < 0 || position.X +pixelSize >= Screen.Width)
+                    {
+                        rad *= -1;
+                    }
+                    if (position.Y < 0 && yflag == false && hitflag == false
+                        || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
+                    {
+                        hitflag = true;
+                        rad *= -1;
+                        yflag = true;
+                    }
+                    if (position.Y < 0 && yflag == true && hitflag == false
+                        || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
+                    {
+                        hitflag = true;
+                        rad *= -1;
+                        yflag = false;
+                    }
+                    if (yflag==true)
+                    {
+                        position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
+                        position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR;
+                    }
+                    if (yflag == false)
+                    {
+                        position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                        position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                    }
                     ang = 0;
+                    Debug.WriteLine(yflag);
+                    Debug.WriteLine(hitflag);
                 }
             }
             else if (ballState == BallState.Link)
             {
+                yflag = false;
                 AddActor(new RayLine("particle", position, pPosition));
 
                 position = pPosition + new Vector2((float)-Math.Cos(MathHelper.ToRadians(ang + angle)), (float)-Math.Sin(MathHelper.ToRadians(ang + angle))) * radius;
@@ -121,6 +180,7 @@ namespace OBG.Actor
 
             if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
             {
+                
                 rad = 0; //角度初期化
 
                 rad = GetRadian(position, pPosition); //ベクトルの角度を取得
@@ -170,8 +230,8 @@ namespace OBG.Actor
         /// <returns></returns>
         public float GetRadian(Vector2 v1, Vector2 v2)
         {
-            float w = v2.X - v1.X;
-            float h = v2.Y - v1.Y;
+             w = v2.X - v1.X;
+             h = v2.Y - v1.Y;
 
             return (float)Math.Atan2(h, w);
         }
@@ -189,5 +249,7 @@ namespace OBG.Actor
             else if (character is RayLine)
                 mediator.AddActor((RayLine)character);
         }
+
+       
     }
 }
