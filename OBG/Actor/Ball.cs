@@ -97,7 +97,11 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            if (other is Enemy || other is Enemy )
+            if (other is Enemy || other is Collider)
+            {
+                isDeadFlag = true;
+            }
+            if(other is Pin && ballState == BallState.Link)
             {
                 isDeadFlag = true;
             }

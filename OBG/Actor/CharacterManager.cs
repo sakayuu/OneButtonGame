@@ -86,6 +86,11 @@ namespace OBG.Actor
         /// </summary>
         private void HitToCharacters()
         {
+            if (enemy.IsCollision(ball))
+            {
+                enemy.Hit(ball);
+                ball.Hit(enemy);
+            }
             foreach (var pin in pins) //ピンで繰り返し
             {
                 if (ball.IsCollision(pin))

@@ -47,7 +47,6 @@ namespace OBG.Actor
                 LR = 1;
             else
                 LR = -1;
-                LR = -1;
             if (catchFlag)
             {
                 angle += speed / (radius / 100) * LR;
