@@ -11,5 +11,6 @@ namespace OBG.Scene
     interface IGameMediator
     {
         void AddActor(Character character);
+        
     }
 }

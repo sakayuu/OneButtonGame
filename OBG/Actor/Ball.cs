@@ -165,17 +165,8 @@ namespace OBG.Actor
                 yflag = false;
                 AddActor(new RayLine("particle", position, pPosition));
 
-                position = pPosition + new Vector2((float)-Math.Cos(MathHelper.ToRadians(ang + angle)), (float)-Math.Sin(MathHelper.ToRadians(ang + angle))) * radius;
-                //position.X = pPosition.X + (float)-Math.Cos(MathHelper.ToRadians(ang /*(float)-Math.Cos(angle))*/)) * radius;
-                //position.Y = pPosition.Y + (float)-Math.Sin(MathHelper.ToRadians(ang /*(float)-Math.Cos(angle))*/)) * radius;
-
-                //var f = position - pPosition;
-                //f.Normalize();
-                //var s = Math.Atan2(f.Y, f.X);
-                //if (MathHelper.ToDegrees((float)s) < 0)
-                //    s = (MathHelper.ToRadians(361) + s);
-                //Debug.WriteLine(MathHelper.ToDegrees((float)s));
-
+                position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
+                Debug.WriteLine(MathHelper.ToDegrees(ang));
             }
 
             if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら

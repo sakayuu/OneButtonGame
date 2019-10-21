@@ -40,7 +40,7 @@ namespace OBG.Actor
 
         public override void Update(GameTime gameTime)
         {
-            position += (distance - position) * 0.2f;
+            position += (distance - position) * 0.3f;
         }
 
         public override void Draw(Renderer renderer)

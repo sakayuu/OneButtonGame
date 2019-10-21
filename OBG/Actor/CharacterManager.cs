@@ -249,9 +249,7 @@ namespace OBG.Actor
             pin.radius = (float)CheckDistance(ball.GetPosition(), pin.GetPosition());
 
             var ballRad = Math.Atan2(ball.vector.Y, ball.vector.X);
-            //var degree = MathHelper.ToDegrees((float)ballRad);
-            //if (degree < 0)
-            //    degree = (361 + degree);
+
             if (MathHelper.ToDegrees((float)ballRad) < 0)
                 ballRad = (MathHelper.ToRadians(361) + ballRad);
             //ball.ang = MathHelper.ToRadians(degree);
@@ -280,5 +278,7 @@ namespace OBG.Actor
         {
             return pins;
         }
+
+
     }
 }
