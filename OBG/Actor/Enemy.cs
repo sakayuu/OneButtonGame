@@ -46,9 +46,9 @@ namespace OBG.Actor
         public override void Update(GameTime gameTime)
         {
 
-            Vector2 direction = Pposition - position;
-            direction.Normalize();
-            position += direction * 1.0f;
+            //Vector2 direction = Pposition - position;
+            //direction.Normalize();
+            //position += direction * 1.0f;
         }
     }
 }

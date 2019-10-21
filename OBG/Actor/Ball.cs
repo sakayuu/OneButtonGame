@@ -83,7 +83,7 @@ namespace OBG.Actor
             if(hitflag == true)
             {
                 count++;
-                if(count>= 60)
+                if(count>= 5)
                 {
                     hitflag = false;
                 }
@@ -97,7 +97,7 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            if (other is Enemy || other is Collider)
+            if (other is Enemy )
             {
                 isDeadFlag = true;
             }
@@ -105,13 +105,15 @@ namespace OBG.Actor
             {
                 isDeadFlag = true;
             }
-            if (other is Pin && yflag == false && hitflag == false && ballState == BallState.Free)
+            if (other is Pin && yflag == false && hitflag == false && ballState == BallState.Free 
+                || other is Collider && yflag == false && hitflag == false && ballState == BallState.Free)
             {
                 hitflag = true;
                 //rad *= -1;
                 yflag = true;
             }
-            if (other is Pin && yflag == true && hitflag == false && ballState == BallState.Free)
+            if (other is Pin && yflag == true && hitflag == false && ballState == BallState.Free 
+                || other is Collider && yflag == false && hitflag == false && ballState == BallState.Free)
             {
                 hitflag = true;
                 //rad *= -1;

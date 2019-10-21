@@ -10,8 +10,6 @@ namespace OBG.Actor
 {
     class Collider : Character
     {
-
-
         public Collider(Vector2 position, float pixelSize)
         {
             Initialize();
@@ -41,7 +39,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            renderer.DrawTexture("col", position, null, 0.0f, Vector2.Zero, new Vector2(pixelSize, pixelSize));
+            renderer.DrawTexture("kiiro", new Vector2(position.X+(-pixelSize/2+32),position.Y+(-pixelSize / 2 + 32)), null, 0.0f, Vector2.Zero, new Vector2(pixelSize/1280, pixelSize/1280));
         }
     }
 }
