@@ -109,7 +109,7 @@ namespace OBG.Actor
                     }
 
             }
-            
+
             if (cols.Count != 0)
                 foreach (var c in cols)
                 {
@@ -136,6 +136,7 @@ namespace OBG.Actor
                 foreach (var c in cols)
                 {
                     c.Update(gameTime);
+                    c.GetBallState(ball.ballState);
                 }
             if (rayLines.Count != 0)
             {
@@ -270,9 +271,9 @@ namespace OBG.Actor
         {
             return ball;
         }
-        public  void GetBPosition()
+        public void GetBPosition()
         {
-            
+
             enemy.Pposition = ball.GetPosition();
         }
         /// <summary>

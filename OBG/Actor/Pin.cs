@@ -30,6 +30,7 @@ namespace OBG.Actor
         IGameMediator mediator;
 
         public Vector2 bPos;
+        
 
         public Pin(string name, Vector2 position, IGameMediator mediator)
         {
@@ -52,7 +53,8 @@ namespace OBG.Actor
                 angle += speed / (radius / 100) * LR;
                 if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 2)
                 {
-                    Collider collider = new Collider(position, (radius*2)-80);
+                    Collider collider = new Collider(position, (radius * 2) - 80);
+
                     AddActor(collider);
                 }
             }
@@ -108,5 +110,6 @@ namespace OBG.Actor
         {
             return angle;
         }
+        
     }
 }

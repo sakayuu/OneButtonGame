@@ -313,6 +313,29 @@ namespace OBG.Device
             }
         }
 
-
+        public void DrawTexture(
+            string assetName,
+            Vector2 positioin,
+            Rectangle? rect,//nullを受け入れられるよう「？」で
+            Color color,
+            float rotate,
+            Vector2 rotatePosition,
+            Vector2 scale,
+            SpriteEffects effects = SpriteEffects.None,
+            float depth = 0.0f,
+            float alpha = 1.0f)
+        {
+            spriteBatch.Draw(
+                textures[assetName],//テクスチャ
+                positioin,          //位置
+                rect,               //切り取り範囲
+                color * alpha,      //透明値
+                rotate,             //回転角度
+                rotatePosition,     //回転軸
+                scale,              //拡大縮小
+                effects,            //表示反転効果
+                depth               //スプライト深度
+                );
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace OBG.Actor
 {
     class Collider : Character
     {
+        public BallState ballState;
+
         public Collider(Vector2 position, float pixelSize)
         {
             Initialize();
@@ -39,7 +42,19 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            renderer.DrawTexture("kiiro", new Vector2(position.X+(-pixelSize/2+32),position.Y+(-pixelSize / 2 + 32)), null, 0.0f, Vector2.Zero, new Vector2(pixelSize/1280, pixelSize/1280));
+            if (ballState == BallState.Free)
+                renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32), position.Y + (-pixelSize / 2 + 32)), null, 0.0f, Vector2.Zero, new Vector2(pixelSize / 1280, pixelSize / 1280));
+            else
+                renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32),
+                    position.Y + (-pixelSize / 2 + 32)), null, Color.DarkRed * 0.01f, 0.0f, Vector2.Zero,
+                    new Vector2(pixelSize / 1280, pixelSize / 1280));
+            Debug.WriteLine(ballState);
+
+        }
+
+        public void GetBallState(BallState ballState)
+        {
+            this.ballState = ballState;
         }
     }
 }
