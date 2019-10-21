@@ -47,9 +47,10 @@ namespace OBG.Actor
                 LR = 1;
             else
                 LR = -1;
+                LR = -1;
             if (catchFlag)
             {
-                angle += speed / 2 * LR;
+                angle += speed / (radius / 100) * LR;
                 if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 2)
                 {
                     Collider collider = new Collider(position, radius);

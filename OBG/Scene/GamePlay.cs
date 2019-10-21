@@ -68,6 +68,7 @@ namespace OBG.Scene
         public void Update(GameTime gameTime)
         {
             characterManager.Update(gameTime); //キャラ一括更新
+            DataLibrary.SetData(characterManager);
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 isEndFlag = true;
 
@@ -79,14 +80,14 @@ namespace OBG.Scene
 
                 if (characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X)
                 {
-                    characterManager.GetBall().LRflag = true;
+                    characterManager.GetBall().LRflag = false;
 
-                    characterManager.pin.LRflag = true;
+                    characterManager.pin.LRflag = false;
                 }
                 else
                 {
-                    characterManager.GetBall().LRflag = false;
-                    characterManager.pin.LRflag = false;
+                    characterManager.GetBall().LRflag = true;
+                    characterManager.pin.LRflag = true;
                 }
 
 
@@ -120,6 +121,12 @@ namespace OBG.Scene
                 characterManager.Add((Collider)character);
             else if (character is RayLine)
                 characterManager.Add((RayLine)character);
+        }
+
+        public virtual Vector2 GetBPosition(CharacterManager characterManager)
+        {
+            characterManager = this.characterManager;
+            return characterManager.GetBall().GetPosition();
         }
 
     }

@@ -45,6 +45,7 @@
     <Compile Include="Actor\Character.cs" />
     <Compile Include="Actor\CharacterManager.cs" />
     <Compile Include="Actor\Collider.cs" />
+    <Compile Include="Actor\DataLibrary.cs" />
     <Compile Include="Actor\RayLine.cs" />
     <Compile Include="Device\GameDevice.cs" />
     <Compile Include="Device\Input.cs" />
