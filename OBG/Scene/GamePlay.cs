@@ -11,6 +11,12 @@ using OBG.Device;
 
 namespace OBG.Scene
 {
+    enum Stage
+    {
+        stage1,
+        stage2,
+        stage3,
+    }
     class GamePlay : IScene, IGameMediator
     {
         private CharacterManager characterManager;
@@ -28,6 +34,7 @@ namespace OBG.Scene
             renderer.Begin();
             //背景を描画
             //renderer.DrawTexture("stage", Vector2.Zero);
+            renderer.DrawTexture("back2", Vector2.Zero);
             characterManager.Draw(renderer);//キャラクター管理者の描画
 
             renderer.End();
@@ -40,12 +47,12 @@ namespace OBG.Scene
 
             //キャラクターマネージャーの実体生成
             characterManager = new CharacterManager();
-            Ball ball = new Ball("black", new Vector2(300, 300), this);
+            Ball ball = new Ball("Player2", new Vector2(300, 300), this);
             characterManager.Add(ball);
             Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
             characterManager.Add(enemy);
-            characterManager.Add(new Pin("pin", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
-            characterManager.Add(new Pin("pin", new Vector2(400, 300), this));
+            characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
+            characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), this));
             characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
 
         }

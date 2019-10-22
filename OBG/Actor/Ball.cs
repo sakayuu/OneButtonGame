@@ -79,7 +79,6 @@ namespace OBG.Actor
             else
                 LR = -1;
             Move();
-            Debug.WriteLine(rad);
             if(hitflag == true)
             {
                 count++;
