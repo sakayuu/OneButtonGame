@@ -52,32 +52,32 @@ namespace OBG.Scene
             //キャラクターマネージャーの実体生成
 
             characterManager = new CharacterManager();
-            Ball ball = new Ball("Player2", new Vector2(300, 300), this);
+            Ball ball = new Ball("Player4", new Vector2(300, 300), this);
             characterManager.Add(ball);
             characterManager.GetBall().ballState = BallState.Start;
             if (stage==Stage.stage1)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
             }
             if (stage == Stage.stage2)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
             }
             if (stage == Stage.stage3)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
             }
             foreach (var a in characterManager.GetList())
             {
@@ -195,7 +195,9 @@ namespace OBG.Scene
                 characterManager.Add((Ball)character);
         }
 
-        
-
+        public void AddCollider(Collider collider, int pinNum)
+        {
+            characterManager.AddCollider(collider, pinNum);
+        }
     }
 }

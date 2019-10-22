@@ -212,7 +212,7 @@ namespace OBG.Actor
             }
             else
             {
-                renderer.DrawTexture("black", position, 0.5f);
+                renderer.DrawTexture("Player2", position, 0.5f);
             }
         }
 

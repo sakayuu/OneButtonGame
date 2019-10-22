@@ -99,6 +99,7 @@ namespace OBG
             renderer.LoadContent("back2", filepathT);
             renderer.LoadContent("Player1", filepathT);
             renderer.LoadContent("Player2", filepathT);
+            renderer.LoadContent("Player4", filepathT);
             renderer.LoadContent("pinmusic2", filepathT);
             renderer.LoadContent("pinmovie2", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
