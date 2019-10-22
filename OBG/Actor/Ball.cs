@@ -169,7 +169,7 @@ namespace OBG.Actor
             else if (ballState == BallState.Link)
             {
                 yflag = false;
-                AddActor(new RayLine("particle", position, pPosition));
+                AddActor(new RayLine("particleSmall", position, pPosition));
 
                 position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
                 Debug.WriteLine(MathHelper.ToDegrees(ang));

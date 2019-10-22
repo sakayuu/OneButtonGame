@@ -94,6 +94,7 @@ namespace OBG
             renderer.LoadContent("title", filepathT);
             renderer.LoadContent("ending", filepathT);
             renderer.LoadContent("particle", filepathT);
+            renderer.LoadContent("particleSmall", filepathT);
             renderer.LoadContent("kiiro", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];

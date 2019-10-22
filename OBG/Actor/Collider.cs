@@ -44,7 +44,9 @@ namespace OBG.Actor
         public override void Draw(Renderer renderer)
         {
             if (ballState == BallState.Free)
-                renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32), position.Y + (-pixelSize / 2 + 32)), null, 0.0f, Vector2.Zero, new Vector2(pixelSize / 1280, pixelSize / 1280));
+                renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32),
+                    position.Y + (-pixelSize / 2 + 32)), null, Color.Aqua * 0.75f, 0.0f, Vector2.Zero,
+                    new Vector2(pixelSize / 1280, pixelSize / 1280));
             else
                 renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32),
                     position.Y + (-pixelSize / 2 + 32)), null, Color.DarkRed * 0.5f, 0.0f, Vector2.Zero,
