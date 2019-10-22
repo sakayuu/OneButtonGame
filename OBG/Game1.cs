@@ -94,6 +94,7 @@ namespace OBG
             renderer.LoadContent("title", filepathT);
             renderer.LoadContent("ending", filepathT);
             renderer.LoadContent("particle", filepathT);
+            renderer.LoadContent("particleSmall", filepathT);
             renderer.LoadContent("kiiro", filepathT);
             renderer.LoadContent("back", filepathT);
             renderer.LoadContent("back2", filepathT);

@@ -45,7 +45,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            base.Draw(renderer);
+            //renderer.DrawTexture(name,position,null,Color.White,0.0f,Vector2.Zero,new Vector2())
         }
     }
 }

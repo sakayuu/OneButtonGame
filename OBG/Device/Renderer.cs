@@ -300,9 +300,9 @@ namespace OBG.Device
         {
             graphicsDevice.SetVertexBuffer(lineListVertexBuffer);
 
-            lineListVertices[0] = new VertexPositionColor(new Vector3(pos1.X, pos1.Y, 0.0f),
+            lineListVertices[0] = new VertexPositionColor(new Vector3(pos1.X, pos1.Y, 0),
                                                           Color.Red);
-            lineListVertices[1] = new VertexPositionColor(new Vector3(pos2.X, pos2.Y, 0.0f),
+            lineListVertices[1] = new VertexPositionColor(new Vector3(pos2.X, pos2.Y, 0),
                                                           Color.Blue);
             lineListVertexBuffer.SetData(lineListVertices);
 
@@ -311,6 +311,8 @@ namespace OBG.Device
                 pass.Apply();
                 graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, 1);
             }
+
+
         }
 
         public void DrawTexture(
