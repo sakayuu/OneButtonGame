@@ -50,5 +50,10 @@ namespace OBG.Actor
             //direction.Normalize();
             //position += direction * 1.0f;
         }
+
+        public void AddCollider(Collider collider, int pinNum)
+        {
+            mediator.AddCollider(collider, pinNum);
+        }
     }
 }

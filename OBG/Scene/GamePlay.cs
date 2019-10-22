@@ -44,9 +44,9 @@ namespace OBG.Scene
             characterManager.Add(ball);
             Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
             characterManager.Add(enemy);
-            characterManager.Add(new Pin("pin", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
-            characterManager.Add(new Pin("pin", new Vector2(400, 300), this));
-            characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
+            characterManager.Add(new Pin("pin", new Vector2(800, 100), 0, this)); //継承してるのでthisでmediatorを渡せる
+            characterManager.Add(new Pin("pin", new Vector2(400, 300), 1, this));
+            characterManager.Add(new Pin("pin", new Vector2(750, 400), 2, this));
 
         }
 
@@ -117,15 +117,16 @@ namespace OBG.Scene
         /// <param name="character">オブジェクトの型（継承元）</param>
         public void AddActor(Character character)
         {
-            if (character is Collider)
-                characterManager.Add((Collider)character);
-            else if (character is RayLine)
+            if (character is RayLine)
                 characterManager.Add((RayLine)character);
             else if (character is Ball)
                 characterManager.Add((Ball)character);
         }
 
-        
+        public void AddCollider(Collider collider, int pinNum)
+        {
+            characterManager.AddCollider(collider, pinNum);
+        }
 
     }
 }

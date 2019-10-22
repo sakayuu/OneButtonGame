@@ -18,7 +18,9 @@ namespace OBG.Actor
         private Enemy enemy;
         private List<Pin> pins;
         private List<Character> addNewCharacters;
-        private List<Collider> cols;
+        private Collider cols;
+        private Collider cols2;
+        private Collider cols3;
         private List<RayLine> rayLines;
 
         public Pin pin = null;
@@ -46,9 +48,13 @@ namespace OBG.Actor
                 pins = new List<Pin>();
 
             if (cols != null)
-                cols.Clear();
-            else
-                cols = new List<Collider>();
+                cols.Initialize();
+            if (cols2 != null)
+                cols.Initialize();
+            if (cols3 != null)
+                cols.Initialize();
+
+
 
             if (rayLines != null)
                 rayLines.Clear();
@@ -81,6 +87,18 @@ namespace OBG.Actor
                 addNewCharacters.Add(character);
         }
 
+
+        public void AddCollider(Collider collider, int pinNum)
+        {
+            if (pinNum == 0)
+                cols = collider;
+            else if (pinNum == 1)
+                cols2 = collider;
+            else if (pinNum == 2)
+                cols3 = collider;
+
+        }
+
         /// <summary>
         /// プレイヤーが当たっているか
         /// </summary>
@@ -110,12 +128,16 @@ namespace OBG.Actor
 
             }
 
-            if (cols.Count != 0)
-                foreach (var c in cols)
-                {
-                    if (ball.IsCollision(c))
-                        ball.Hit(c);
-                }
+            if (cols != null)
+                if (ball.IsCollision(cols))
+                    ball.Hit(cols);
+            if (cols2 != null)
+                if (ball.IsCollision(cols2))
+                    ball.Hit(cols2);
+            if (cols3 != null)
+                if (ball.IsCollision(cols3))
+                    ball.Hit(cols3);
+
         }
 
         /// <summary>
@@ -132,13 +154,22 @@ namespace OBG.Actor
             {
                 p.Update(gameTime);
             }
-            if (cols.Count != 0)
-                foreach (var c in cols)
-                {
-                    c.Update(gameTime);
-                    if (ball.ballState == BallState.Free)
-                        c.alphaFlag = false;
-                }
+            if (cols != null)
+            {
+                cols.Update(gameTime);
+                    cols.GetBallState(ball.ballState);
+            }
+            if (cols2 != null)
+            {
+                cols2.Update(gameTime);
+                    cols2.GetBallState(ball.ballState);
+            }
+            if (cols3 != null)
+            {
+                cols3.Update(gameTime);
+                    cols3.GetBallState(ball.ballState);
+            }
+
             if (rayLines.Count != 0)
             {
                 foreach (var rl in rayLines)
@@ -154,11 +185,6 @@ namespace OBG.Actor
                 {
                     newChara.Initialize();
                     pins.Add((Pin)newChara);
-                }
-                else if (newChara is Collider)
-                {
-                    newChara.Initialize();
-                    cols.Add((Collider)newChara);
                 }
                 else if (newChara is RayLine)
                 {
@@ -199,11 +225,12 @@ namespace OBG.Actor
             {
                 p.Draw(renderer);
             }
-            if (cols.Count != 0)
-                foreach (var c in cols)
-                {
-                    c.Draw(renderer);
-                }
+            if (cols != null)
+                cols.Draw(renderer);
+            if (cols2 != null)
+                cols2.Draw(renderer);
+            if (cols3 != null)
+                cols3.Draw(renderer);
             if (rayLines.Count != 0)
                 foreach (var rl in rayLines)
                 {

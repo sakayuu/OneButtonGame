@@ -43,12 +43,15 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            if (!alphaFlag)
+            if (ballState == BallState.Free)
                 renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32), position.Y + (-pixelSize / 2 + 32)), null, 0.0f, Vector2.Zero, new Vector2(pixelSize / 1280, pixelSize / 1280));
             else
                 renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32),
-                    position.Y + (-pixelSize / 2 + 32)), null, Color.DarkRed * 0.01f, 0.0f, Vector2.Zero,
+                    position.Y + (-pixelSize / 2 + 32)), null, Color.DarkRed * 0.5f, 0.0f, Vector2.Zero,
                     new Vector2(pixelSize / 1280, pixelSize / 1280));
+            //描画範囲をレクタングルで指定して横幅ずつずらして描画
+
+
             //Debug.WriteLine(ballState);
 
         }
@@ -56,6 +59,11 @@ namespace OBG.Actor
         public void GetBallState(BallState ballState)
         {
             this.ballState = ballState;
+        }
+
+        public void SetPixelSize(float pxSize)
+        {
+            pixelSize = pxSize;
         }
     }
 }

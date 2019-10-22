@@ -30,9 +30,12 @@ namespace OBG.Actor
         IGameMediator mediator;
 
         public Vector2 bPos;
-        
 
-        public Pin(string name, Vector2 position, IGameMediator mediator)
+        Collider collider;
+
+        public int pinNum;
+
+        public Pin(string name, Vector2 position, int pinNum, IGameMediator mediator)
         {
             radius = 0;
             this.position = position;
@@ -40,6 +43,8 @@ namespace OBG.Actor
             pixelSize = 64;
             this.mediator = mediator;
             angle = 0;
+            collider = new Collider(position, 0);
+            this.pinNum = pinNum;
         }
 
         public override void Update(GameTime gameTime)
@@ -51,11 +56,11 @@ namespace OBG.Actor
             if (catchFlag)
             {
                 angle += speed / (radius / 100) * LR;
-                if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 2)
+                if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 1.1f)
                 {
-                    Collider collider = new Collider(position, (radius * 2) - 80);
-
-                    AddActor(collider);
+                    //Collider collider = new Collider(position, (radius * 2) - 80);
+                    collider.SetPixelSize(radius * 2 - 80);
+                    AddCollider(collider,pinNum);
                 }
             }
             else
@@ -95,10 +100,13 @@ namespace OBG.Actor
 
         public void AddActor(Character character)
         {
-            if (character is Collider)
-                mediator.AddActor((Collider)character);
-            else if (character is RayLine)
+            if (character is RayLine)
                 mediator.AddActor((RayLine)character);
+        }
+
+        public void AddCollider(Collider collider, int pinNum)
+        {
+            mediator.AddCollider(collider,pinNum);
         }
 
         public void GetBPos(Vector2 pos)
@@ -110,6 +118,6 @@ namespace OBG.Actor
         {
             return angle;
         }
-        
+
     }
 }
