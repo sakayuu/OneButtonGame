@@ -61,7 +61,7 @@ namespace OBG.Actor
                 {
                     //Collider collider = new Collider(position, (radius * 2) - 80);
                     collider.SetPixelSize(radius * 2 - 80);
-                    AddCollider(collider,pinNum);
+                    AddCollider(collider, pinNum);
                     field = radius * radius * (float)Math.PI;
                 }
             }
@@ -108,12 +108,17 @@ namespace OBG.Actor
 
         public void AddCollider(Collider collider, int pinNum)
         {
-            mediator.AddCollider(collider,pinNum);
+            mediator.AddCollider(collider, pinNum);
         }
 
         public void GetBPos(Vector2 pos)
         {
             bPos = pos;
+        }
+
+        public int GetPinNum()
+        {
+            return pinNum;
         }
 
         public float SetAngle()

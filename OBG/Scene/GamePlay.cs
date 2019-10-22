@@ -22,8 +22,8 @@ namespace OBG.Scene
     {
         private CharacterManager characterManager;
         private bool isEndFlag;
-        public Stage stage=Stage.stage1;
-        private float AllField,NowField;
+        public Stage stage = Stage.stage1;
+        private float AllField, NowField;
         private float pasent;
         public GamePlay()
         {
@@ -55,29 +55,29 @@ namespace OBG.Scene
             Ball ball = new Ball("Player4", new Vector2(300, 300), this);
             characterManager.Add(ball);
             characterManager.GetBall().ballState = BallState.Start;
-            if (stage==Stage.stage1)
+            if (stage == Stage.stage1)
             {
-                Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("white", new Vector2(100, 500), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), 1, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),2, this));
             }
             if (stage == Stage.stage2)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), 2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400), 0, this));
             }
             if (stage == Stage.stage3)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), 2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400), 0, this));
             }
             foreach (var a in characterManager.GetList())
             {
@@ -136,8 +136,9 @@ namespace OBG.Scene
                 characterManager.GetBall().angle = characterManager.pin.SetAngle();
                 characterManager.GetBall().GetPPos(characterManager.pin.GetPosition());
                 characterManager.GetBall().SetRadius(characterManager.pin.radius);
-                //pin.bPos = characterManager.GetBall().GetPosition();
-                //characterManager.GetBall().SetBallPos(pin.catchPos);
+
+               
+                    
             }
             else if (characterManager.GetBall().ballState == BallState.Free)
             {
@@ -151,12 +152,12 @@ namespace OBG.Scene
             }
             pasent = (NowField / AllField) * 100;
             Debug.WriteLine(pasent);
-            if (pasent>=30)
+            if (pasent >= 30)
             {
                 switch (stage)
                 {
                     case Stage.stage1:
-                        if(Input.GetKeyRelease (Keys.Enter))
+                        if (Input.GetKeyRelease(Keys.Enter))
                         {
                             stage = Stage.stage2;
                             Initialize();
