@@ -16,7 +16,7 @@ namespace OBG.Actor
 
         float angle = 0;
         public float radius; //プレイヤーとピンの半径
-
+        public float field;
         public bool catchFlag;
 
         int LR;
@@ -40,6 +40,7 @@ namespace OBG.Actor
             pixelSize = 64;
             this.mediator = mediator;
             angle = 0;
+            field = 0;
         }
 
         public override void Update(GameTime gameTime)
@@ -54,7 +55,7 @@ namespace OBG.Actor
                 if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 2)
                 {
                     Collider collider = new Collider(position, (radius * 2) - 80);
-
+                    field = radius * radius * (float)Math.PI;
                     AddActor(collider);
                 }
             }
@@ -109,6 +110,14 @@ namespace OBG.Actor
         public float SetAngle()
         {
             return angle;
+        }
+        public float SetField()
+        {
+            return field;
+        }
+        public void GetField(float fil)
+        {
+            field = fil;
         }
         
     }

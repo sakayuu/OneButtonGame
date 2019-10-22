@@ -46,7 +46,11 @@ namespace OBG.Actor
                 pins = new List<Pin>();
 
             if (cols != null)
+            {
                 cols.Clear();
+                cols = new List<Collider>();
+            }
+
             else
                 cols = new List<Collider>();
 
