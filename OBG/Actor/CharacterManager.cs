@@ -136,7 +136,8 @@ namespace OBG.Actor
                 foreach (var c in cols)
                 {
                     c.Update(gameTime);
-                    c.GetBallState(ball.ballState);
+                    if (ball.ballState == BallState.Free)
+                        c.alphaFlag = false;
                 }
             if (rayLines.Count != 0)
             {

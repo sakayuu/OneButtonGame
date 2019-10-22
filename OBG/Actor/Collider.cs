@@ -12,6 +12,7 @@ namespace OBG.Actor
     class Collider : Character
     {
         public BallState ballState;
+        public bool alphaFlag;
 
         public Collider(Vector2 position, float pixelSize)
         {
@@ -27,7 +28,7 @@ namespace OBG.Actor
 
         public override void Initialize()
         {
-
+            alphaFlag = true;
         }
 
         public override void Shutdown()
@@ -42,12 +43,13 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            if (ballState == BallState.Free)
+            if (!alphaFlag)
                 renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32), position.Y + (-pixelSize / 2 + 32)), null, 0.0f, Vector2.Zero, new Vector2(pixelSize / 1280, pixelSize / 1280));
             else
                 renderer.DrawTexture("kiiro", new Vector2(position.X + (-pixelSize / 2 + 32),
-                    position.Y + (-pixelSize / 2 + 32)), null, Color.DarkRed * 0.05f, 0.0f, Vector2.Zero,
+                    position.Y + (-pixelSize / 2 + 32)), null, Color.DarkRed * 0.01f, 0.0f, Vector2.Zero,
                     new Vector2(pixelSize / 1280, pixelSize / 1280));
+            //Debug.WriteLine(ballState);
 
         }
 
