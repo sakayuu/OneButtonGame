@@ -36,6 +36,8 @@ namespace OBG.Actor
         public int pinNum;
 
         public float field;
+
+        public float effect;
         public Pin(string name, Vector2 position, int pinNum, IGameMediator mediator)
         {
             radius = 0;
@@ -46,6 +48,7 @@ namespace OBG.Actor
             angle = 0;
             collider = new Collider(position, 0);
             this.pinNum = pinNum;
+            effect = 1;
         }
 
         public override void Update(GameTime gameTime)
@@ -98,6 +101,15 @@ namespace OBG.Actor
         public override void Draw(Renderer renderer)
         {
             base.Draw(renderer);
+            if(effect<=0)
+            {
+                effect = 1;
+            }else
+            {
+                effect -= 0.01f;
+            }
+            renderer.DrawTexture("pinwaku1",new Vector2(position.X+32- (32 * (1.5f - effect)), position.Y+32 - (32 * (1.5f - effect))), null, Color.White *effect, 0.0f, new Vector2(1f,1f),
+                    new Vector2((1*(1.5f-effect)),(1 * (1.5f - effect))));
         }
 
         public void AddActor(Character character)

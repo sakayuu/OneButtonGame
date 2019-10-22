@@ -76,7 +76,6 @@ namespace OBG.Scene
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
                 characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
                 characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
             }
             foreach (var a in characterManager.GetList())
@@ -173,8 +172,12 @@ namespace OBG.Scene
                         }
                         break;
                     case Stage.stage3:
-                        NowField = 0;
-                        isEndFlag = true;
+                        if(Input.GetKeyRelease(Keys.Enter))
+                        {
+                            NowField = 0;
+                            stage = Stage.stage1;
+                            isEndFlag = true;
+                        }
                         break;
                 }
             }

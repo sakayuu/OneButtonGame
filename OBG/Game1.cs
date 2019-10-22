@@ -102,6 +102,8 @@ namespace OBG
             renderer.LoadContent("Player4", filepathT);
             renderer.LoadContent("pinmusic2", filepathT);
             renderer.LoadContent("pinmovie2", filepathT);
+            renderer.LoadContent("pinwaku1", filepathT);
+            renderer.LoadContent("Playerwaku1", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;

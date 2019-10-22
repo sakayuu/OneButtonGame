@@ -81,7 +81,7 @@ namespace OBG.Scene
             sound.PlayBGM("titlebgm");
 
             //スペースキーが押されたか？
-            if (Input.GetKeyTrigger(Keys.Space))
+            if (Input.GetKeyRelease(Keys.Enter))
             {
                 isEndFlag = true;
                 sound.PlaySE("titlese");

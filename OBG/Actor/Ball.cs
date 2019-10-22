@@ -54,6 +54,9 @@ namespace OBG.Actor
         private bool hitflag = false;
         public bool freeFlag = false;
         private bool yflag = false;
+        private bool effectfrag;
+        private float effect;
+        private Vector2 effectpos;
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
@@ -135,21 +138,27 @@ namespace OBG.Actor
 
                     if (position.X < 0 || position.X + pixelSize >= Screen.Width)
                     {
+                        effectpos = position;
                         rad *= -1;
+                        effectfrag = true;
                     }
                     if (position.Y < 0 && yflag == false && hitflag == false
                         || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
                     {
+                        effectpos = position;
                         hitflag = true;
                         rad *= -1;
                         yflag = true;
+                        effectfrag = true;
                     }
                     if (position.Y < 0 && yflag == true && hitflag == false
                         || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
                     {
+                        effectpos = position;
                         hitflag = true;
                         rad *= -1;
                         yflag = false;
+                        effectfrag = true;
                     }
                     if (yflag == true)
                     {
@@ -213,6 +222,20 @@ namespace OBG.Actor
             else
             {
                 renderer.DrawTexture("Player2", position, 0.5f);
+            }
+            if (effect <= 0)
+            {
+                effect = 1;
+                effectfrag = false;
+            }
+            else
+            {
+                effect -= 0.01f;
+            }
+            if (effectfrag==true)
+            {
+                renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(1f, 1f),
+        new Vector2((1 * (1.5f - effect)), (1 * (1.5f - effect))));
             }
         }
 
