@@ -7,20 +7,30 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using OBG.Actor;
+using OBG.Def;
 using OBG.Device;
 
 namespace OBG.Scene
 {
+    enum Stage
+    {
+        stage1,
+        stage2,
+        stage3,
+    }
     class GamePlay : IScene, IGameMediator
     {
         private CharacterManager characterManager;
         private bool isEndFlag;
-
+        public Stage stage=Stage.stage1;
+        private float AllField,NowField;
+        private float pasent;
         public GamePlay()
         {
             isEndFlag = false;
             var gameDevice = GameDevice.Instance();
-
+            stage = Stage.stage1;
+            AllField = Screen.Width * Screen.Width;
         }
         public void Draw(Renderer renderer)
         {
@@ -28,6 +38,7 @@ namespace OBG.Scene
             renderer.Begin();
             //背景を描画
             //renderer.DrawTexture("stage", Vector2.Zero);
+            renderer.DrawTexture("back2", Vector2.Zero);
             characterManager.Draw(renderer);//キャラクター管理者の描画
 
             renderer.End();
@@ -39,14 +50,39 @@ namespace OBG.Scene
             isEndFlag = false;
 
             //キャラクターマネージャーの実体生成
+
             characterManager = new CharacterManager();
-            Ball ball = new Ball("black", new Vector2(300, 300), this);
+            Ball ball = new Ball("Player4", new Vector2(300, 300), this);
             characterManager.Add(ball);
-            Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
-            characterManager.Add(enemy);
-            characterManager.Add(new Pin("pin", new Vector2(800, 100), 0, this)); //継承してるのでthisでmediatorを渡せる
-            characterManager.Add(new Pin("pin", new Vector2(400, 300), 1, this));
-            characterManager.Add(new Pin("pin", new Vector2(750, 400), 2, this));
+            characterManager.GetBall().ballState = BallState.Start;
+            if (stage==Stage.stage1)
+            {
+                Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+                characterManager.Add(enemy);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+            }
+            if (stage == Stage.stage2)
+            {
+                Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+                characterManager.Add(enemy);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+            }
+            if (stage == Stage.stage3)
+            {
+                Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+                characterManager.Add(enemy);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+            }
+            foreach (var a in characterManager.GetList())
+            {
+                a.GetField(0);
+            }
 
         }
 
@@ -57,7 +93,7 @@ namespace OBG.Scene
 
         public Scene Next()
         {
-            Scene nextScene = Scene.Ending;
+            Scene nextScene = Scene.Title;
             return nextScene;
         }
 
@@ -108,6 +144,40 @@ namespace OBG.Scene
                 characterManager.pin.catchFlag = false;
                 characterManager.GetBall().freeFlag = true;
             }
+            NowField = 0;
+            foreach (var a in characterManager.GetList())
+            {
+                NowField += a.SetField();
+            }
+            pasent = (NowField / AllField) * 100;
+            Debug.WriteLine(pasent);
+            if (pasent>=30)
+            {
+                switch (stage)
+                {
+                    case Stage.stage1:
+                        if(Input.GetKeyRelease (Keys.Enter))
+                        {
+                            stage = Stage.stage2;
+                            Initialize();
+                            NowField = 0;
+                        }
+
+                        break;
+                    case Stage.stage2:
+                        if (Input.GetKeyRelease(Keys.Enter))
+                        {
+                            stage = Stage.stage3;
+                            Initialize();
+                            NowField = 0;
+                        }
+                        break;
+                    case Stage.stage3:
+                        NowField = 0;
+                        isEndFlag = true;
+                        break;
+                }
+            }
 
         }
 
@@ -117,7 +187,9 @@ namespace OBG.Scene
         /// <param name="character">オブジェクトの型（継承元）</param>
         public void AddActor(Character character)
         {
-            if (character is RayLine)
+            if (character is Collider)
+                characterManager.Add((Collider)character);
+            else if (character is RayLine)
                 characterManager.Add((RayLine)character);
             else if (character is Ball)
                 characterManager.Add((Ball)character);
@@ -127,6 +199,5 @@ namespace OBG.Scene
         {
             characterManager.AddCollider(collider, pinNum);
         }
-
     }
 }

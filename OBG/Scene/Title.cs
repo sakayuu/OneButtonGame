@@ -32,7 +32,7 @@ namespace OBG.Scene
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
-            renderer.DrawTexture("title", Vector2.Zero);
+            renderer.DrawTexture("back2", Vector2.Zero);
             renderer.End();
         }
 

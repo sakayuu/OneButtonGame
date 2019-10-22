@@ -35,6 +35,7 @@ namespace OBG.Actor
 
         public int pinNum;
 
+        public float field;
         public Pin(string name, Vector2 position, int pinNum, IGameMediator mediator)
         {
             radius = 0;
@@ -61,6 +62,7 @@ namespace OBG.Actor
                     //Collider collider = new Collider(position, (radius * 2) - 80);
                     collider.SetPixelSize(radius * 2 - 80);
                     AddCollider(collider,pinNum);
+                    field = radius * radius * (float)Math.PI;
                 }
             }
             else
@@ -118,6 +120,13 @@ namespace OBG.Actor
         {
             return angle;
         }
-
+        public void GetField(float fil)
+        {
+            field = fil;
+        }
+        public float SetField()
+        {
+            return field;
+        }
     }
 }

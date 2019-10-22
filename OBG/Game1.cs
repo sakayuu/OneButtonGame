@@ -96,6 +96,13 @@ namespace OBG
             renderer.LoadContent("particle", filepathT);
             renderer.LoadContent("particleSmall", filepathT);
             renderer.LoadContent("kiiro", filepathT);
+            renderer.LoadContent("back", filepathT);
+            renderer.LoadContent("back2", filepathT);
+            renderer.LoadContent("Player1", filepathT);
+            renderer.LoadContent("Player2", filepathT);
+            renderer.LoadContent("Player4", filepathT);
+            renderer.LoadContent("pinmusic2", filepathT);
+            renderer.LoadContent("pinmovie2", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
@@ -174,7 +181,6 @@ namespace OBG
         {
             // 画面クリア時の色を設定
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
             // この下に描画ロジックを記述
             sceneManager.Draw(renderer);
 
