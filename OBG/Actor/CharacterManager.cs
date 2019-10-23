@@ -48,7 +48,7 @@ namespace OBG.Actor
                 pins.Clear();
             else
                 pins = new List<Pin>();
-            
+
 
             if (cols != null)
                 cols.Initialize();
