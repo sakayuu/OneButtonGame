@@ -28,7 +28,6 @@ namespace OBG.Actor
         public Vector2 vector; //ベクトルの向き
 
         public bool moveFlag = false; //動くかどうか
-        public Vector2 catchPos;
 
         int LR; //右回転か左回転かを制御
 
@@ -47,6 +46,8 @@ namespace OBG.Actor
         public BallState ballState;
 
         IGameMediator mediator;
+
+        public int nowPinNum;
 
         float radius;
         private int count = 0;
@@ -73,6 +74,7 @@ namespace OBG.Actor
             ang = 0;
             rr = -1;
             ballState = BallState.Start;
+            nowPinNum = 0;
         }
 
         public override void Update(GameTime gameTime)
@@ -178,10 +180,10 @@ namespace OBG.Actor
             else if (ballState == BallState.Link)
             {
                 yflag = false;
-                AddActor(new RayLine("particleSmall", position, pPosition));
-
+                //AddActor(new RayLine("particleSmall", position, pPosition));
                 position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
-                Debug.WriteLine(MathHelper.ToDegrees(ang));
+                //Debug.WriteLine(MathHelper.ToDegrees(ang));
+
             }
 
             if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
@@ -216,7 +218,7 @@ namespace OBG.Actor
         {
             if (ballState == BallState.Link)
             {
-                renderer.DrawLine(position, pPosition);
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32));
                 base.Draw(renderer);
             }
             else
