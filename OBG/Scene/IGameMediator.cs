@@ -11,6 +11,7 @@ namespace OBG.Scene
     interface IGameMediator
     {
         void AddActor(Character character);
-        
+        void AddCollider(Collider collider, int pinNum);
+
     }
 }

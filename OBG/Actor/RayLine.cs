@@ -40,12 +40,30 @@ namespace OBG.Actor
 
         public override void Update(GameTime gameTime)
         {
-            position += (distance - position) * 0.3f;
+            var velocity = (distance - position);
+            float leng = (distance - position).Length();
+            velocity.Normalize();
+
+            position += velocity * 30;
+            if ((distance - position).Length() < 128)
+            {
+                isDeadFlag = true;
+            }
+
+
         }
 
         public override void Draw(Renderer renderer)
         {
+            //renderer.DrawTexture(name,position,null,Color.White,0.0f,Vector2.Zero,new Vector2())
             base.Draw(renderer);
         }
+
+        public void SetMyPosition(Vector2 pos)
+        {
+            position = pos;
+        }
+
+        
     }
 }

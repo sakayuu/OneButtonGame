@@ -28,7 +28,6 @@ namespace OBG.Actor
         public Vector2 vector; //ベクトルの向き
 
         public bool moveFlag = false; //動くかどうか
-        public Vector2 catchPos;
 
         int LR; //右回転か左回転かを制御
 
@@ -48,13 +47,17 @@ namespace OBG.Actor
 
         IGameMediator mediator;
 
+        public int nowPinNum;
+
         float radius;
         private int count = 0;
-        private int bcount = 0;
         public float ang;
-        public bool hitflag = false;
+        private bool hitflag = false;
         public bool freeFlag = false;
         private bool yflag = false;
+        private bool effectfrag;
+        private float effect;
+        private Vector2 effectpos;
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
@@ -66,13 +69,12 @@ namespace OBG.Actor
         public override void Initialize()
         {
             isDeadFlag = false;
-            Xflag = false;
-            Yflag = false;
             LR = 0;
             LRflag = false;
             ang = 0;
             rr = -1;
             ballState = BallState.Start;
+            nowPinNum = 0;
         }
 
         public override void Update(GameTime gameTime)
@@ -83,16 +85,14 @@ namespace OBG.Actor
                 LR = -1;
             Move();
             Debug.WriteLine(rad);
-            if(hitflag == true)
+            if (hitflag == true)
             {
                 count++;
-                if(count>= 20)
+                if (count >= 5)
                 {
                     hitflag = false;
-                    
                 }
             }
-            Debug.WriteLine(bcount);
         }
 
         public override void Shutdown()
@@ -102,45 +102,28 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            //if (other is Enemy || other is Collider)
-            //{
-            //    isDeadFlag = true;
-            //}
-            //if (other is Pin && ballState == BallState.Link)
-            //{
-            //    isDeadFlag = true;
-            //}
-            if(hitflag == false && ballState == BallState.Free)
+            if (other is Enemy)
             {
-                if (other is Pin && Yflag == false && Xflag == true)
-                {
-
-                    hitflag = true;
-                    rad *= -1;
-                    Xflag = true;
-                    Yflag = true;
-                    bcount++;
-                }
-                if (other is Pin && yflag == false && Yflag == true && Xflag == false)
-                {
-                    yflag = true;
-                    hitflag = true;
-                    rad *= -1;
-                    Yflag = true;
-                    Xflag = true;
-                    bcount++;
-                }
-                if (other is Pin && yflag == true && Yflag == true && Xflag == false)
-                {
-                    yflag = false;
-                    hitflag = true;
-                    rad *= -1;
-                    Yflag = true;
-                    Xflag = true;
-                    bcount++;
-                }
+                isDeadFlag = true;
             }
-            
+            if (other is Pin && ballState == BallState.Link)
+            {
+                isDeadFlag = true;
+            }
+            if (other is Pin && yflag == false && hitflag == false && ballState == BallState.Free
+                || other is Collider && yflag == false && hitflag == false && ballState == BallState.Free)
+            {
+                hitflag = true;
+                //rad *= -1;
+                yflag = true;
+            }
+            if (other is Pin && yflag == true && hitflag == false && ballState == BallState.Free
+                || other is Collider && yflag == false && hitflag == false && ballState == BallState.Free)
+            {
+                hitflag = true;
+                //rad *= -1;
+                yflag = false;
+            }
 
             //  hitflag = true;
         }
@@ -154,29 +137,32 @@ namespace OBG.Actor
                 if (freeFlag)
                 {
                     //まっすぐに移動
-                    
-                    if (position.X < 0 || position.X +pixelSize >= Screen.Width)
+
+                    if (position.X < 0 || position.X + pixelSize >= Screen.Width)
                     {
+                        effectpos = position;
                         rad *= -1;
-                        //bcount++;
+                        effectfrag = true;
                     }
                     if (position.Y < 0 && yflag == false && hitflag == false
                         || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
                     {
+                        effectpos = position;
                         hitflag = true;
                         rad *= -1;
                         yflag = true;
-                       // bcount++;
+                        effectfrag = true;
                     }
                     if (position.Y < 0 && yflag == true && hitflag == false
                         || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
                     {
+                        effectpos = position;
                         hitflag = true;
                         rad *= -1;
                         yflag = false;
-                      //  bcount++;
+                        effectfrag = true;
                     }
-                    if (yflag==true)
+                    if (yflag == true)
                     {
                         position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
                         position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR;
@@ -187,25 +173,22 @@ namespace OBG.Actor
                         position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
                     }
                     ang = 0;
-                    //Debug.WriteLine(Xflag);
-                    //Debug.WriteLine(Yflag);
-                    //Debug.WriteLine(hitflag);
+                    Debug.WriteLine(yflag);
+                    Debug.WriteLine(hitflag);
                 }
             }
             else if (ballState == BallState.Link)
             {
                 yflag = false;
-                Xflag = true;
-                Yflag = true;
-                AddActor(new RayLine("particle", position, pPosition));
-
+                //AddActor(new RayLine("particleSmall", position, pPosition));
                 position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
                 //Debug.WriteLine(MathHelper.ToDegrees(ang));
+
             }
 
             if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
             {
-                
+
                 rad = 0; //角度初期化
 
                 rad = GetRadian(position, pPosition); //ベクトルの角度を取得
@@ -234,8 +217,28 @@ namespace OBG.Actor
         public override void Draw(Renderer renderer)
         {
             if (ballState == BallState.Link)
-                renderer.DrawLine(position, pPosition);
-            base.Draw(renderer);
+            {
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32));
+                base.Draw(renderer);
+            }
+            else
+            {
+                renderer.DrawTexture("Player2", position, 0.5f);
+            }
+            if (effect <= 0)
+            {
+                effect = 1;
+                effectfrag = false;
+            }
+            else
+            {
+                effect -= 0.01f;
+            }
+            if (effectfrag==true)
+            {
+                renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(1f, 1f),
+        new Vector2((1 * (1.5f - effect)), (1 * (1.5f - effect))));
+            }
         }
 
         /// <summary>
@@ -255,8 +258,8 @@ namespace OBG.Actor
         /// <returns></returns>
         public float GetRadian(Vector2 v1, Vector2 v2)
         {
-             w = v2.X - v1.X;
-             h = v2.Y - v1.Y;
+            w = v2.X - v1.X;
+            h = v2.Y - v1.Y;
 
             return (float)Math.Atan2(h, w);
         }
@@ -269,12 +272,13 @@ namespace OBG.Actor
 
         public void AddActor(Character character)
         {
-            if (character is Collider)
-                mediator.AddActor((Collider)character);
-            else if (character is RayLine)
+            if (character is RayLine)
                 mediator.AddActor((RayLine)character);
         }
 
-       
+        public void AddCollider(Collider collider, int pinNum)
+        {
+            mediator.AddCollider(collider, pinNum);
+        }
     }
 }

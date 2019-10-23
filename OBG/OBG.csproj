@@ -50,10 +50,12 @@
     <Compile Include="Def\Screen.cs" />
     <Compile Include="Device\GameDevice.cs" />
     <Compile Include="Device\Input.cs" />
+    <Compile Include="Device\MathCollision.cs" />
     <Compile Include="Device\Renderer.cs" />
     <Compile Include="Device\Sound.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Actor\Pin.cs" />
+    <Compile Include="Primitives2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene\Ending.cs" />
@@ -64,8 +66,9 @@
     <Compile Include="Scene\Title.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="C3.XNA.Primitives2D">
-      <HintPath>..\..\..\Users\TakashiAme\Desktop\Primitives2D\bin\Debug\C3.XNA.Primitives2D.dll</HintPath>
+    <Reference Include="C3.XNA.Primitives2D, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Windows\x86\Debug\C3.XNA.Primitives2D.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>

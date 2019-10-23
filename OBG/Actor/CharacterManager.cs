@@ -18,7 +18,9 @@ namespace OBG.Actor
         private Enemy enemy;
         private List<Pin> pins;
         private List<Character> addNewCharacters;
-        private List<Collider> cols;
+        private Collider cols;
+        private Collider cols2;
+        private Collider cols3;
         private List<RayLine> rayLines;
 
         public Pin pin = null;
@@ -46,9 +48,13 @@ namespace OBG.Actor
                 pins = new List<Pin>();
 
             if (cols != null)
-                cols.Clear();
-            else
-                cols = new List<Collider>();
+                cols.Initialize();
+            if (cols2 != null)
+                cols.Initialize();
+            if (cols3 != null)
+                cols.Initialize();
+
+
 
             if (rayLines != null)
                 rayLines.Clear();
@@ -81,6 +87,18 @@ namespace OBG.Actor
                 addNewCharacters.Add(character);
         }
 
+
+        public void AddCollider(Collider collider, int pinNum)
+        {
+            if (pinNum == 0)
+                cols = collider;
+            else if (pinNum == 1)
+                cols2 = collider;
+            else if (pinNum == 2)
+                cols3 = collider;
+
+        }
+
         /// <summary>
         /// プレイヤーが当たっているか
         /// </summary>
@@ -105,17 +123,22 @@ namespace OBG.Actor
                         if (rl.IsCollision(pin))
                         {
                             rl.Hit(pin);
+                            //ball.Hit(enemy);
                         }
                     }
 
             }
-            
-            if (cols.Count != 0)
-                foreach (var c in cols)
-                {
-                    if (ball.IsCollision(c))
-                        ball.Hit(c);
-                }
+
+            if (cols != null)
+                if (ball.IsCollision(cols))
+                    ball.Hit(cols);
+            if (cols2 != null)
+                if (ball.IsCollision(cols2))
+                    ball.Hit(cols2);
+            if (cols3 != null)
+                if (ball.IsCollision(cols3))
+                    ball.Hit(cols3);
+
         }
 
         /// <summary>
@@ -127,16 +150,28 @@ namespace OBG.Actor
             GetBPosition();
             //全キャラ更新
             ball.Update(gameTime);
+
             enemy.Update(gameTime);
             foreach (var p in pins)
             {
                 p.Update(gameTime);
             }
-            if (cols.Count != 0)
-                foreach (var c in cols)
-                {
-                    c.Update(gameTime);
-                }
+            if (cols != null)
+            {
+                cols.Update(gameTime);
+                cols.GetBallState(ball.ballState);
+            }
+            if (cols2 != null)
+            {
+                cols2.Update(gameTime);
+                cols2.GetBallState(ball.ballState);
+            }
+            if (cols3 != null)
+            {
+                cols3.Update(gameTime);
+                cols3.GetBallState(ball.ballState);
+            }
+
             if (rayLines.Count != 0)
             {
                 foreach (var rl in rayLines)
@@ -153,11 +188,6 @@ namespace OBG.Actor
                     newChara.Initialize();
                     pins.Add((Pin)newChara);
                 }
-                else if (newChara is Collider)
-                {
-                    newChara.Initialize();
-                    cols.Add((Collider)newChara);
-                }
                 else if (newChara is RayLine)
                 {
                     newChara.Initialize();
@@ -173,6 +203,63 @@ namespace OBG.Actor
             //死亡時に削除
             RemoveDeadCharacters();
 
+            if (ball.ballState == BallState.Link)
+            {
+                Debug.WriteLine(ball.nowPinNum);
+                if (MathCollision.Circle_Segment(enemy.GetPosition() + new Vector2(32, 32),
+                            32, ball.GetPosition(), ball.pPosition))
+                {
+                    ball.Hit(pin);
+                }
+
+                switch (ball.nowPinNum)
+                {
+                    case 0:
+                        if (MathCollision.Circle_Segment(pins[1].GetPosition() + new Vector2(32, 32),
+                            32, ball.GetPosition(), ball.pPosition))
+                        {
+                            ball.Hit(pin);
+                            Debug.WriteLine("sibou");
+                        }
+                        else if (MathCollision.Circle_Segment(pins[2].GetPosition() + new Vector2(32, 32),
+                            32, ball.GetPosition(), ball.pPosition))
+                        {
+                            ball.Hit(pin);
+                            Debug.WriteLine("sibou2");
+                        }
+                        break;
+                    case 1:
+                        if (MathCollision.Circle_Segment(pins[0].GetPosition() + new Vector2(32, 32),
+                            32, ball.GetPosition(), ball.pPosition))
+                        {
+                            ball.Hit(pin);
+                            Debug.WriteLine("sibou3");
+                        }
+                        else if (MathCollision.Circle_Segment(pins[2].GetPosition() + new Vector2(32, 32),
+                            32, ball.GetPosition(), ball.pPosition))
+                        {
+                            ball.Hit(pin);
+                            Debug.WriteLine("sibou4");
+                        }
+                        break;
+                    case 2:
+                        if (MathCollision.Circle_Segment(pins[0].GetPosition() + new Vector2(32, 32),
+                            32, ball.GetPosition(), ball.pPosition))
+                        {
+                            ball.Hit(pin);
+                            Debug.WriteLine("sibou5");
+                        }
+                        else if (MathCollision.Circle_Segment(pins[1].GetPosition() + new Vector2(32, 32),
+                            32, ball.GetPosition(), ball.pPosition))
+                        {
+                            ball.Hit(pin);
+                            Debug.WriteLine("sibou6");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -197,11 +284,12 @@ namespace OBG.Actor
             {
                 p.Draw(renderer);
             }
-            if (cols.Count != 0)
-                foreach (var c in cols)
-                {
-                    c.Draw(renderer);
-                }
+            if (cols != null)
+                cols.Draw(renderer);
+            if (cols2 != null)
+                cols2.Draw(renderer);
+            if (cols3 != null)
+                cols3.Draw(renderer);
             if (rayLines.Count != 0)
                 foreach (var rl in rayLines)
                 {
@@ -247,9 +335,10 @@ namespace OBG.Actor
                 return;
             else
                 pin = GetShortestCheck(ball, pins);
-            Debug.WriteLine(pin.GetPosition());
+            //Debug.WriteLine(pin.GetPosition());
             ball.vector = ball.GetPosition() - pin.GetPosition();
             ball.vector.Normalize();
+
 
             pin.radius = (float)CheckDistance(ball.GetPosition(), pin.GetPosition());
 
@@ -259,8 +348,9 @@ namespace OBG.Actor
                 ballRad = (MathHelper.ToRadians(361) + ballRad);
             //ball.ang = MathHelper.ToRadians(degree);
             ball.ang = (float)ballRad;
-            Debug.WriteLine(MathHelper.ToDegrees((float)ballRad));
+            //Debug.WriteLine(MathHelper.ToDegrees((float)ballRad));
 
+            ball.nowPinNum = pin.GetPinNum();
         }
         /// <summary>
         /// プレイヤーを渡す
@@ -270,9 +360,9 @@ namespace OBG.Actor
         {
             return ball;
         }
-        public  void GetBPosition()
+        public void GetBPosition()
         {
-            
+
             enemy.Pposition = ball.GetPosition();
         }
         /// <summary>

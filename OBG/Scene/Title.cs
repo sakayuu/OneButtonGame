@@ -32,7 +32,7 @@ namespace OBG.Scene
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
-            renderer.DrawTexture("title", Vector2.Zero);
+            renderer.DrawTexture("back2", Vector2.Zero);
             renderer.End();
         }
 
@@ -81,7 +81,7 @@ namespace OBG.Scene
             sound.PlayBGM("titlebgm");
 
             //スペースキーが押されたか？
-            if (Input.GetKeyTrigger(Keys.Space))
+            if (Input.GetKeyRelease(Keys.Enter))
             {
                 isEndFlag = true;
                 sound.PlaySE("titlese");

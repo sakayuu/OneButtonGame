@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;//Assert用
+using C3.XNA;
 
 namespace OBG.Device
 {
@@ -17,14 +18,8 @@ namespace OBG.Device
         private GraphicsDevice graphicsDevice; //グラフィック機器
         private SpriteBatch spriteBatch; //スプライト一括描画用オブジェクト
 
-        private BasicEffect basicEffect = null;
-
         //複数画像管理用変数の宣言と生成
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
-
-        private VertexBuffer lineListVertexBuffer;
-
-        VertexPositionColor[] lineListVertices = new VertexPositionColor[2];
 
         /// <summary>
         /// コンストラクタ
@@ -58,16 +53,6 @@ namespace OBG.Device
             }
             //画像の読み込みとDictionaryへアセット名と画像を登録
             textures.Add(assetName, contentManager.Load<Texture2D>(filepath + assetName));
-
-            basicEffect = new BasicEffect(graphicsDevice);
-            basicEffect.VertexColorEnabled = true;
-
-            int vertexCount = 2;
-
-            lineListVertexBuffer = new VertexBuffer(graphicsDevice,
-                typeof(VertexPositionColor), vertexCount, BufferUsage.None);
-
-
         }
 
 
@@ -295,24 +280,40 @@ namespace OBG.Device
             spriteBatch.Draw(textures[assetName], position, color * alpha);
         }
 
-
+        /// <summary>
+        /// 線の描画（第3引数が線の色、第4引数が線の太さ）
+        /// </summary>
+        /// <param name="pos1">線の始まり</param>
+        /// <param name="pos2">線の終わり</param>
         public void DrawLine(Vector2 pos1, Vector2 pos2)
         {
-            graphicsDevice.SetVertexBuffer(lineListVertexBuffer);
+            Primitives2D.DrawLine(spriteBatch, pos1, pos2, Color.Azure, 10);
 
-            lineListVertices[0] = new VertexPositionColor(new Vector3(pos1.X, pos1.Y, 0.0f),
-                                                          Color.Red);
-            lineListVertices[1] = new VertexPositionColor(new Vector3(pos2.X, pos2.Y, 0.0f),
-                                                          Color.Blue);
-            lineListVertexBuffer.SetData(lineListVertices);
-
-            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, 1);
-            }
         }
 
-
+        public void DrawTexture(
+            string assetName,
+            Vector2 positioin,
+            Rectangle? rect,//nullを受け入れられるよう「？」で
+            Color color,
+            float rotate,
+            Vector2 rotatePosition,
+            Vector2 scale,
+            SpriteEffects effects = SpriteEffects.None,
+            float depth = 0.0f,
+            float alpha = 1.0f)
+        {
+            spriteBatch.Draw(
+                textures[assetName],//テクスチャ
+                positioin,          //位置
+                rect,               //切り取り範囲
+                color * alpha,      //透明値
+                rotate,             //回転角度
+                rotatePosition,     //回転軸
+                scale,              //拡大縮小
+                effects,            //表示反転効果
+                depth               //スプライト深度
+                );
+        }
     }
 }
