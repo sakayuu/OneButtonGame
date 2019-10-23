@@ -42,11 +42,13 @@ namespace OBG.Scene
             characterManager = new CharacterManager();
             Ball ball = new Ball("black", new Vector2(300, 300), this);
             characterManager.Add(ball);
-            Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+            Enemy enemy = new Enemy("pin", new Vector2(100, 700), this);
             characterManager.Add(enemy);
-            characterManager.Add(new Pin("pin", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
-            characterManager.Add(new Pin("pin", new Vector2(400, 300), this));
-            characterManager.Add(new Pin("pin", new Vector2(750, 400), this));
+            characterManager.Add(new Pin("white", new Vector2(800, 100), this)); //継承してるのでthisでmediatorを渡せる
+            characterManager.Add(new Pin("white", new Vector2(400, 300), this));
+            characterManager.Add(new Pin("white", new Vector2(750, 400), this));
+            characterManager.Add(new Pin("white", new Vector2(600, 450), this));
+            characterManager.Add(new Pin("white", new Vector2(250, 500), this));
 
         }
 

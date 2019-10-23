@@ -64,6 +64,9 @@
     <Compile Include="Scene\Title.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="C3.XNA.Primitives2D">
+      <HintPath>..\..\..\Users\TakashiAme\Desktop\Primitives2D\bin\Debug\C3.XNA.Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>

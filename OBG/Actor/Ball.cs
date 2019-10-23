@@ -50,8 +50,9 @@ namespace OBG.Actor
 
         float radius;
         private int count = 0;
+        private int bcount = 0;
         public float ang;
-        private bool hitflag = false;
+        public bool hitflag = false;
         public bool freeFlag = false;
         private bool yflag = false;
         public Ball(string name, Vector2 position, IGameMediator mediator)
@@ -65,6 +66,8 @@ namespace OBG.Actor
         public override void Initialize()
         {
             isDeadFlag = false;
+            Xflag = false;
+            Yflag = false;
             LR = 0;
             LRflag = false;
             ang = 0;
@@ -83,11 +86,13 @@ namespace OBG.Actor
             if(hitflag == true)
             {
                 count++;
-                if(count>= 60)
+                if(count>= 20)
                 {
                     hitflag = false;
+                    
                 }
             }
+            Debug.WriteLine(bcount);
         }
 
         public override void Shutdown()
@@ -97,26 +102,45 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            if (other is Enemy || other is Collider)
+            //if (other is Enemy || other is Collider)
+            //{
+            //    isDeadFlag = true;
+            //}
+            //if (other is Pin && ballState == BallState.Link)
+            //{
+            //    isDeadFlag = true;
+            //}
+            if(hitflag == false && ballState == BallState.Free)
             {
-                isDeadFlag = true;
+                if (other is Pin && Yflag == false && Xflag == true)
+                {
+
+                    hitflag = true;
+                    rad *= -1;
+                    Xflag = true;
+                    Yflag = true;
+                    bcount++;
+                }
+                if (other is Pin && yflag == false && Yflag == true && Xflag == false)
+                {
+                    yflag = true;
+                    hitflag = true;
+                    rad *= -1;
+                    Yflag = true;
+                    Xflag = true;
+                    bcount++;
+                }
+                if (other is Pin && yflag == true && Yflag == true && Xflag == false)
+                {
+                    yflag = false;
+                    hitflag = true;
+                    rad *= -1;
+                    Yflag = true;
+                    Xflag = true;
+                    bcount++;
+                }
             }
-            if(other is Pin && ballState == BallState.Link)
-            {
-                isDeadFlag = true;
-            }
-            if (other is Pin && yflag == false && hitflag == false && ballState == BallState.Free)
-            {
-                hitflag = true;
-                //rad *= -1;
-                yflag = true;
-            }
-            if (other is Pin && yflag == true && hitflag == false && ballState == BallState.Free)
-            {
-                hitflag = true;
-                //rad *= -1;
-                yflag = false;
-            }
+            
 
             //  hitflag = true;
         }
@@ -134,6 +158,7 @@ namespace OBG.Actor
                     if (position.X < 0 || position.X +pixelSize >= Screen.Width)
                     {
                         rad *= -1;
+                        //bcount++;
                     }
                     if (position.Y < 0 && yflag == false && hitflag == false
                         || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
@@ -141,6 +166,7 @@ namespace OBG.Actor
                         hitflag = true;
                         rad *= -1;
                         yflag = true;
+                       // bcount++;
                     }
                     if (position.Y < 0 && yflag == true && hitflag == false
                         || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
@@ -148,6 +174,7 @@ namespace OBG.Actor
                         hitflag = true;
                         rad *= -1;
                         yflag = false;
+                      //  bcount++;
                     }
                     if (yflag==true)
                     {
@@ -160,17 +187,20 @@ namespace OBG.Actor
                         position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
                     }
                     ang = 0;
-                    Debug.WriteLine(yflag);
-                    Debug.WriteLine(hitflag);
+                    //Debug.WriteLine(Xflag);
+                    //Debug.WriteLine(Yflag);
+                    //Debug.WriteLine(hitflag);
                 }
             }
             else if (ballState == BallState.Link)
             {
                 yflag = false;
+                Xflag = true;
+                Yflag = true;
                 AddActor(new RayLine("particle", position, pPosition));
 
                 position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
-                Debug.WriteLine(MathHelper.ToDegrees(ang));
+                //Debug.WriteLine(MathHelper.ToDegrees(ang));
             }
 
             if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら

@@ -145,8 +145,6 @@ namespace OBG
             gameDevice.Update(gameTime);
 
             sceneManager.Update(gameTime);
-
-
             //if (Input.GetKeyTrigger(Keys.P))
             //{
             //    ball.moveFlag = true;

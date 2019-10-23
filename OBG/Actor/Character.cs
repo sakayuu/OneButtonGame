@@ -14,6 +14,8 @@ namespace OBG.Actor
         protected Vector2 position; //自分の位置
         protected bool isDeadFlag; //死亡フラグ
         protected float pixelSize; //画像の大きさ（衝突判定で使用）
+        protected bool Xflag = false;
+        protected bool Yflag = false;
 
 
         /// <summary>
@@ -25,14 +27,55 @@ namespace OBG.Actor
         {
             //自分と相手の位置の長さを計算（2点間の距離）
             float length = (position - other.position).Length();
+            float lengthx = Math.Abs(position.X - other.position.X);
+            float lengthy = Math.Abs(position.Y - other.position.Y);
+            
             //画像のサイズにより変化
             //自分半径と相手半径の和
             float radiusSum = (pixelSize / 2) + (other.pixelSize / 2);
             //半径の和と距離を比べて、等しいかまたは小さいか（以下か）
-            if (length <= radiusSum)
+            
+            if(length <= radiusSum ) 
             {
-                return true;
+                float ra = Math.Abs(radiusSum + 1 - length);
+                Xflag = false;
+                Yflag = false;
+                //if (lengthx == lengthy)
+                //{
+                //    position.X *= ra;
+                //    position.Y *= ra;
+                //    return true;
+                //}
+                if (lengthx >= lengthy)
+                {
+                    if(position.X <= other.position.X)
+                    {
+                        position.X -= ra;
+                    }
+                    if(position.X >= other.position.X)
+                    {
+                        position.X += ra;
+                    }
+                    
+                    Xflag = true;
+                    return true;
+                }
+                if (lengthx <= lengthy)
+                {
+                    if(position.Y <= other.position.Y)
+                    {
+                        position.Y -= ra;
+                    }
+                    if(position.Y >= other.position.Y)
+                    {
+                        position.Y += ra;
+                    }
+                    Yflag = true;
+                    return true;
+                }
+
             }
+            
             return false;
         }
 
