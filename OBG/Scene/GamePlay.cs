@@ -59,11 +59,11 @@ namespace OBG.Scene
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(750, 400), 0, this));
-                characterManager.Add(new Pin("pinmusic2", new Vector2(500, 300),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 600),2, this));
-                characterManager.Add(new Pin("pinmovie2", new Vector2(600, 150), 3, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(200, 400), 4, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(750, 200), 0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(200, 200),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400),2, this));
+                characterManager.Add(new Pin("pinmovie2", new Vector2(700, 650), 3, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(200, 600), 4, this));
                 
             }
             if (stage == Stage.stage2)
@@ -153,7 +153,7 @@ namespace OBG.Scene
             }
             pasent = (NowField / AllField) * 100;
             Debug.WriteLine(pasent);
-            if (pasent>=30)
+            if (pasent>=40)
             {
                 switch (stage)
                 {

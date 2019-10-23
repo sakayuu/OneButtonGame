@@ -21,6 +21,8 @@ namespace OBG.Actor
         private Collider cols;
         private Collider cols2;
         private Collider cols3;
+        private Collider cols4;
+        private Collider cols5;
         private List<RayLine> rayLines;
 
         public Pin pin = null;
@@ -54,8 +56,10 @@ namespace OBG.Actor
                 cols.Initialize();
             if (cols3 != null)
                 cols.Initialize();
-
-
+            if (cols4 != null)
+                cols.Initialize();
+            if (cols5 != null)
+                cols.Initialize();
 
             if (rayLines != null)
                 rayLines.Clear();
@@ -97,7 +101,10 @@ namespace OBG.Actor
                 cols2 = collider;
             else if (pinNum == 2)
                 cols3 = collider;
-
+            else if (pinNum == 3)
+                cols4 = collider;
+            else if (pinNum == 4)
+                cols5 = collider;
         }
 
         /// <summary>
@@ -139,7 +146,12 @@ namespace OBG.Actor
             if (cols3 != null)
                 if (ball.IsCollision(cols3))
                     ball.Hit(cols3);
-
+            if (cols4 != null)
+                if (ball.IsCollision(cols4))
+                    ball.Hit(cols4);
+            if (cols5 != null)
+                if (ball.IsCollision(cols5))
+                    ball.Hit(cols5);
         }
 
         /// <summary>
@@ -171,6 +183,16 @@ namespace OBG.Actor
             {
                 cols3.Update(gameTime);
                 cols3.GetBallState(ball.ballState);
+            }
+            if (cols4 != null)
+            {
+                cols4.Update(gameTime);
+                cols4.GetBallState(ball.ballState);
+            }
+            if (cols5 != null)
+            {
+                cols5.Update(gameTime);
+                cols5.GetBallState(ball.ballState);
             }
 
             if (rayLines.Count != 0)
@@ -291,6 +313,10 @@ namespace OBG.Actor
                 cols2.Draw(renderer);
             if (cols3 != null)
                 cols3.Draw(renderer);
+            if (cols4 != null)
+                cols4.Draw(renderer);
+            if (cols5 != null)
+                cols5.Draw(renderer);
             if (rayLines.Count != 0)
                 foreach (var rl in rayLines)
                 {

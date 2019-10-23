@@ -104,7 +104,7 @@ namespace OBG.Actor
         {
             if(ballState == BallState.Link)
             {
-                if(other is Enemy || other is Pin )
+                if(other is Pin )
                 {
                     isDeadFlag = true;
                 }
@@ -112,11 +112,11 @@ namespace OBG.Actor
             
             if (ballState == BallState.Free)
             {
-                if(other is Enemy)
+                if (other is Enemy)
                 {
                     isDeadFlag = true;
                 }
-                if(other is Pin || other is Collider)
+                if (other is Pin || other is Collider)
                 {
                     if ( Yflag == false && Xflag == true && hitflag == false)
                     {
