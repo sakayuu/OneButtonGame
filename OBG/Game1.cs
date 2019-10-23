@@ -8,6 +8,7 @@ using OBG.Device;
 using OBG.Scene;
 using OBG.Actor;
 using OBG.Def;
+using Microsoft.Xna.Framework.Media;
 
 /// <summary>
 /// プロジェクト名がnamespaceとなります
@@ -34,6 +35,11 @@ namespace OBG
 
         bool flag = false;
 
+
+        //再生するビデオ
+        Video video;
+        //ビデオを再生するためのプレイヤ
+        VideoPlayer vPlayer;
         /// <summary>
         /// コンストラクタ
         /// （new で実体生成された際、一番最初に一回呼び出される）
@@ -105,13 +111,15 @@ namespace OBG
             renderer.LoadContent("pinmovie2", filepathT);
             renderer.LoadContent("pinwaku1", filepathT);
             renderer.LoadContent("Playerwaku1", filepathT);
+            renderer.LoadContent("ウイルスバスター1", filepathT);
+            renderer.LoadContent("プッシュ", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
             col.SetData(colors);
             renderer.LoadContent("col", col);
-
-
+            //対応形式のビデオを読み込み
+            //renderer.LoadVideo("PickKillerPV3_2.wmv", filepathT);
 
             sound.LoadBGM("titlebgm", filepathS);
             sound.LoadBGM("gameplaybgm", filepathS);
