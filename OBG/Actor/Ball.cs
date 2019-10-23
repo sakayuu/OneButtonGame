@@ -102,27 +102,54 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            if (other is Enemy)
+            if(ballState == BallState.Link)
             {
-                isDeadFlag = true;
+                if(other is Enemy || other is Pin )
+                {
+                    isDeadFlag = true;
+                }
             }
-            if (other is Pin && ballState == BallState.Link)
+            
+            if (ballState == BallState.Free)
             {
-                isDeadFlag = true;
-            }
-            if (other is Pin && yflag == false && hitflag == false && ballState == BallState.Free
-                || other is Collider && yflag == false && hitflag == false && ballState == BallState.Free)
-            {
-                hitflag = true;
-                //rad *= -1;
-                yflag = true;
-            }
-            if (other is Pin && yflag == true && hitflag == false && ballState == BallState.Free
-                || other is Collider && yflag == false && hitflag == false && ballState == BallState.Free)
-            {
-                hitflag = true;
-                //rad *= -1;
-                yflag = false;
+                if(other is Enemy)
+                {
+                    isDeadFlag = true;
+                }
+                if(other is Pin || other is Collider)
+                {
+                    if ( Yflag == false && Xflag == true && hitflag == false)
+                    {
+
+                        hitflag = true;
+                        rad *= -1;
+                        Xflag = true;
+                        Yflag = true;
+                        effectpos = position;
+                        effectfrag = true;
+                    }
+                    if (yflag == false && Yflag == true && Xflag == false && hitflag == false)
+                    {
+                        yflag = true;
+                        hitflag = true;
+                        rad *= -1;
+                        Yflag = true;
+                        Xflag = true;
+                        effectpos = position;
+                        effectfrag = true;
+                    }
+                    if ( yflag == true && Yflag == true && Xflag == false && hitflag == false)
+                    {
+                        yflag = false;
+                        hitflag = true;
+                        rad *= -1;
+                        Yflag = true;
+                        Xflag = true;
+                        effectpos = position;
+                        effectfrag = true;
+                    }
+                }
+                 
             }
 
             //  hitflag = true;
@@ -173,13 +200,13 @@ namespace OBG.Actor
                         position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
                     }
                     ang = 0;
-                    Debug.WriteLine(yflag);
-                    Debug.WriteLine(hitflag);
                 }
             }
             else if (ballState == BallState.Link)
             {
                 yflag = false;
+                Xflag = true;
+                Yflag = true;
                 //AddActor(new RayLine("particleSmall", position, pPosition));
                 position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
                 //Debug.WriteLine(MathHelper.ToDegrees(ang));
@@ -218,7 +245,7 @@ namespace OBG.Actor
         {
             if (ballState == BallState.Link)
             {
-                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32));
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32 ), new Vector2(pPosition.X + 32, pPosition.Y + 32));
                 base.Draw(renderer);
             }
             else

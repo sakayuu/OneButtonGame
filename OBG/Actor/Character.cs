@@ -40,13 +40,9 @@ namespace OBG.Actor
                 float ra = Math.Abs(radiusSum + 1 - length);
                 Xflag = false;
                 Yflag = false;
-                //if (lengthx == lengthy)
-                //{
-                //    position.X *= ra;
-                //    position.Y *= ra;
-                //    return true;
-                //}
-                if (lengthx >= lengthy)
+
+                
+                if (lengthx >= lengthy && other is Pin || lengthx >= lengthy && other is Collider)
                 {
                     if(position.X <= other.position.X)
                     {
@@ -60,7 +56,7 @@ namespace OBG.Actor
                     Xflag = true;
                     return true;
                 }
-                if (lengthx <= lengthy)
+                if (lengthx <= lengthy && other is Pin || lengthx <= lengthy && other is Collider)
                 {
                     if(position.Y <= other.position.Y)
                     {
@@ -73,6 +69,7 @@ namespace OBG.Actor
                     Yflag = true;
                     return true;
                 }
+                return true;
 
             }
             
