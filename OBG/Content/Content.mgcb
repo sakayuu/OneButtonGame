@@ -331,10 +331,7 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Playerwaku1.png
 
-#begin Texture/PickKillerPV3_2.wmv
-/copy:Texture/PickKillerPV3_2.wmv
-
-#begin Texture/ウイルスバスター.png
+#begin Texture/irisT.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -344,29 +341,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Texture/ウイルスバスター.png
-
-#begin Texture/ウイルスバスター1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Texture/ウイルスバスター1.png
-
-#begin Texture/プッシュ.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Texture/プッシュ.png
+/build:Texture/irisT.png
 

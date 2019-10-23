@@ -8,7 +8,6 @@ using OBG.Device;
 using OBG.Scene;
 using OBG.Actor;
 using OBG.Def;
-using Microsoft.Xna.Framework.Media;
 
 /// <summary>
 /// プロジェクト名がnamespaceとなります
@@ -27,19 +26,6 @@ namespace OBG
         private Renderer renderer;
         private SceneManager sceneManager;
 
-        private VertexBuffer lineListVertexBuffer = null;
-
-
-        Ball ball;
-        Pin pin;
-
-        bool flag = false;
-
-
-        //再生するビデオ
-        Video video;
-        //ビデオを再生するためのプレイヤ
-        VideoPlayer vPlayer;
         /// <summary>
         /// コンストラクタ
         /// （new で実体生成された際、一番最初に一回呼び出される）
@@ -67,8 +53,8 @@ namespace OBG
             gameDevice = GameDevice.Instance(Content, GraphicsDevice);
 
             sceneManager = new SceneManager();
+            sceneManager.Add(Scene.Scene.Title, new Transition(new Title(), null));
             IScene addScene = new GamePlay();
-            sceneManager.Add(Scene.Scene.Title, new Title());
             sceneManager.Add(Scene.Scene.GamePlay, addScene);
             sceneManager.Add(Scene.Scene.Ending, new Ending(addScene));
             sceneManager.Change(Scene.Scene.Title);
@@ -111,15 +97,14 @@ namespace OBG
             renderer.LoadContent("pinmovie2", filepathT);
             renderer.LoadContent("pinwaku1", filepathT);
             renderer.LoadContent("Playerwaku1", filepathT);
-            renderer.LoadContent("ウイルスバスター1", filepathT);
-            renderer.LoadContent("プッシュ", filepathT);
+            renderer.LoadContent("irisT", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
             col.SetData(colors);
             renderer.LoadContent("col", col);
-            //対応形式のビデオを読み込み
-            //renderer.LoadVideo("PickKillerPV3_2.wmv", filepathT);
+
+
 
             sound.LoadBGM("titlebgm", filepathS);
             sound.LoadBGM("gameplaybgm", filepathS);
@@ -194,7 +179,7 @@ namespace OBG
 
             //renderer.DrawTexture("black", ball.GetBallPos(), Color.White);
             //renderer.DrawTexture("pin", pin.GetPinPosition(), Color.White);
-            
+
 
 
             //この上にロジックを記述

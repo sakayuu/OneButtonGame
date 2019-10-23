@@ -321,6 +321,11 @@ namespace OBG.Device
 
         }
 
+        public void DrawCircle(Vector2 pos, float radius)
+        {
+            Primitives2D.DrawCircle(spriteBatch, pos, radius, 100, Color.Black, radius * 100);
+        }
+
         public void DrawTexture(
             string assetName,
             Vector2 positioin,
@@ -343,6 +348,47 @@ namespace OBG.Device
                 scale,              //拡大縮小
                 effects,            //表示反転効果
                 depth               //スプライト深度
+                );
+        }
+
+        /// <summary>
+        /// 描画
+        /// </summary>
+        /// <param name="assetName">画像の名前</param>
+        /// <param name="positioin">位置</param>
+        /// <param name="destRect">貼り付けサイズ</param>
+        /// <param name="rect">切り抜き範囲</param>
+        /// <param name="origin">原点</param>
+        /// <param name="color">色</param>
+        /// <param name="rotate">回転</param>
+        /// <param name="scale">大きさ</param>
+        /// <param name="effects">反転用</param>
+        /// <param name="depth">レイヤ順</param>
+        /// <param name="alpha">透明度</param>
+        public void DrawTexture(
+            string assetName,
+            Vector2 positioin,
+            Rectangle? destRect,
+            Rectangle? rect,//nullを受け入れられるよう「？」で
+            Vector2 origin,
+            Color color,
+            float rotate,
+            Vector2 scale,
+            SpriteEffects effects = SpriteEffects.None,
+            float depth = 0.0f,
+            float alpha = 1.0f)
+        {
+            spriteBatch.Draw(
+                textures[assetName],//テクスチャ
+                positioin,          //位置
+                destRect,           //渡したサイズに引き伸ばし
+                rect,               //切り取り範囲
+                origin,             //画像の原点
+                rotate,             //回転角度
+                scale,              //拡大縮小
+                color * alpha,      //透明値
+                effects,            //表示反転効果
+                depth              //スプライト深度
                 );
         }
     }
