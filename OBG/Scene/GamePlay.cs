@@ -57,6 +57,7 @@ namespace OBG.Scene
             characterManager.GetBall().ballState = BallState.Start;
             if (stage == Stage.stage1)
             {
+                characterManager.GetList().Clear();
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
                 characterManager.Add(new Pin("pinmusic2", new Vector2(750, 200), 0, this));
@@ -68,18 +69,20 @@ namespace OBG.Scene
             }
             if (stage == Stage.stage2)
             {
+                characterManager.GetList().Clear();
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
+                characterManager.Add(new Pin("pin", new Vector2(750, 400), 0, this));
                 characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 1, this)); //継承してるのでthisでmediatorを渡せる
                 characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), 2, this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400), 0, this));
             }
             if (stage == Stage.stage3)
             {
+                characterManager.GetList().Clear();
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 1, this)); //継承してるのでthisでmediatorを渡せる
                 characterManager.Add(new Pin("pin", new Vector2(750, 400), 0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 1, this)); //継承してるのでthisでmediatorを渡せる
             }
             foreach (var a in characterManager.GetList())
             {

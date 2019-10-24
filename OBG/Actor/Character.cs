@@ -29,40 +29,40 @@ namespace OBG.Actor
             float length = (position - other.position).Length();
             float lengthx = Math.Abs(position.X - other.position.X);
             float lengthy = Math.Abs(position.Y - other.position.Y);
-            
+
             //画像のサイズにより変化
             //自分半径と相手半径の和
             float radiusSum = (pixelSize / 2) + (other.pixelSize / 2);
             //半径の和と距離を比べて、等しいかまたは小さいか（以下か）
-            
-            if(length <= radiusSum ) 
+
+            if (length <= radiusSum)
             {
                 float ra = Math.Abs(radiusSum + 1 - length);
                 Xflag = false;
                 Yflag = false;
 
-                
+
                 if (lengthx >= lengthy && other is Pin || lengthx >= lengthy && other is Collider)
                 {
-                    if(position.X <= other.position.X)
+                    if (position.X <= other.position.X)
                     {
                         position.X -= ra;
                     }
-                    if(position.X >= other.position.X)
+                    if (position.X >= other.position.X)
                     {
                         position.X += ra;
                     }
-                    
+
                     Xflag = true;
                     return true;
                 }
                 if (lengthx <= lengthy && other is Pin || lengthx <= lengthy && other is Collider)
                 {
-                    if(position.Y <= other.position.Y)
+                    if (position.Y <= other.position.Y)
                     {
                         position.Y -= ra;
                     }
-                    if(position.Y >= other.position.Y)
+                    if (position.Y >= other.position.Y)
                     {
                         position.Y += ra;
                     }
@@ -72,7 +72,7 @@ namespace OBG.Actor
                 return true;
 
             }
-            
+
             return false;
         }
 
@@ -122,5 +122,6 @@ namespace OBG.Actor
         {
 
         }
+
     }
 }

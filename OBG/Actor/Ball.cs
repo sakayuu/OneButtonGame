@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace OBG.Actor
 {
-    enum BallState
+    public enum BallState
     {
         Start,
         Free,
@@ -102,14 +102,14 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
-            if(ballState == BallState.Link)
+            if (ballState == BallState.Link)
             {
-                if(other is Pin )
+                if (other is Pin)
                 {
                     isDeadFlag = true;
                 }
             }
-            
+
             if (ballState == BallState.Free)
             {
                 if (other is Enemy)
@@ -118,7 +118,7 @@ namespace OBG.Actor
                 }
                 if (other is Pin || other is Collider)
                 {
-                    if ( Yflag == false && Xflag == true && hitflag == false)
+                    if (Yflag == false && Xflag == true && hitflag == false)
                     {
 
                         hitflag = true;
@@ -138,7 +138,7 @@ namespace OBG.Actor
                         effectpos = position;
                         effectfrag = true;
                     }
-                    if ( yflag == true && Yflag == true && Xflag == false && hitflag == false)
+                    if (yflag == true && Yflag == true && Xflag == false && hitflag == false)
                     {
                         yflag = false;
                         hitflag = true;
@@ -149,7 +149,7 @@ namespace OBG.Actor
                         effectfrag = true;
                     }
                 }
-                 
+
             }
 
             //  hitflag = true;
@@ -245,7 +245,7 @@ namespace OBG.Actor
         {
             if (ballState == BallState.Link)
             {
-                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32 ), new Vector2(pPosition.X + 32, pPosition.Y + 32));
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32));
                 base.Draw(renderer);
             }
             else
@@ -261,7 +261,7 @@ namespace OBG.Actor
             {
                 effect -= 0.01f;
             }
-            if (effectfrag==true)
+            if (effectfrag == true)
             {
                 renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(1f, 1f),
         new Vector2((1 * (1.5f - effect)), (1 * (1.5f - effect))));
