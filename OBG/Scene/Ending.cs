@@ -58,9 +58,8 @@ namespace OBG.Scene
         {
             sound.PlayBGM("endingbgm");
 
-            if ( Input.GetKeyTrigger(Keys.Space))
+            if (Input.GetKeyTrigger(Keys.Space))
             {
-
                 isEndFlag = true;
                 sound.PlaySE("endingse");
             }

@@ -98,7 +98,9 @@ namespace OBG.Scene
 
         public Scene Next()
         {
-            Scene nextScene = Scene.Title;
+            Scene nextScene = Scene.Ending;
+            //if (characterManager.GetBall().IsDead())
+            //Scene nextScene = Scene.GameOver;
             return nextScene;
         }
 

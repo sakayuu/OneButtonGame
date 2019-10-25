@@ -23,11 +23,10 @@ namespace OBG.Scene
         private Timer timer; //フェード時間
 
         //フェード切り替えの時間
-        private readonly float FADE_TIME = 2.0f;
+        private readonly float FADE_TIME = 1.5f;
         private IScene scene; //現在のシーン
         private bool isEndFlag = false; //終了フラグ 
         private bool? ballDeadFlag;
-        float a;
 
         /// <summary>
         /// コンストラクタ
@@ -96,6 +95,7 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
+
             switch (irisState)
             {
                 case IrisState.In:
@@ -110,6 +110,7 @@ namespace OBG.Scene
                 default:
                     break;
             }
+
         }
 
         #region フェードイン
@@ -117,7 +118,7 @@ namespace OBG.Scene
         /// フェードイン状態の更新
         /// </summary>
         /// <param name="gameTime"></param>
-        private void FadeInUpdate(GameTime gameTime)
+        public void FadeInUpdate(GameTime gameTime)
         {
             //シーンの更新
             scene.Update(gameTime);
@@ -130,6 +131,7 @@ namespace OBG.Scene
             if (timer.IsTime())
             {
                 irisState = IrisState.None;
+                timer.Initialize();
             }
         }
 
@@ -149,7 +151,7 @@ namespace OBG.Scene
         /// フェードアウト状態の更新
         /// </summary>
         /// <param name="gameTime"></param>
-        private void FadeOutUpdate(GameTime gameTime)
+        public void FadeOutUpdate(GameTime gameTime)
         {
             scene.Update(gameTime);
             if (scene.IsEnd())
@@ -179,13 +181,12 @@ namespace OBG.Scene
         /// フェードなし状態の更新
         /// </summary>
         /// <param name="gameTime"></param>
-        private void FadeNoneUpdate(GameTime gameTime)
+        public void FadeNoneUpdate(GameTime gameTime)
         {
             scene.Update(gameTime);
             if (scene.IsEnd())
             {
                 irisState = IrisState.Out;
-                timer.Initialize();
             }
         }
 

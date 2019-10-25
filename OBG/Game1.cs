@@ -55,8 +55,8 @@ namespace OBG
             sceneManager = new SceneManager();
             sceneManager.Add(Scene.Scene.Title, new Transition(new Title(), null));
             IScene addScene = new GamePlay();
-            sceneManager.Add(Scene.Scene.GamePlay, addScene);
-            sceneManager.Add(Scene.Scene.Ending, new Ending(addScene));
+            sceneManager.Add(Scene.Scene.GamePlay, new Transition(addScene, null));
+            sceneManager.Add(Scene.Scene.Ending, new Transition(new Ending(addScene), null));
             sceneManager.Change(Scene.Scene.Title);
 
             //sceneManager.Add(Scene.Scene.Ending, addScene);
