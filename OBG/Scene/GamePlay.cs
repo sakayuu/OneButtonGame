@@ -29,7 +29,6 @@ namespace OBG.Scene
         private int time = 3;
         public static bool timeflag = false;
         private float area;
-        private Vector2 targetpos;
         public GamePlay()
         {
             isEndFlag = false;

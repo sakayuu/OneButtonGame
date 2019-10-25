@@ -47,20 +47,20 @@ namespace OBG.Actor
         }
         public override void Update(GameTime gameTime)
         {
-            if (GamePlay.timeflag == true )
-            {
-                Vector2 direction = Pposition - position;
-                direction.Normalize();
-                position += direction * speed;
-            }
-            if(Ball.ballState == BallState.Free)
-            {
-                speed = 1.0f;
-            }
-            if(Ball.ballState == BallState.Link)
-            {
-                speed = 2.0f;
-            }
+            //if (GamePlay.timeflag == true )
+            //{
+            //    Vector2 direction = Pposition - position;
+            //    direction.Normalize();
+            //    position += direction * speed;
+            //}
+            //if(Ball.ballState == BallState.Free)
+            //{
+            //    speed = 1.0f;
+            //}
+            //if(Ball.ballState == BallState.Link)
+            //{
+            //    speed = 2.0f;
+            //}
         }
         
         public void AddCollider(Collider collider, int pinNum)
