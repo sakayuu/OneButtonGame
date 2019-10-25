@@ -95,9 +95,13 @@ namespace OBG
             renderer.LoadContent("Player4", filepathT);
             renderer.LoadContent("pinmusic2", filepathT);
             renderer.LoadContent("pinmovie2", filepathT);
+            renderer.LoadContent("pingame2", filepathT);
             renderer.LoadContent("pinwaku1", filepathT);
             renderer.LoadContent("Playerwaku1", filepathT);
             renderer.LoadContent("number", filepathT);
+            renderer.LoadContent("number1", filepathT);
+            renderer.LoadContent("Enemy1", filepathT);
+            renderer.LoadContent("Ggo", filepathT);
             renderer.LoadContent("irisT", filepathT);
             renderer.LoadContent("Virusbastard", filepathT);
             renderer.LoadContent("Virusbastard1", filepathT);

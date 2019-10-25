@@ -50,12 +50,12 @@ namespace OBG.Scene
                 renderer.DrawTexture("target", characterManager.pin.GetPosition());
             }
             
-            renderer.DrawNumber("number", new Vector2(200, 13), pasent);
-            renderer.DrawNumber("number", new Vector2(400, 13), area);
+            renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
+            renderer.DrawNumber("number1", new Vector2(200, 13), area);
             characterManager.Draw(renderer);//キャラクター管理者の描画
             if(timeflag == false)
             {
-                renderer.DrawNumber("number", new Vector2(400, 400), time);
+                renderer.DrawNumber("number1", new Vector2(400, 400), time);
             }
             
             renderer.End();
@@ -74,7 +74,7 @@ namespace OBG.Scene
             Ball.ballState = BallState.Start;
             if (stage==Stage.stage1)
             {
-                Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
                 characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 0, this));
                 characterManager.Add(new Pin("pinmusic2", new Vector2(100, 100),1, this)); //継承してるのでthisでmediatorを渡せる
@@ -84,7 +84,7 @@ namespace OBG.Scene
             }
             if (stage == Stage.stage2)
             {
-                Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
                 characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),0, this)); //継承してるのでthisでmediatorを渡せる
                 characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),1, this));
@@ -92,7 +92,7 @@ namespace OBG.Scene
             }
             if (stage == Stage.stage3)
             {
-                Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
                 characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),0, this)); //継承してるのでthisでmediatorを渡せる
                 characterManager.Add(new Pin("pin", new Vector2(750, 400),1, this));
