@@ -109,6 +109,7 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
+            Debug.WriteLine(characterManager.GetColliders().Count);
             characterManager.Update(gameTime); //キャラ一括更新
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 isEndFlag = true;
@@ -155,7 +156,7 @@ namespace OBG.Scene
                 NowField += a.SetField();
             }
             pasent = (NowField / AllField) * 100;
-            Debug.WriteLine(pasent);
+            //Debug.WriteLine(pasent);
             if (pasent >= 40)
             {
                 switch (stage)

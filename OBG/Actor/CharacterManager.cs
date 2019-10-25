@@ -85,6 +85,7 @@ namespace OBG.Actor
 
         public void AddCollider(Collider collider, int pinNum)
         {
+            cols.Remove(cols[pinNum]);
             cols.Insert(pinNum, collider);
         }
 
@@ -182,7 +183,7 @@ namespace OBG.Actor
 
             if (ball.ballState == BallState.Link)
             {
-                Debug.WriteLine(ball.nowPinNum);
+                //Debug.WriteLine(ball.nowPinNum);
                 if (MathCollision.Circle_Segment(enemy.GetPosition() + new Vector2(32, 32),
                             32, ball.GetPosition(), ball.pPosition))
                 {
@@ -361,6 +362,9 @@ namespace OBG.Actor
             return pins;
         }
 
-
+        public List<Collider> GetColliders()
+        {
+            return cols;
+        }
     }
 }

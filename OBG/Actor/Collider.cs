@@ -33,7 +33,7 @@ namespace OBG.Actor
 
         public override void Shutdown()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Update(GameTime gameTime)
@@ -54,8 +54,8 @@ namespace OBG.Actor
                 {
                     effect -= 0.01f;
                 }
-                renderer.DrawTexture("Playerwaku1", new Vector2(position.X +32 - ((pixelSize/2) * (2f - effect)), position.Y +32 - ((pixelSize/2) * (2f - effect))), null, Color.White * effect, 0.0f, new Vector2(1f, 1f),
-                        new Vector2((pixelSize/64 * (2f - effect)), (pixelSize/64 * (2f - effect))));
+                renderer.DrawTexture("Playerwaku1", new Vector2(position.X + 32 - ((pixelSize / 2) * (2f - effect)), position.Y + 32 - ((pixelSize / 2) * (2f - effect))), null, Color.White * effect, 0.0f, new Vector2(1f, 1f),
+                        new Vector2((pixelSize / 64 * (2f - effect)), (pixelSize / 64 * (2f - effect))));
             }
 
             else
