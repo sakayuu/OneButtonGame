@@ -102,6 +102,7 @@ namespace OBG
             renderer.LoadContent("Virusbastard", filepathT);
             renderer.LoadContent("Virusbastard1", filepathT);
             renderer.LoadContent("Push", filepathT);
+            renderer.LoadContent("target", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;

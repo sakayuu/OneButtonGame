@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using OBG.Actor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OBG.Device
 {
-    public class MathCollision
+    public class MathCollision 
     {
 
         /// <summary>
@@ -122,5 +123,7 @@ namespace OBG.Device
             }
             return false;
         }
+
+        
     }
 }
