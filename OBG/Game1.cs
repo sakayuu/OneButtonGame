@@ -26,14 +26,6 @@ namespace OBG
         private Renderer renderer;
         private SceneManager sceneManager;
 
-        private VertexBuffer lineListVertexBuffer = null;
-
-
-        Ball ball;
-        Pin pin;
-
-        bool flag = false;
-
         /// <summary>
         /// コンストラクタ
         /// （new で実体生成された際、一番最初に一回呼び出される）
@@ -61,10 +53,10 @@ namespace OBG
             gameDevice = GameDevice.Instance(Content, GraphicsDevice);
 
             sceneManager = new SceneManager();
+            sceneManager.Add(Scene.Scene.Title, new Transition(new Title(), null));
             IScene addScene = new GamePlay();
-            sceneManager.Add(Scene.Scene.Title, new Title());
-            sceneManager.Add(Scene.Scene.GamePlay, addScene);
-            sceneManager.Add(Scene.Scene.Ending, new Ending(addScene));
+            sceneManager.Add(Scene.Scene.GamePlay, new Transition(addScene, null));
+            sceneManager.Add(Scene.Scene.Ending, new Transition(new Ending(addScene), null));
             sceneManager.Change(Scene.Scene.Title);
 
             //sceneManager.Add(Scene.Scene.Ending, addScene);
@@ -105,7 +97,14 @@ namespace OBG
             renderer.LoadContent("pinmovie2", filepathT);
             renderer.LoadContent("pinwaku1", filepathT);
             renderer.LoadContent("Playerwaku1", filepathT);
+<<<<<<< HEAD
             renderer.LoadContent("number", filepathT);
+=======
+            renderer.LoadContent("irisT", filepathT);
+            renderer.LoadContent("Virusbastard", filepathT);
+            renderer.LoadContent("Virusbastard1", filepathT);
+            renderer.LoadContent("Push", filepathT);
+>>>>>>> origin/sakai
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
@@ -187,7 +186,7 @@ namespace OBG
 
             //renderer.DrawTexture("black", ball.GetBallPos(), Color.White);
             //renderer.DrawTexture("pin", pin.GetPinPosition(), Color.White);
-            
+
 
 
             //この上にロジックを記述
