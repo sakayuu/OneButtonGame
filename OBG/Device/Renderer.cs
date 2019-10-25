@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;//Assert用
 using C3.XNA;
+using Microsoft.Xna.Framework.Media;
 
 namespace OBG.Device
 {
@@ -21,6 +22,9 @@ namespace OBG.Device
         //複数画像管理用変数の宣言と生成
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
+        //private Dictionary<string, Video> videos = new Dictionary<string, Video>();
+        ////ビデオを再生するためのプレイヤ
+        //VideoPlayer vPlayer;
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -55,7 +59,21 @@ namespace OBG.Device
             textures.Add(assetName, contentManager.Load<Texture2D>(filepath + assetName));
         }
 
+//        public void LoadVideo(string assetName, string filepath = "./")
+//        {
+//            //すでにキー（assetName：アセット名）が登録されているとき
+//            if (videos.ContainsKey(assetName))
+//            {
+//#if DEBUG //DEBUGモードの時のみ下記エラー分をコンソールへ表示
+//                Console.WriteLine(assetName + "はすでに読み込まれています。\n プログラムを確認してください。");
+//#endif
 
+//                //それ以上読み込まないのでここで終了
+//                return;
+//            }
+//            //画像の読み込みとDictionaryへアセット名と画像を登録
+//            videos.Add(assetName, contentManager.Load<Video>(filepath + assetName));
+//        }
 
         /// <summary>
         /// アンロード
@@ -96,7 +114,19 @@ namespace OBG.Device
 
             spriteBatch.Draw(textures[assetName], position, Color.White * alpha);
         }
-
+        //public void DrawVideo(string assetName, Vector2 position, float alpha = 1.0f)
+        //{
+        //    //デバッグモードの時のみ、画像描画前のアセット名チェック
+        //    Debug.Assert(
+        //        videos.ContainsKey(assetName),
+        //        "描画時にアセット名の指定を間違えたか、画像の読み込み自体できていません");
+        //    //プレイヤを作って
+        //    vPlayer = new VideoPlayer();
+        //    //ループを設定する
+        //    vPlayer.IsLooped = true;
+        //    //ビデオを再生
+        //    vPlayer.Play(videos[assetName]);
+        //}
         /// <summary>
         /// 画像の描画（画像を指定範囲内だけ描画）
         /// </summary>
