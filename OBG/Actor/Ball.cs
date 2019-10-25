@@ -43,7 +43,7 @@ namespace OBG.Actor
         public float w = 0;
         public float h = 0;
 
-        public static  BallState ballState;
+        public static BallState ballState;
 
         IGameMediator mediator;
 
@@ -62,6 +62,8 @@ namespace OBG.Actor
         Random rnd = new Random();
         int rndNum;
 
+        public Vector2 nowVector;
+
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
@@ -79,6 +81,7 @@ namespace OBG.Actor
             rr = -1;
             ballState = BallState.Start;
             nowPinNum = 0;
+            nowVector = position;
         }
 
         public override void Update(GameTime gameTime)
@@ -168,14 +171,17 @@ namespace OBG.Actor
 
         public override void Move()
         {
-            if(GamePlay.timeflag == true)
+            if (GamePlay.timeflag == true)
             {
                 if (ballState == BallState.Start)
-                    position = position + new Vector2(0, -1) * (speed / 10);
+                {
+                    position += new Vector2(0, -1) * (speed / 10);
+                    nowVector = new Vector2(0, -1) * (speed / 10);
+                }
                 if (ballState == BallState.Free) //移動可能なら
                 {
                     if (freeFlag)
-                        
+
                     {
                         //まっすぐに移動
                         if (position.X + pixelSize < 0 || position.X >= Screen.Width ||
@@ -211,11 +217,16 @@ namespace OBG.Actor
                         {
                             position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
                             position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR;
+                            nowVector = new Vector2(((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR,
+                                ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR);
                         }
                         if (yflag == false)
                         {
                             position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
                             position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                            nowVector = new Vector2(((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR,
+                                ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR);
+
                         }
                         ang = 0;
                     }
@@ -259,11 +270,17 @@ namespace OBG.Actor
 
         }
 
+        public Vector2 GetVector()
+        {
+            nowVector.Normalize();
+            return nowVector;
+        }
+
         public override void Draw(Renderer renderer)
         {
             if (ballState == BallState.Link)
             {
-                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32),Color.Red);
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
                 base.Draw(renderer);
             }
             else

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using OBG.Device;
+using OBG.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,7 +25,9 @@ namespace OBG.Actor
 
         public Pin pin = null;
 
+        public List<DeathEffect> deathEffects;
 
+        
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -57,10 +60,16 @@ namespace OBG.Actor
             else
                 rayLines = new List<RayLine>();
 
+            if (deathEffects != null)
+                deathEffects.Clear();
+            else
+                deathEffects = new List<DeathEffect>();
+
             if (addNewCharacters != null)
                 addNewCharacters.Clear();
             else
                 addNewCharacters = new List<Character>();
+            
         }
 
         /// <summary>
@@ -99,6 +108,7 @@ namespace OBG.Actor
             {
                 enemy.Hit(ball);
                 ball.Hit(enemy);
+                deathEffects.Add(new DeathEffect("particleBlue", ball.GetPosition()));
             }
             foreach (var pin in pins) //ピンで繰り返し
             {
@@ -106,18 +116,7 @@ namespace OBG.Actor
                 {
                     ball.Hit(pin);
                 }
-                //if (rayLines.Count != 0)
-                //    foreach (var rl in rayLines)
-                //    {
-                //        if (enemy.IsCollision(rl))
-                //            ball.Hit(pin);
-                //        if (rl.IsCollision(pin))
-                //        {
-                //            rl.Hit(pin);
-                //            //ball.Hit(enemy);
-                //        }
-                //    }
-
+                
             }
 
             if (cols.Count > 0)
@@ -155,6 +154,14 @@ namespace OBG.Actor
                 foreach (var rl in rayLines)
                 {
                     rl.Update(gameTime);
+                }
+            }
+
+            if (deathEffects.Count != 0)
+            {
+                foreach (var de in deathEffects)
+                {
+                    de.Update(gameTime);
                 }
             }
 
@@ -202,52 +209,7 @@ namespace OBG.Actor
                     }
                 }
 
-                //switch (ball.nowPinNum)
-                //{
-                //    case 0:
-                //        if ()
-                //        {
 
-
-                //        }
-                //        else if (MathCollision.Circle_Segment(pins[2].GetPosition() + new Vector2(32, 32),
-                //            32, ball.GetPosition(), ball.pPosition))
-                //        {
-                //            ball.Hit(pin);
-
-                //        }
-                //        break;
-                //    case 1:
-                //        if (MathCollision.Circle_Segment(pins[0].GetPosition() + new Vector2(32, 32),
-                //            32, ball.GetPosition(), ball.pPosition))
-                //        {
-                //            ball.Hit(pin);
-
-                //        }
-                //        else if (MathCollision.Circle_Segment(pins[2].GetPosition() + new Vector2(32, 32),
-                //            32, ball.GetPosition(), ball.pPosition))
-                //        {
-                //            ball.Hit(pin);
-
-                //        }
-                //        break;
-                //    case 2:
-                //        if (MathCollision.Circle_Segment(pins[0].GetPosition() + new Vector2(32, 32),
-                //            32, ball.GetPosition(), ball.pPosition))
-                //        {
-                //            ball.Hit(pin);
-
-                //        }
-                //        else if (MathCollision.Circle_Segment(pins[1].GetPosition() + new Vector2(32, 32),
-                //            32, ball.GetPosition(), ball.pPosition))
-                //        {
-                //            ball.Hit(pin);
-
-                //        }
-                //        break;
-                //    default:
-                //        break;
-                //}
             }
         }
 
@@ -258,6 +220,7 @@ namespace OBG.Actor
         {
             //死んでいたら、リストから削除
             rayLines.RemoveAll(rl => rl.IsDead());
+            deathEffects.RemoveAll(de => de.IsDead());
         }
 
         /// <summary>
@@ -283,6 +246,11 @@ namespace OBG.Actor
                 foreach (var rl in rayLines)
                 {
                     rl.Draw(renderer);
+                }
+            if (deathEffects.Count != 0)
+                foreach (var de in deathEffects)
+                {
+                    de.Draw(renderer);
                 }
         }
 
