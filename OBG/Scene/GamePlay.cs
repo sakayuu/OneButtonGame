@@ -122,6 +122,17 @@ namespace OBG.Scene
                 characterManager.pin = null;
                 characterManager.GetAngleForBallToPins();
 
+                //Vector2 vP = characterManager.GetBall().GetPosition()-
+
+
+                //Vector3 bB = new Vector3(characterManager.GetBall().GetPosition().X, characterManager.GetBall().GetPosition().Y, 0);
+                //Vector3 bP = new Vector3(characterManager.pin.GetPosition().X, characterManager.pin.GetPosition().Y, 0);
+
+                //if ()
+                //{
+
+                //}
+
                 if (characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X)
                 {
                     characterManager.GetBall().LRflag = true;

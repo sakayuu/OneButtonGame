@@ -58,6 +58,10 @@ namespace OBG.Actor
         private bool effectfrag;
         private float effect;
         private Vector2 effectpos;
+
+        Random rnd = new Random();
+        int rndNum;
+
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
@@ -79,6 +83,13 @@ namespace OBG.Actor
 
         public override void Update(GameTime gameTime)
         {
+            rndNum = rnd.Next(0, 2);
+            if (rndNum == 0)
+                mediator.AddActor(new RayLine("particleSmall", position));
+            else
+                mediator.AddActor(new RayLine("particle", position));
+
+
             if (LRflag)
                 LR = 1;
             else
