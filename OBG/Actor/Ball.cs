@@ -43,7 +43,7 @@ namespace OBG.Actor
         public float w = 0;
         public float h = 0;
 
-        public BallState ballState;
+        public static  BallState ballState;
 
         IGameMediator mediator;
 
@@ -168,72 +168,79 @@ namespace OBG.Actor
 
         public override void Move()
         {
-            if (ballState == BallState.Start)
-                position = position + new Vector2(0, -1) * (speed / 10);
-            else if (ballState == BallState.Free) //移動可能なら
+            if(GamePlay.timeflag == true)
             {
-                if (freeFlag)
+                if (ballState == BallState.Start)
+                    position = position + new Vector2(0, -1) * (speed / 10);
+                if (ballState == BallState.Free) //移動可能なら
                 {
-                    //まっすぐに移動
+                    if (freeFlag)
+                        
+                    {
+                        //まっすぐに移動
+                        if (position.X + pixelSize < 0 || position.X >= Screen.Width ||
+                            position.Y + pixelSize < 0 || position.Y >= Screen.Width)
+                        {
+                            isDeadFlag = true;
+                        }
+                        if (position.X < 0 || position.X + pixelSize >= Screen.Width)
+                        {
+                            effectpos = position;
+                            rad *= -1;
+                            effectfrag = true;
+                        }
+                        if (position.Y < 0 && yflag == false && hitflag == false
+                            || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
+                        {
+                            effectpos = position;
+                            hitflag = true;
+                            rad *= -1;
+                            yflag = true;
+                            effectfrag = true;
+                        }
+                        if (position.Y < 0 && yflag == true && hitflag == false
+                            || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
+                        {
+                            effectpos = position;
+                            hitflag = true;
+                            rad *= -1;
+                            yflag = false;
+                            effectfrag = true;
+                        }
+                        if (yflag == true)
+                        {
+                            position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
+                            position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR;
+                        }
+                        if (yflag == false)
+                        {
+                            position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                            position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                        }
+                        ang = 0;
+                    }
+                }
+                if (ballState == BallState.Link)
+                {
+                    yflag = false;
+                    Xflag = true;
+                    Yflag = true;
+                    //AddActor(new RayLine("particleSmall", position, pPosition));
+                    position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
+                    //Debug.WriteLine(MathHelper.ToDegrees(ang));
 
-                    if (position.X < 0 || position.X + pixelSize >= Screen.Width)
-                    {
-                        effectpos = position;
-                        rad *= -1;
-                        effectfrag = true;
-                    }
-                    if (position.Y < 0 && yflag == false && hitflag == false
-                        || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
-                    {
-                        effectpos = position;
-                        hitflag = true;
-                        rad *= -1;
-                        yflag = true;
-                        effectfrag = true;
-                    }
-                    if (position.Y < 0 && yflag == true && hitflag == false
-                        || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
-                    {
-                        effectpos = position;
-                        hitflag = true;
-                        rad *= -1;
-                        yflag = false;
-                        effectfrag = true;
-                    }
-                    if (yflag == true)
-                    {
-                        position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
-                        position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR;
-                    }
-                    if (yflag == false)
-                    {
-                        position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
-                        position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
-                    }
-                    ang = 0;
+                }
+
+                if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
+                {
+
+                    rad = 0; //角度初期化
+
+                    rad = GetRadian(position, pPosition); //ベクトルの角度を取得
+
+                    ballState = BallState.Free; //移動可能
                 }
             }
-            else if (ballState == BallState.Link)
-            {
-                yflag = false;
-                Xflag = true;
-                Yflag = true;
-                //AddActor(new RayLine("particleSmall", position, pPosition));
-                position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
-                //Debug.WriteLine(MathHelper.ToDegrees(ang));
-
-            }
-
-            if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
-            {
-
-                rad = 0; //角度初期化
-
-                rad = GetRadian(position, pPosition); //ベクトルの角度を取得
-
-                ballState = BallState.Free; //移動可能
-            }
-
         }
 
         /// <summary>
