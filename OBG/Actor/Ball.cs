@@ -263,7 +263,7 @@ namespace OBG.Actor
         {
             if (ballState == BallState.Link)
             {
-                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32));
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32),Color.Red);
                 base.Draw(renderer);
             }
             else

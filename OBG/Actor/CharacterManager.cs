@@ -24,6 +24,7 @@ namespace OBG.Actor
 
         public Pin pin = null;
 
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
