@@ -87,6 +87,7 @@ namespace OBG
             renderer.LoadContent("ending", filepathT);
             renderer.LoadContent("particle", filepathT);
             renderer.LoadContent("particleSmall", filepathT);
+            renderer.LoadContent("particleBlue", filepathT);
             renderer.LoadContent("kiiro", filepathT);
             renderer.LoadContent("back", filepathT);
             renderer.LoadContent("back2", filepathT);
@@ -157,7 +158,7 @@ namespace OBG
             gameDevice.Update(gameTime);
 
             sceneManager.Update(gameTime);
-            
+
 
             // この上にロジックを記述
             base.Update(gameTime); // 親クラスの更新処理呼び出し。絶対に消すな！！
