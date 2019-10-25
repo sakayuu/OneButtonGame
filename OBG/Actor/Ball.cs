@@ -22,7 +22,7 @@ namespace OBG.Actor
 
     class Ball : Character, IGameMediator
     {
-        private float speed = 10f; //スピード
+        private float speed; //スピード
         private Vector2 distance; //目的地
         private Vector2 velocity; //移動量
         public Vector2 vector; //ベクトルの向き
@@ -43,7 +43,7 @@ namespace OBG.Actor
         public float w = 0;
         public float h = 0;
 
-        public BallState ballState;
+        public static BallState ballState;
 
         IGameMediator mediator;
 
@@ -54,10 +54,11 @@ namespace OBG.Actor
         public float ang;
         private bool hitflag = false;
         public bool freeFlag = false;
-        private bool yflag = false;
+        private bool yflag = true;
         private bool effectfrag;
         private float effect;
         private Vector2 effectpos;
+        
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
@@ -85,6 +86,7 @@ namespace OBG.Actor
                 LR = -1;
             Move();
             Debug.WriteLine(rad);
+            
             if (hitflag == true)
             {
                 count++;
@@ -94,7 +96,6 @@ namespace OBG.Actor
                 }
             }
         }
-
         public override void Shutdown()
         {
 
@@ -104,7 +105,7 @@ namespace OBG.Actor
         {
             if(ballState == BallState.Link)
             {
-                if(other is Pin )
+                if(other is Pin || other is  Enemy)
                 {
                     isDeadFlag = true;
                 }
@@ -116,11 +117,10 @@ namespace OBG.Actor
                 {
                     isDeadFlag = true;
                 }
-                if (other is Pin || other is Collider)
+                if (other is Pin  || other is Collider)
                 {
                     if ( Yflag == false && Xflag == true && hitflag == false)
                     {
-
                         hitflag = true;
                         rad *= -1;
                         Xflag = true;
@@ -149,80 +149,82 @@ namespace OBG.Actor
                         effectfrag = true;
                     }
                 }
-                 
             }
-
-            //  hitflag = true;
         }
-
         public override void Move()
-        {
-            if (ballState == BallState.Start)
-                position = position + new Vector2(0, -1) * (speed / 10);
-            else if (ballState == BallState.Free) //移動可能なら
+        {    
+            if (GamePlay.timeflag == true)
             {
-                if (freeFlag)
+                 if (position.X < 0 || position.X  + pixelSize>= Screen.Width)
                 {
-                    //まっすぐに移動
-
-                    if (position.X < 0 || position.X + pixelSize >= Screen.Width)
-                    {
-                        effectpos = position;
-                        rad *= -1;
-                        effectfrag = true;
-                    }
-                    if (position.Y < 0 && yflag == false && hitflag == false
-                        || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
-                    {
-                        effectpos = position;
-                        hitflag = true;
-                        rad *= -1;
-                        yflag = true;
-                        effectfrag = true;
-                    }
-                    if (position.Y < 0 && yflag == true && hitflag == false
-                        || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
-                    {
-                        effectpos = position;
-                        hitflag = true;
-                        rad *= -1;
-                        yflag = false;
-                        effectfrag = true;
-                    }
-                    if (yflag == true)
-                    {
-                        position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
-                        position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR;
-                    }
-                    if (yflag == false)
-                    {
-                        position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
-                        position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
-                    }
-                    ang = 0;
+                    effectpos = position;
+                    rad *= -1;
+                    effectfrag = true;
                 }
-            }
-            else if (ballState == BallState.Link)
-            {
-                yflag = false;
-                Xflag = true;
-                Yflag = true;
-                //AddActor(new RayLine("particleSmall", position, pPosition));
-                position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
-                //Debug.WriteLine(MathHelper.ToDegrees(ang));
+                if (position.Y < 0 && yflag == false && hitflag == false
+                    || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
+                {
+                    effectpos = position;
+                    hitflag = true;
+                    rad *= -1;
+                    yflag = true;
+                    effectfrag = true;
+                }
+                if (position.Y < 0 && yflag == true && hitflag == false
+                    || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
+                {
+                    effectpos = position;
+                    hitflag = true;
+                    rad *= -1;
+                    yflag = false;
+                    effectfrag = true;
+                }
+                if (yflag == true)
+                {
+                    position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
+                    position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(270)) * speed) * -LR;
+                }
+                if (yflag == false)
+                {
+                    position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                    position.Y += ((float)Math.Sin(rad + MathHelper.ToRadians(90)) * speed) * -LR;
+                }
+                if (ballState == BallState.Start)
+                {
+                    speed = 5f;
+                }
+                if (ballState == BallState.Free) //移動可能なら
+                {
+                    if (freeFlag)
+                    {
+                        speed = 10f;
+                        ang = 0;
+                        if (position.X + pixelSize < 0 || position.X - pixelSize / 2 >= Screen.Width ||
+                        position.Y + pixelSize < 0 || position.Y - pixelSize / 2 >= Screen.Height)
+                        {
+                            isDeadFlag = true;
+                        }
+                    }
+                }
+                else if (ballState == BallState.Link)
+                {
+                    yflag = false;
+                    Xflag = true;
+                    Yflag = true;
+                    position = pPosition + new Vector2((float)Math.Cos(ang + MathHelper.ToRadians(angle)), 
+                        (float)Math.Sin(ang + MathHelper.ToRadians(angle))) * radius;
+                }
+                if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
+                {
+
+                    rad = 0; //角度初期化
+
+                    rad = GetRadian(position, pPosition); //ベクトルの角度を取得
+
+                    ballState = BallState.Free; //移動可能
+                }
 
             }
-
-            if (Input.GetKeyRelease(Keys.Enter)) //キーが離されたら
-            {
-
-                rad = 0; //角度初期化
-
-                rad = GetRadian(position, pPosition); //ベクトルの角度を取得
-
-                ballState = BallState.Free; //移動可能
-            }
-
         }
 
         /// <summary>
@@ -264,7 +266,7 @@ namespace OBG.Actor
             if (effectfrag==true)
             {
                 renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(1f, 1f),
-        new Vector2((1 * (1.5f - effect)), (1 * (1.5f - effect))));
+                new Vector2((1 * (1.5f - effect)), (1 * (1.5f - effect))));
             }
         }
 

@@ -25,12 +25,18 @@ namespace OBG.Scene
         public Stage stage=Stage.stage1;
         private float AllField,NowField;
         private float pasent;
+        private float timecount ;
+        private int time = 3;
+        public static bool timeflag = false;
+        private float area;
         public GamePlay()
         {
             isEndFlag = false;
             var gameDevice = GameDevice.Instance();
             stage = Stage.stage1;
             AllField = Screen.Width * Screen.Width;
+            area = 40;
+            
         }
         public void Draw(Renderer renderer)
         {
@@ -39,8 +45,15 @@ namespace OBG.Scene
             //背景を描画
             //renderer.DrawTexture("stage", Vector2.Zero);
             renderer.DrawTexture("back2", Vector2.Zero);
+            
+            renderer.DrawNumber("number", new Vector2(200, 13), pasent);
+            renderer.DrawNumber("number", new Vector2(400, 13), area);
             characterManager.Draw(renderer);//キャラクター管理者の描画
-
+            if(timeflag == false)
+            {
+                renderer.DrawNumber("number", new Vector2(400, 400), time);
+            }
+            
             renderer.End();
         }
 
@@ -48,38 +61,37 @@ namespace OBG.Scene
         {
             //シ－ン終了フラグを初期化
             isEndFlag = false;
-
+            
             //キャラクターマネージャーの実体生成
 
             characterManager = new CharacterManager();
             Ball ball = new Ball("Player4", new Vector2(300, 300), this);
             characterManager.Add(ball);
-            characterManager.GetBall().ballState = BallState.Start;
+            Ball.ballState = BallState.Start;
             if (stage==Stage.stage1)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(750, 200), 0, this));
-                characterManager.Add(new Pin("pinmusic2", new Vector2(200, 200),1, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(100, 100),1, this)); //継承してるのでthisでmediatorを渡せる
                 characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400),2, this));
-                characterManager.Add(new Pin("pinmovie2", new Vector2(700, 650), 3, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(200, 600), 4, this));
-                
+                characterManager.Add(new Pin("pinmovie2", new Vector2(800, 800), 3, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(100, 800), 4, this));  
             }
             if (stage == Stage.stage2)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),2, this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),1, this));
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),2, this));
             }
             if (stage == Stage.stage3)
             {
                 Enemy enemy = new Enemy("white", new Vector2(100, 700), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pin", new Vector2(750, 400),0, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pin", new Vector2(750, 400),1, this));
             }
             foreach (var a in characterManager.GetList())
             {
@@ -107,44 +119,65 @@ namespace OBG.Scene
         public void Update(GameTime gameTime)
         {
             characterManager.Update(gameTime); //キャラ一括更新
+            
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 isEndFlag = true;
-
-            if (Input.GetKeyTrigger(Keys.Enter))
+            
+            
+            if (timecount >= 60 && timeflag == false)
             {
-                characterManager.GetBall().freeFlag = false;
-                characterManager.pin = null;
-                characterManager.GetAngleForBallToPins();
-
-                if (characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X)
-                {
-                    characterManager.GetBall().LRflag = true;
-
-                    characterManager.pin.LRflag = true;
-                }
-                else
-                {
-                    characterManager.GetBall().LRflag = false;
-                    characterManager.pin.LRflag = false;
-                }
-
-
-                characterManager.GetBall().ballState = BallState.Link;
-                characterManager.pin.catchFlag = true;
+                time--;
+                timecount = 0;
+            }
+            if(timeflag == false)
+            {
+                timecount++;
+            }
+            if(time <= 0)
+            {
+                timeflag = true;
             }
 
-            if (characterManager.GetBall().ballState == BallState.Link)
+
+            if (timeflag == true)
             {
-                characterManager.GetBall().angle = characterManager.pin.SetAngle();
-                characterManager.GetBall().GetPPos(characterManager.pin.GetPosition());
-                characterManager.GetBall().SetRadius(characterManager.pin.radius);
-                //pin.bPos = characterManager.GetBall().GetPosition();
-                //characterManager.GetBall().SetBallPos(pin.catchPos);
-            }
-            else if (characterManager.GetBall().ballState == BallState.Free)
-            {
-                characterManager.pin.catchFlag = false;
-                characterManager.GetBall().freeFlag = true;
+                if (Input.GetKeyTrigger(Keys.Enter))
+                {
+                    characterManager.GetBall().freeFlag = false;
+                    characterManager.pin = null;
+                    characterManager.GetAngleForBallToPins();
+
+                    if (characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X)
+                    {
+                        characterManager.GetBall().LRflag = true;
+
+                        characterManager.pin.LRflag = true;
+                    }
+                    else
+                    {
+                        characterManager.GetBall().LRflag = false;
+                        characterManager.pin.LRflag = false;
+                    }
+
+
+                    Ball.ballState = BallState.Link;
+                    characterManager.pin.catchFlag = true;
+                }
+
+                if (Ball.ballState == BallState.Link)
+                {
+                    characterManager.GetBall().angle = characterManager.pin.SetAngle();
+                    characterManager.GetBall().GetPPos(characterManager.pin.GetPosition());
+                    characterManager.GetBall().SetRadius(characterManager.pin.radius);
+                    //pin.bPos = characterManager.GetBall().GetPosition();
+                    //characterManager.GetBall().SetBallPos(pin.catchPos);
+                }
+                else if (Ball.ballState == BallState.Free)
+                {
+                    characterManager.pin.catchFlag = false;
+                    characterManager.GetBall().freeFlag = true;
+                }
+            
             }
             NowField = 0;
             foreach (var a in characterManager.GetList())
@@ -153,7 +186,7 @@ namespace OBG.Scene
             }
             pasent = (NowField / AllField) * 100;
             Debug.WriteLine(pasent);
-            if (pasent>=40)
+            if (pasent>=area)
             {
                 switch (stage)
                 {
@@ -184,7 +217,7 @@ namespace OBG.Scene
                         break;
                 }
             }
-
+            
         }
 
         /// <summary>

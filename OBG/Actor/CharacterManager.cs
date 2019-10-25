@@ -172,27 +172,27 @@ namespace OBG.Actor
             if (cols != null)
             {
                 cols.Update(gameTime);
-                cols.GetBallState(ball.ballState);
+                cols.GetBallState(Ball.ballState);
             }
             if (cols2 != null)
             {
                 cols2.Update(gameTime);
-                cols2.GetBallState(ball.ballState);
+                cols2.GetBallState(Ball.ballState);
             }
             if (cols3 != null)
             {
                 cols3.Update(gameTime);
-                cols3.GetBallState(ball.ballState);
+                cols3.GetBallState(Ball.ballState);
             }
             if (cols4 != null)
             {
                 cols4.Update(gameTime);
-                cols4.GetBallState(ball.ballState);
+                cols4.GetBallState(Ball.ballState);
             }
             if (cols5 != null)
             {
                 cols5.Update(gameTime);
-                cols5.GetBallState(ball.ballState);
+                cols5.GetBallState(Ball.ballState);
             }
 
             if (rayLines.Count != 0)
@@ -226,7 +226,7 @@ namespace OBG.Actor
             //死亡時に削除
             RemoveDeadCharacters();
 
-            if (ball.ballState == BallState.Link)
+            if (Ball.ballState == BallState.Link)
             {
                 Debug.WriteLine(ball.nowPinNum);
                 if (MathCollision.Circle_Segment(enemy.GetPosition() + new Vector2(32, 32),

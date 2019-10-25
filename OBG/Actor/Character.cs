@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace OBG.Actor
 {
+    
     abstract class Character
     {
         protected string name; //画像の名前
@@ -16,7 +17,7 @@ namespace OBG.Actor
         protected float pixelSize; //画像の大きさ（衝突判定で使用）
         protected bool Xflag = false;
         protected bool Yflag = false;
-
+        //protected BallState ballState;
 
         /// <summary>
         /// 衝突判定（2点間の距離と円の半径）
@@ -41,33 +42,35 @@ namespace OBG.Actor
                 Xflag = false;
                 Yflag = false;
 
-                
-                if (lengthx >= lengthy && other is Pin || lengthx >= lengthy && other is Collider)
+                if(Ball.ballState == BallState.Free)
                 {
-                    if(position.X <= other.position.X)
+                    if (lengthx >= lengthy && other is Pin || lengthx >= lengthy && other is Collider)
                     {
-                        position.X -= ra;
+                        if (position.X <= other.position.X)
+                        {
+                            position.X -= ra;
+                        }
+                        if (position.X >= other.position.X)
+                        {
+                            position.X += ra;
+                        }
+
+                        Xflag = true;
+                        return true;
                     }
-                    if(position.X >= other.position.X)
+                    if (lengthx <= lengthy && other is Pin || lengthx <= lengthy && other is Collider)
                     {
-                        position.X += ra;
+                        if (position.Y <= other.position.Y)
+                        {
+                            position.Y -= ra;
+                        }
+                        if (position.Y >= other.position.Y)
+                        {
+                            position.Y += ra;
+                        }
+                        Yflag = true;
+                        return true;
                     }
-                    
-                    Xflag = true;
-                    return true;
-                }
-                if (lengthx <= lengthy && other is Pin || lengthx <= lengthy && other is Collider)
-                {
-                    if(position.Y <= other.position.Y)
-                    {
-                        position.Y -= ra;
-                    }
-                    if(position.Y >= other.position.Y)
-                    {
-                        position.Y += ra;
-                    }
-                    Yflag = true;
-                    return true;
                 }
                 return true;
 
@@ -122,5 +125,7 @@ namespace OBG.Actor
         {
 
         }
+
+        
     }
 }

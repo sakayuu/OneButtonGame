@@ -45,12 +45,14 @@ namespace OBG.Actor
         }
         public override void Update(GameTime gameTime)
         {
-
-            Vector2 direction = Pposition - position;
-            direction.Normalize();
-            position += direction * 1.0f;
+            if (GamePlay.timeflag == true )
+            {
+                Vector2 direction = Pposition - position;
+                direction.Normalize();
+                position += direction * 1.0f;
+            }
         }
-
+        
         public void AddCollider(Collider collider, int pinNum)
         {
             mediator.AddCollider(collider, pinNum);
