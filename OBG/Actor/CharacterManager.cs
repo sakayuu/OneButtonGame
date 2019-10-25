@@ -105,17 +105,17 @@ namespace OBG.Actor
                 {
                     ball.Hit(pin);
                 }
-                if (rayLines.Count != 0)
-                    foreach (var rl in rayLines)
-                    {
-                        if (enemy.IsCollision(rl))
-                            ball.Hit(pin);
-                        if (rl.IsCollision(pin))
-                        {
-                            rl.Hit(pin);
-                            //ball.Hit(enemy);
-                        }
-                    }
+                //if (rayLines.Count != 0)
+                //    foreach (var rl in rayLines)
+                //    {
+                //        if (enemy.IsCollision(rl))
+                //            ball.Hit(pin);
+                //        if (rl.IsCollision(pin))
+                //        {
+                //            rl.Hit(pin);
+                //            //ball.Hit(enemy);
+                //        }
+                //    }
 
             }
 

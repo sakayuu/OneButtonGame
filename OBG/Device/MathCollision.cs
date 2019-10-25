@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using OBG.Actor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OBG.Device
 {
-    public class MathCollision
+    public class MathCollision 
     {
 
         /// <summary>
@@ -95,8 +96,8 @@ namespace OBG.Device
         public static bool Circle_Ray(Vector2 p0,
             float radius,
             Vector2 p1,
-            Vector2 p2/*,
-            ref Vector2 Intersection*/)
+            Vector2 p2,
+            ref Vector2 Intersection)
         {
             Vector2 v = Vector2.Normalize(p2 - p1); //レイの進行ベクトル
             Vector2 v1 = p1 - p0; //レイの始点から境界円の中心までのベクトル
@@ -117,10 +118,12 @@ namespace OBG.Device
                     else
                         return false;
                 }
-                //Intersection = p1 + t * v;
+                Intersection = p1 + t * v;
                 return true;
             }
             return false;
         }
+
+        
     }
 }

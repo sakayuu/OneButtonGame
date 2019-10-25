@@ -29,6 +29,7 @@ namespace OBG.Scene
         private int time = 3;
         public static bool timeflag = false;
         private float area;
+        private Vector2 targetpos;
         public GamePlay()
         {
             isEndFlag = false;
@@ -45,6 +46,10 @@ namespace OBG.Scene
             //背景を描画
             //renderer.DrawTexture("stage", Vector2.Zero);
             renderer.DrawTexture("back2", Vector2.Zero);
+            if(Ball.ballState == BallState.Free)
+            {
+                renderer.DrawTexture("target", characterManager.pin.GetPosition());
+            }
             
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
             renderer.DrawNumber("number1", new Vector2(200, 13), area);
@@ -119,6 +124,11 @@ namespace OBG.Scene
         public void Update(GameTime gameTime)
         {
             characterManager.Update(gameTime); //キャラ一括更新
+            if (Ball.ballState == BallState.Free)
+            {
+                characterManager.pin = null;
+                characterManager.GetAngleForBallToPins();
+            }
             
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 isEndFlag = true;
