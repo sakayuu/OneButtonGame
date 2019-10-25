@@ -13,12 +13,14 @@ namespace OBG.Actor
         IGameMediator mediator;
         CharacterManager characterManager;
         public Vector2 Pposition;
+        private float speed;
         public Enemy(string name, Vector2 position, IGameMediator mediator)
         {
             this.position = position;
             this.name = name;
             this.mediator = mediator;
             pixelSize = 64;
+            speed = 1.0f;
         }
         public void AddActor(Character character)
         {
@@ -49,7 +51,15 @@ namespace OBG.Actor
             {
                 Vector2 direction = Pposition - position;
                 direction.Normalize();
-                position += direction * 1.0f;
+                position += direction * speed;
+            }
+            if(Ball.ballState == BallState.Free)
+            {
+                speed = 1.0f;
+            }
+            if(Ball.ballState == BallState.Link)
+            {
+                speed = 2.0f;
             }
         }
         

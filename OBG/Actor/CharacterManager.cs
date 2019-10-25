@@ -181,7 +181,7 @@ namespace OBG.Actor
             //死亡時に削除
             RemoveDeadCharacters();
 
-            if (ball.ballState == BallState.Link)
+            if (Ball.ballState == BallState.Link)
             {
                 //Debug.WriteLine(ball.nowPinNum);
                 if (MathCollision.Circle_Segment(enemy.GetPosition() + new Vector2(32, 32),

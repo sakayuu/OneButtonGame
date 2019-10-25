@@ -97,14 +97,11 @@ namespace OBG
             renderer.LoadContent("pinmovie2", filepathT);
             renderer.LoadContent("pinwaku1", filepathT);
             renderer.LoadContent("Playerwaku1", filepathT);
-<<<<<<< HEAD
             renderer.LoadContent("number", filepathT);
-=======
             renderer.LoadContent("irisT", filepathT);
             renderer.LoadContent("Virusbastard", filepathT);
             renderer.LoadContent("Virusbastard1", filepathT);
             renderer.LoadContent("Push", filepathT);
->>>>>>> origin/sakai
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
@@ -155,19 +152,7 @@ namespace OBG
             gameDevice.Update(gameTime);
 
             sceneManager.Update(gameTime);
-            //if (Input.GetKeyTrigger(Keys.P))
-            //{
-            //    ball.moveFlag = true;
-            //    ball.GetMoveDirection(pin.GetPinPosition());
-            //}
-            //if (CheckDistance(ball.GetBallPos(), pin.GetPinPosition()) < 20)
-            //{
-            //    ball.moveFlag = false;
-            //    flag = true;
-            //}
-
-            //if (flag)
-            //    ball.SetBallPos(pin.GetCatchPos());
+            
 
             // この上にロジックを記述
             base.Update(gameTime); // 親クラスの更新処理呼び出し。絶対に消すな！！
