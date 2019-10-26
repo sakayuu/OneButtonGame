@@ -195,6 +195,7 @@ namespace OBG.Actor
                 if (MathCollision.Circle_Segment(enemy.GetPosition() + new Vector2(32, 32),
                             32, ball.GetPosition(), ball.pPosition))
                 {
+
                     ball.Hit(pin);
                 }
 
@@ -208,8 +209,18 @@ namespace OBG.Actor
                         ball.Hit(pin);
                     }
                 }
+                foreach (var a in cols)
+                {
+                    a.GetBallState(BallState.Link);
+                }
 
 
+            }else
+            {
+                foreach (var a in cols)
+                {
+                    a.GetBallState(BallState.Free);
+                }
             }
         }
 
