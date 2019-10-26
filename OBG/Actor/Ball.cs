@@ -89,9 +89,9 @@ namespace OBG.Actor
         {
             rndNum = rnd.Next(0, 2);
             if (rndNum == 0)
-                mediator.AddActor(new RayLine("particleSmall", position));
+                mediator.AddActor(new RayLine("sikaku", position));
             else
-                mediator.AddActor(new RayLine("particle", position));
+                mediator.AddActor(new RayLine("sikaku2", position));
 
 
             if (LRflag)

@@ -55,7 +55,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            renderer.DrawTexture(name, position, null, 0.0f, Vector2.Zero, new Vector2(rndNum), SpriteEffects.None, 0.25f, 1 - timer.Rate());
+            renderer.DrawTexture(name, position, null, 0.0f, Vector2.Zero, new Vector2(rndNum/94), SpriteEffects.None, 1, 1 - timer.Rate());
         }
 
         public void SetMyPosition(Vector2 pos)

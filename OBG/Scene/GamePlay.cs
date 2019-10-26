@@ -19,6 +19,8 @@ namespace OBG.Scene
         stage1,
         stage2,
         stage3,
+        stage4,
+        stage5
     }
     class GamePlay : IScene, IGameMediator
     {
@@ -75,34 +77,49 @@ namespace OBG.Scene
             //キャラクターマネージャーの実体生成
 
             characterManager = new CharacterManager();
-            Ball ball = new Ball("Player4", new Vector2(300, 300), this);
+            Ball ball = new Ball("Player4", new Vector2(400, 800), this);
             characterManager.Add(ball);
             Ball.ballState = BallState.Start;
             if (stage == Stage.stage1)
             {
-                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400), 0, this));
+                Enemy enemy = new Enemy("Enemy1", new Vector2(9000, 9000), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 0, this));
-                characterManager.Add(new Pin("pinmusic2", new Vector2(100, 100), 1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400), 2, this));
-                characterManager.Add(new Pin("pinmovie2", new Vector2(800, 800), 3, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(100, 800), 4, this));
             }
             if (stage == Stage.stage2)
             {
-                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("Enemy1", new Vector2(9000, 9000), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 0, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300), 1, this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400), 2, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(200, 200), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(550, 550), 1, this));
             }
             if (stage == Stage.stage3)
             {
-                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("Enemy1", new Vector2(9000, 9000), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 0, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pin", new Vector2(750, 400), 1, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 300), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(250, 500), 1, this));
+                characterManager.Add(new Pin("pingame2", new Vector2(550, 500), 2, this));
             }
+            if (stage == Stage.stage4)
+            {
+                Enemy enemy = new Enemy("Enemy1", new Vector2(400, 100), this);
+                characterManager.Add(enemy);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(200, 200), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 400), 1, this));
+                characterManager.Add(new Pin("pingame2", new Vector2(600, 600), 2, this));
+            }
+            if (stage == Stage.stage5)
+            {
+                Enemy enemy = new Enemy("Enemy1", new Vector2(400, 100), this);
+                characterManager.Add(enemy);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(200, 200), 1, this));
+                characterManager.Add(new Pin("pingame2", new Vector2(600, 600), 2, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(600, 200), 3, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(200, 600), 4, this));
+            }
+
             foreach (var a in characterManager.GetList())
             {
                 a.GetField(0);
@@ -209,37 +226,72 @@ namespace OBG.Scene
             }
             pasent = (NowField / AllField) * 100;
             Debug.WriteLine(pasent);
-            if (pasent >= area)
-            {
+
                 switch (stage)
                 {
                     case Stage.stage1:
                         if (Input.GetKeyRelease(Keys.Enter))
                         {
+                        if (pasent >= area)
+                        {
+
                             stage = Stage.stage2;
                             Initialize();
                             NowField = 0;
                         }
-
-                        break;
+                        }
+                    area = 50;
+                    break;
                     case Stage.stage2:
                         if (Input.GetKeyRelease(Keys.Enter))
+                        {
+                        if (pasent >= area)
                         {
                             stage = Stage.stage3;
                             Initialize();
                             NowField = 0;
                         }
-                        break;
+                        }
+                    area = 50;
+                    break;
                     case Stage.stage3:
                         if (Input.GetKeyRelease(Keys.Enter))
+                        {
+                        if (pasent >= area)
+                        {
+                            NowField = 0;
+                            stage = Stage.stage4;
+                            Initialize();
+                        }
+                        }
+                    area = 30;
+                    break;
+                case Stage.stage4:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
+                        if (pasent >= area)
+                        {
+                            NowField = 0;
+                            stage = Stage.stage5;
+                            Initialize();
+                        }
+                    }
+                    area = 10;
+                    break;
+                case Stage.stage5:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
+                        if (pasent >= area)
                         {
                             NowField = 0;
                             stage = Stage.stage1;
                             isEndFlag = true;
                         }
-                        break;
-                }
+                    }
+                    area = 30;
+                    break;
             }
+            
 
         }
 
