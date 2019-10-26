@@ -31,7 +31,7 @@ namespace OBG.Scene
 
             renderer.Begin();
             renderer.DrawTexture("ending", new Vector2(150, 150));
-            renderer.DrawTexture("Player1", new Vector2(200));
+            //renderer.DrawTexture("Player1", new Vector2(200));
             renderer.End();
         }
 
