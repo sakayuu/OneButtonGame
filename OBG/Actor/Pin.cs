@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OBG.Scene;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace OBG.Actor
 {
@@ -100,7 +101,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            base.Draw(renderer);
+            renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
             if (effect <= 0)
             {
                 effect = 1;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using OBG.Device;
 using OBG.Util;
 using System;
@@ -241,12 +242,13 @@ namespace OBG.Actor
         public void Draw(Renderer renderer)
         {
             //全キャラ描画
-            ball.Draw(renderer);
             enemy.Draw(renderer);
             foreach (var p in pins)
             {
                 p.Draw(renderer);
             }
+            ball.Draw(renderer);
+            
             if (cols.Count > 0)
                 foreach (var col in cols)
                 {

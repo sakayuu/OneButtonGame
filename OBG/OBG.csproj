@@ -59,6 +59,7 @@
     <Compile Include="Primitives2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scene\Clear.cs" />
     <Compile Include="Scene\Ending.cs" />
     <Compile Include="Scene\GamePlay.cs" />
     <Compile Include="Scene\IGameMediator.cs" />

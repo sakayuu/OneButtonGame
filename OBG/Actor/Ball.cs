@@ -176,7 +176,7 @@ namespace OBG.Actor
             {
                 if (ballState == BallState.Start)
                 {
-                    position += new Vector2(0, -1) * (speed / 10);
+                    //position += new Vector2(0, -1) * (speed / 10);
                     nowVector = new Vector2(0, -1) * (speed / 10);
                 }
                 if (ballState == BallState.Free) //移動可能なら
@@ -282,12 +282,12 @@ namespace OBG.Actor
             if (!isDeadFlag)
                 if (ballState == BallState.Link)
                 {
+                    renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
                     renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
-                    renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
                 }
                 else
                 {
-                    renderer.DrawTexture("Player2", position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 0.5f);
+                    renderer.DrawTexture("Player2", position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
                 }
             if (effect <= 0)
             {

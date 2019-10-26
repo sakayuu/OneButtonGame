@@ -36,7 +36,7 @@ namespace OBG.Scene
 
         public Timer timer;
 
-
+        Scene nextScene;
         public GamePlay()
         {
             isEndFlag = false;
@@ -51,16 +51,15 @@ namespace OBG.Scene
             //描画開始
             renderer.Begin();
             //背景を描画
-            //renderer.DrawTexture("stage", Vector2.Zero);
-            renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
+            renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
+
+            characterManager.Draw(renderer);//キャラクター管理者の描画
             if (Ball.ballState == BallState.Free)
             {
-                renderer.DrawTexture("target", characterManager.pin.GetPosition());
+                renderer.DrawTexture("target", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
             }
-
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
             renderer.DrawNumber("number1", new Vector2(200, 13), area);
-            characterManager.Draw(renderer);//キャラクター管理者の描画
             if (timeflag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
@@ -134,7 +133,9 @@ namespace OBG.Scene
 
         public Scene Next()
         {
-            Scene nextScene = Scene.Title;
+            if (characterManager.GetBall().IsDead())
+                nextScene = Scene.Ending;
+
             return nextScene;
         }
 
@@ -186,8 +187,7 @@ namespace OBG.Scene
 
                     Vector3 w = Vector3.Cross(new Vector3(vec.X, vec.Y, 0), new Vector3(vec2.X, vec2.Y, 0));
 
-                    if (/*characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X*/
-                        w.Z > 0)
+                    if (w.Z > 0)
                     {
                         characterManager.GetBall().LRflag = true;
 
@@ -227,43 +227,49 @@ namespace OBG.Scene
             pasent = (NowField / AllField) * 100;
             Debug.WriteLine(pasent);
 
-                switch (stage)
-                {
-                    case Stage.stage1:
-                        if (Input.GetKeyRelease(Keys.Enter))
-                        {
+            switch (stage)
+            {
+                case Stage.stage1:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
                         if (pasent >= area)
                         {
 
                             stage = Stage.stage2;
-                            Initialize();
+                            nextScene = Scene.Clear;
+                            isEndFlag = true;
+                            //Initialize();
                             NowField = 0;
                         }
-                        }
+                    }
                     area = 50;
                     break;
-                    case Stage.stage2:
-                        if (Input.GetKeyRelease(Keys.Enter))
-                        {
+                case Stage.stage2:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
                         if (pasent >= area)
                         {
                             stage = Stage.stage3;
-                            Initialize();
+                            //Initialize();
+                            nextScene = Scene.Clear;
+                            isEndFlag = true;
                             NowField = 0;
                         }
-                        }
+                    }
                     area = 50;
                     break;
-                    case Stage.stage3:
-                        if (Input.GetKeyRelease(Keys.Enter))
-                        {
+                case Stage.stage3:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
                         if (pasent >= area)
                         {
                             NowField = 0;
                             stage = Stage.stage4;
-                            Initialize();
+                            //Initialize();
+                            nextScene = Scene.Clear;
+                            isEndFlag = true;
                         }
-                        }
+                    }
                     area = 30;
                     break;
                 case Stage.stage4:
@@ -273,7 +279,9 @@ namespace OBG.Scene
                         {
                             NowField = 0;
                             stage = Stage.stage5;
-                            Initialize();
+                            nextScene = Scene.Clear;
+                            //Initialize();
+                            isEndFlag = true;
                         }
                     }
                     area = 10;
@@ -285,13 +293,14 @@ namespace OBG.Scene
                         {
                             NowField = 0;
                             stage = Stage.stage1;
+                            nextScene = Scene.Ending;
                             isEndFlag = true;
                         }
                     }
                     area = 30;
                     break;
             }
-            
+
 
         }
 
