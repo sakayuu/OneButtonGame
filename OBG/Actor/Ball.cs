@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using OBG.Def;
 using OBG.Device;
@@ -278,15 +279,16 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            if (ballState == BallState.Link)
-            {
-                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
-                base.Draw(renderer);
-            }
-            else
-            {
-                renderer.DrawTexture("Player2", position, 0.5f);
-            }
+            if (!isDeadFlag)
+                if (ballState == BallState.Link)
+                {
+                    renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
+                    renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
+                }
+                else
+                {
+                    renderer.DrawTexture("Player2", position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 0.5f);
+                }
             if (effect <= 0)
             {
                 effect = 1;

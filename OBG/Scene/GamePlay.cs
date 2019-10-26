@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using OBG.Actor;
 using OBG.Def;
@@ -49,7 +50,7 @@ namespace OBG.Scene
             renderer.Begin();
             //背景を描画
             //renderer.DrawTexture("stage", Vector2.Zero);
-            renderer.DrawTexture("back2", Vector2.Zero);
+            renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
             if (Ball.ballState == BallState.Free)
             {
                 renderer.DrawTexture("target", characterManager.pin.GetPosition());
@@ -166,10 +167,10 @@ namespace OBG.Scene
                     Vector2 vec = characterManager.GetBall().GetVector();
                     Vector2 vec2 = characterManager.pin.GetPosition() - characterManager.GetBall().GetPosition();
 
-                    Vector3 w = Vector3.Cross(new Vector3(vec.X, vec.Y, 0),new Vector3(vec2.X, vec2.Y, 0));
-                    
+                    Vector3 w = Vector3.Cross(new Vector3(vec.X, vec.Y, 0), new Vector3(vec2.X, vec2.Y, 0));
+
                     if (/*characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X*/
-                        w.Z >0)
+                        w.Z > 0)
                     {
                         characterManager.GetBall().LRflag = true;
 
