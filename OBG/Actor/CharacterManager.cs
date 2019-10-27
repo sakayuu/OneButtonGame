@@ -28,7 +28,7 @@ namespace OBG.Actor
 
         public List<DeathEffect> deathEffects;
 
-        
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -70,7 +70,7 @@ namespace OBG.Actor
                 addNewCharacters.Clear();
             else
                 addNewCharacters = new List<Character>();
-            
+
         }
 
         /// <summary>
@@ -96,8 +96,9 @@ namespace OBG.Actor
 
         public void AddCollider(Collider collider, int pinNum)
         {
-            cols.Remove(cols[pinNum]);
             cols.Insert(pinNum, collider);
+            cols.RemoveAt(pinNum + 1);
+            Debug.WriteLine(pinNum);
         }
 
         /// <summary>
@@ -117,7 +118,7 @@ namespace OBG.Actor
                 {
                     ball.Hit(pin);
                 }
-                
+
             }
 
             if (cols.Count > 0)
@@ -216,7 +217,8 @@ namespace OBG.Actor
                 }
 
 
-            }else
+            }
+            else
             {
                 foreach (var a in cols)
                 {
@@ -248,7 +250,7 @@ namespace OBG.Actor
                 p.Draw(renderer);
             }
             ball.Draw(renderer);
-            
+
             if (cols.Count > 0)
                 foreach (var col in cols)
                 {

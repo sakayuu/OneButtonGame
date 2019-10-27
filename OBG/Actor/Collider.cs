@@ -65,7 +65,7 @@ namespace OBG.Actor
                     position.Y + (-pixelSize / 2 + 32)), null, Color.DarkRed * 0.5f, 0.0f, Vector2.Zero,
                     new Vector2(pixelSize / 1280, pixelSize / 1280));
             
-            Debug.WriteLine(ballState);
+            //Debug.WriteLine(ballState);
 
         }
 

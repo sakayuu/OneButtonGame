@@ -215,6 +215,10 @@ namespace OBG.Scene
                 else if (Ball.ballState == BallState.Free)
                 {
                     characterManager.pin.catchFlag = false;
+                    foreach (var pin in characterManager.GetList())
+                    {
+                        pin.catchFlag = false;
+                    }
                     characterManager.GetBall().freeFlag = true;
                 }
 
@@ -225,14 +229,14 @@ namespace OBG.Scene
                 NowField += a.SetField();
             }
             pasent = (NowField / AllField) * 100;
-            Debug.WriteLine(pasent);
+            //Debug.WriteLine(pasent);
 
             switch (stage)
             {
                 case Stage.stage1:
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
-                        if (pasent >= area)
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
 
                             stage = Stage.stage2;
@@ -247,7 +251,7 @@ namespace OBG.Scene
                 case Stage.stage2:
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
-                        if (pasent >= area)
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             stage = Stage.stage3;
                             //Initialize();
@@ -261,7 +265,7 @@ namespace OBG.Scene
                 case Stage.stage3:
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
-                        if (pasent >= area)
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
                             stage = Stage.stage4;
@@ -275,7 +279,7 @@ namespace OBG.Scene
                 case Stage.stage4:
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
-                        if (pasent >= area)
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
                             stage = Stage.stage5;
@@ -289,11 +293,11 @@ namespace OBG.Scene
                 case Stage.stage5:
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
-                        if (pasent >= area)
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
                             stage = Stage.stage1;
-                            nextScene = Scene.Ending;
+                            nextScene = Scene.Title;
                             isEndFlag = true;
                         }
                     }
