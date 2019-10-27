@@ -58,6 +58,7 @@ namespace OBG.Actor
         private bool yflag = false;
         private bool effectfrag;
         private float effect;
+        public bool Lhitflag;
         private Vector2 effectpos;
 
         Random rnd = new Random();
@@ -83,6 +84,7 @@ namespace OBG.Actor
             ballState = BallState.Start;
             nowPinNum = 0;
             nowVector = position;
+            Lhitflag = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -279,16 +281,23 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
+            if (ballState == BallState.Link && Lhitflag == true)
+            {
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
+                //base.Draw(renderer);
+            }
             if (!isDeadFlag)
-                if (ballState == BallState.Link)
-                {
+            if (ballState == BallState.Link)
+            {
                     renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
-                    renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
-                }
-                else
-                {
+                    renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.White);
+            }
+                
+
+            else
+            {
                     renderer.DrawTexture("Player2", position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
-                }
+            }
             if (effect <= 0)
             {
                 effect = 1;

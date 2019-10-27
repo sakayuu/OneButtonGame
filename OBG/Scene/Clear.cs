@@ -57,6 +57,7 @@ namespace OBG.Scene
             if (Input.GetKeyTrigger(Keys.Enter))
             {
                 isEndFlag = true;
+                
                 //sound.PlaySE("endingse");
             }
         }

@@ -32,6 +32,7 @@ namespace OBG.Scene
         private float timecount;
         private int time = 3;
         public static bool timeflag = false;
+        public bool clearflag = false;
         private float area;
 
         public Timer timer;
@@ -60,9 +61,13 @@ namespace OBG.Scene
             }
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
             renderer.DrawNumber("number1", new Vector2(200, 13), area);
-            if (timeflag == false)
+            if (timeflag == false && Transition.irisState == Transition.IrisState.None && isEndFlag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
+            }
+            if (timeflag == true && time == 0)
+            {
+                renderer.DrawTexture("Ggo2", new Vector2(200, 350));
             }
 
             renderer.End();
@@ -152,27 +157,34 @@ namespace OBG.Scene
                 characterManager.pin = null;
                 characterManager.GetAngleForBallToPins();
             }
-
+            
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 timer.Update(gameTime);
             if (timer.IsTime())
                 isEndFlag = true;
-
-
-            if (timecount >= 60 && timeflag == false)
-            {
-                time--;
-                timecount = 0;
-            }
-            if (timeflag == false)
+            if (Transition.irisState == Transition.IrisState.None)
             {
                 timecount++;
-            }
-            if (time <= 0)
-            {
-                timeflag = true;
-            }
+                if (timeflag == false)
+                {
+                    if (timecount >= 60)
+                    {
+                        time--;
+                        timecount = 0;
+                    }
+                    
+                }
+                
+                if (time <= 0)
+                {
+                    timeflag = true;
+                    if (timecount >= 60)
+                    {
+                        time = 4;
+                    }
 
+                }
+            }
 
             if (timeflag == true)
             {
@@ -229,68 +241,84 @@ namespace OBG.Scene
                 NowField += a.SetField();
             }
             pasent = (NowField / AllField) * 100;
-            //Debug.WriteLine(pasent);
-
+            Debug.WriteLine(clearflag);
             switch (stage)
             {
                 case Stage.stage1:
+                    
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
-
+                            
                             stage = Stage.stage2;
                             nextScene = Scene.Clear;
                             isEndFlag = true;
                             //Initialize();
                             NowField = 0;
+                            timeflag = false;
                         }
                     }
+                    
                     area = 50;
                     break;
+                    
                 case Stage.stage2:
+                    
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
+                            
                             stage = Stage.stage3;
                             //Initialize();
                             nextScene = Scene.Clear;
                             isEndFlag = true;
                             NowField = 0;
+                            timeflag = false;
                         }
                     }
                     area = 50;
                     break;
+                    
                 case Stage.stage3:
+                    
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
+                            
                             NowField = 0;
                             stage = Stage.stage4;
                             //Initialize();
                             nextScene = Scene.Clear;
                             isEndFlag = true;
+                            timeflag = false;
                         }
                     }
+                   
                     area = 30;
                     break;
                 case Stage.stage4:
+                    
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
+                            
                             NowField = 0;
                             stage = Stage.stage5;
                             nextScene = Scene.Clear;
                             //Initialize();
                             isEndFlag = true;
+                            timeflag = false;
                         }
                     }
+                   
                     area = 10;
                     break;
                 case Stage.stage5:
+                    
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
@@ -299,6 +327,7 @@ namespace OBG.Scene
                             stage = Stage.stage1;
                             nextScene = Scene.Title;
                             isEndFlag = true;
+                            timeflag = false;
                         }
                     }
                     area = 30;
