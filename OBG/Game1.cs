@@ -101,6 +101,7 @@ namespace OBG
             renderer.LoadContent("pingame2", filepathT);
             renderer.LoadContent("pinwaku1", filepathT);
             renderer.LoadContent("Playerwaku1", filepathT);
+            renderer.LoadContent("Playerwaku", filepathT);
             renderer.LoadContent("number", filepathT);
             renderer.LoadContent("number1", filepathT);
             renderer.LoadContent("Enemy1", filepathT);
@@ -111,6 +112,7 @@ namespace OBG
             renderer.LoadContent("Virusbastard1", filepathT);
             renderer.LoadContent("Push", filepathT);
             renderer.LoadContent("target", filepathT);
+            renderer.LoadContent("target1", filepathT);
             renderer.LoadContent("sikaku", filepathT);
             renderer.LoadContent("sikaku2", filepathT);
             renderer.LoadContent("gameover", filepathT);
@@ -124,14 +126,17 @@ namespace OBG
 
 
 
-            sound.LoadBGM("titlebgm", filepathS);
-            sound.LoadBGM("gameplaybgm", filepathS);
+            sound.LoadBGM("TitleBGM", filepathS);
+            sound.LoadBGM("GameBGM", filepathS);
             sound.LoadBGM("endingbgm", filepathS);
             sound.LoadBGM("congratulation", filepathS);
 
             sound.LoadSE("titlese", filepathS);
             sound.LoadSE("gameplayse", filepathS);
             sound.LoadSE("endingse", filepathS);
+            sound.LoadSE("serect", filepathS);
+            sound.LoadSE("field", filepathS);
+            sound.LoadSE("reflect", filepathS);
 
             // この上にロジックを記述
         }

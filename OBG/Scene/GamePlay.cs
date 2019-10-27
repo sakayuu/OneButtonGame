@@ -37,9 +37,12 @@ namespace OBG.Scene
 
         public Timer timer;
 
+        private Sound sound;//サウンドオブジェクト
         Scene nextScene;
         public GamePlay()
         {
+            var gamedevice = GameDevice.Instance();
+            sound = gamedevice.GetSound();
             isEndFlag = false;
             var gameDevice = GameDevice.Instance();
             stage = Stage.stage1;
@@ -56,7 +59,7 @@ namespace OBG.Scene
 
             if (Ball.ballState == BallState.Free)
             {
-                renderer.DrawTexture("target", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
+                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, new Vector2(1,1), SpriteEffects.None, 0, 1);
             }
             characterManager.Draw(renderer);//キャラクター管理者の描画
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
@@ -325,7 +328,7 @@ namespace OBG.Scene
                         {
                             NowField = 0;
                             stage = Stage.stage1;
-                            nextScene = Scene.Ending;
+                            nextScene = Scene.Clear;
                             isEndFlag = true;
                             timeflag = false;
                         }
@@ -333,6 +336,7 @@ namespace OBG.Scene
                     area = 30;
                     break;
             }
+            sound.PlayBGM("GameBGM");
 
 
         }

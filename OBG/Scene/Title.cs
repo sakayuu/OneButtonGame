@@ -36,7 +36,6 @@ namespace OBG.Scene
             var gamedevice = GameDevice.Instance();
             sound = gamedevice.GetSound();
             changescene = false;
-            count = 0;
         }
 
         /// <summary>
@@ -141,7 +140,8 @@ namespace OBG.Scene
         public void Initialize()
         {
             isEndFlag = false;
-
+            count = 0;
+            changescene = false;
         }
 
         /// <summary>
@@ -185,13 +185,13 @@ namespace OBG.Scene
                 yflag = true;
             if (ypos > 30)
                 yflag = false;
-            sound.PlayBGM("titlebgm");
+            sound.PlayBGM("TitleBGM");
 
             //スペースキーが押されたか？
             if (Input.GetKeyRelease(Keys.Enter))
             {
                 changescene = true;
-                sound.PlaySE("titlese");
+                sound.PlaySE("serect");
             }
             if (changescene)
                 count++;

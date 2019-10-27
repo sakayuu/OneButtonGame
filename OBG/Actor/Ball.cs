@@ -60,7 +60,7 @@ namespace OBG.Actor
         private float effect;
         public bool Lhitflag;
         private Vector2 effectpos;
-
+        private Sound sound;//サウンドオブジェクト
         Random rnd = new Random();
         int rndNum;
 
@@ -68,6 +68,8 @@ namespace OBG.Actor
 
         public Ball(string name, Vector2 position, IGameMediator mediator)
         {
+            var gamedevice = GameDevice.Instance();
+            sound = gamedevice.GetSound();
             this.position = position;
             this.name = name;
             this.mediator = mediator;
@@ -197,6 +199,7 @@ namespace OBG.Actor
                             effectpos = position;
                             rad *= -1;
                             effectfrag = true;
+                            sound.PlaySE("reflect");
                         }
                         if (position.Y < 0 && yflag == false && hitflag == false
                             || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
@@ -206,6 +209,7 @@ namespace OBG.Actor
                             rad *= -1;
                             yflag = true;
                             effectfrag = true;
+                            sound.PlaySE("reflect");
                         }
                         if (position.Y < 0 && yflag == true && hitflag == false
                             || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
@@ -215,6 +219,7 @@ namespace OBG.Actor
                             rad *= -1;
                             yflag = false;
                             effectfrag = true;
+                            sound.PlaySE("reflect");
                         }
                         if (yflag == true)
                         {
@@ -309,7 +314,7 @@ namespace OBG.Actor
             }
             if (effectfrag == true)
             {
-                renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(1f, 1f),
+                renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(64/1280f, 64/1280f),
         new Vector2((1 * (1.5f - effect)), (1 * (1.5f - effect))));
             }
         }
