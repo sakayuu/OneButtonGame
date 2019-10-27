@@ -24,7 +24,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            renderer.DrawTexture(name, position, null, new Color(255, 255, rnd.Next(0, 255)), 0, Vector2.Zero, new Vector2(rnd.Next(2, 5)), SpriteEffects.None, 0, 1);
+            renderer.DrawTexture(name, position, null,Color.White*1.0f, 0, Vector2.Zero, new Vector2(rnd.Next(1, 3)), SpriteEffects.None, 0, 1);
         }
 
         public override void Hit(Character other)

@@ -250,12 +250,12 @@ namespace OBG.Scene
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
-
+                            NowField = 0;
                             stage = Stage.stage2;
                             nextScene = Scene.Clear;
                             isEndFlag = true;
                             //Initialize();
-                            NowField = 0;
+
                             timeflag = false;
                         }
                     }
@@ -269,12 +269,12 @@ namespace OBG.Scene
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
-
+                            NowField = 0;
                             stage = Stage.stage3;
                             //Initialize();
                             nextScene = Scene.Clear;
                             isEndFlag = true;
-                            NowField = 0;
+
                             timeflag = false;
                         }
                     }
@@ -297,7 +297,7 @@ namespace OBG.Scene
                         }
                     }
 
-                    area = 30;
+                    area = 20;
                     break;
                 case Stage.stage4:
 

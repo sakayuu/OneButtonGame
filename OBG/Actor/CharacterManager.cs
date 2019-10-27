@@ -112,7 +112,7 @@ namespace OBG.Actor
                 ball.Hit(enemy);
                 if (i <= 10)
                 {
-                    deathEffects.Add(new DeathEffect("particleBlue", ball.GetPosition()));
+                    deathEffects.Add(new DeathEffect("Playerwaku1", ball.GetPosition()));
                     i++;
                 }
 
