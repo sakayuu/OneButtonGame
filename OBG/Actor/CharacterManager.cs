@@ -28,7 +28,7 @@ namespace OBG.Actor
 
         public List<DeathEffect> deathEffects;
 
-
+        int i; //パーティクルの個数制御用カウンタ
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -70,7 +70,7 @@ namespace OBG.Actor
                 addNewCharacters.Clear();
             else
                 addNewCharacters = new List<Character>();
-
+            i = 0;
         }
 
         /// <summary>
@@ -110,7 +110,12 @@ namespace OBG.Actor
             {
                 enemy.Hit(ball);
                 ball.Hit(enemy);
-                deathEffects.Add(new DeathEffect("Playerwaku1", ball.GetPosition()));
+                if (i <= 10)
+                {
+                    deathEffects.Add(new DeathEffect("particleBlue", ball.GetPosition()));
+                    i++;
+                }
+
             }
             foreach (var pin in pins) //ピンで繰り返し
             {
@@ -259,7 +264,7 @@ namespace OBG.Actor
                     col.Draw(renderer);
                 }
 
-            if (rayLines.Count != 0)
+            if (rayLines.Count != 0 && !ball.IsDead())
                 foreach (var rl in rayLines)
                 {
                     rl.Draw(renderer);

@@ -178,10 +178,10 @@ namespace OBG.Actor
             {
                 if (ballState == BallState.Start)
                 {
-                    //position += new Vector2(0, -1) * (speed / 10);
+                    position += new Vector2(0, -1) * (speed / 10);
                     nowVector = new Vector2(0, -1) * (speed / 10);
                 }
-                if (ballState == BallState.Free) //移動可能なら
+                if (ballState == BallState.Free && !IsDead()) //移動可能なら
                 {
                     if (freeFlag)
 
@@ -234,7 +234,7 @@ namespace OBG.Actor
                         ang = 0;
                     }
                 }
-                if (ballState == BallState.Link)
+                if (ballState == BallState.Link && !IsDead())
                 {
                     yflag = false;
                     Xflag = true;
@@ -287,17 +287,17 @@ namespace OBG.Actor
                 //base.Draw(renderer);
             }
             if (!isDeadFlag)
-            if (ballState == BallState.Link)
-            {
+                if (ballState == BallState.Link)
+                {
                     renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
                     renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.White);
-            }
-                
+                }
 
-            else
-            {
+
+                else
+                {
                     renderer.DrawTexture("Player2", position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
-            }
+                }
             if (effect <= 0)
             {
                 effect = 1;
