@@ -28,6 +28,7 @@ namespace OBG.Scene
         private float timecount ;
         private int time = 3;
         public static bool timeflag = false;
+        public bool clearflag = false;
         private float area;
         public GamePlay()
         {
@@ -56,6 +57,10 @@ namespace OBG.Scene
             if(timeflag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
+            }
+            if(timeflag == true && time == 0)
+            {
+                renderer.DrawTexture("Ggo2", new Vector2(200, 350));
             }
             
             renderer.End();
@@ -101,7 +106,11 @@ namespace OBG.Scene
             {
                 a.GetField(0);
             }
-
+            if(clearflag == true)
+            {
+                timeflag = false;
+                clearflag = false;
+            }
         }
 
         public bool IsEnd()
@@ -122,9 +131,11 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
+            
             characterManager.Update(gameTime); //キャラ一括更新
             if (Ball.ballState == BallState.Free)
             {
+                characterManager.GetBall().freeFlag = false;
                 characterManager.pin = null;
                 characterManager.GetAngleForBallToPins();
             }
@@ -132,29 +143,35 @@ namespace OBG.Scene
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 isEndFlag = true;
             
-            
-            if (timecount >= 60 && timeflag == false)
+            if(Transition.irisState == Transition.IrisState.None)
             {
-                time--;
-                timecount = 0;
-            }
-            if(timeflag == false)
-            {
+                if (timecount >= 60 && timeflag == false)
+                {
+                    time--;
+                    timecount = 0;
+                }
                 timecount++;
+                if (time <= 0)
+                {
+                    timeflag = true;
+                    if (timecount >= 60)
+                    {
+                        time = 3;
+                    }
+
+                }
             }
-            if(time <= 0)
-            {
-                timeflag = true;
-            }
+            
 
 
             if (timeflag == true)
             {
                 if (Input.GetKeyTrigger(Keys.Enter))
                 {
-                    characterManager.GetBall().freeFlag = false;
                     characterManager.pin = null;
                     characterManager.GetAngleForBallToPins();
+                    characterManager.GetBall().freeFlag = false;
+                    
 
                     if (characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X)
                     {
@@ -194,17 +211,20 @@ namespace OBG.Scene
                 NowField += a.SetField();
             }
             pasent = (NowField / AllField) * 100;
-            Debug.WriteLine(pasent);
+            Debug.WriteLine(clearflag);
             if (pasent>=area)
             {
+                clearflag = true;
                 switch (stage)
                 {
                     case Stage.stage1:
                         if(Input.GetKeyRelease (Keys.Enter))
                         {
+                            
                             stage = Stage.stage2;
                             Initialize();
                             NowField = 0;
+                            clearflag = false;
                         }
 
                         break;
@@ -214,6 +234,7 @@ namespace OBG.Scene
                             stage = Stage.stage3;
                             Initialize();
                             NowField = 0;
+                            clearflag = false;
                         }
                         break;
                     case Stage.stage3:
@@ -222,9 +243,11 @@ namespace OBG.Scene
                             NowField = 0;
                             stage = Stage.stage1;
                             isEndFlag = true;
+                            clearflag = false;
                         }
                         break;
                 }
+                
             }
             
         }

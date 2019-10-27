@@ -317,7 +317,7 @@ namespace OBG.Device
         /// <param name="pos2">線の終わり</param>
         public void DrawLine(Vector2 pos1, Vector2 pos2 , Color color)
         {
-            Primitives2D.DrawLine(spriteBatch, pos1, pos2, Color.Azure, 10);
+            Primitives2D.DrawLine(spriteBatch, pos1, pos2, color, 10);
 
         }
 

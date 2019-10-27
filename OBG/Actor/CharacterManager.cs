@@ -24,7 +24,6 @@ namespace OBG.Actor
 
         public Pin pin = null;
 
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -189,6 +188,7 @@ namespace OBG.Actor
                             32, ball.GetPosition(), ball.pPosition))
                 {
                     ball.Hit(pin);
+                    ball.Lhitflag = true;
                 }
 
                 for (int i = 0; i < pins.Count; i++)
@@ -199,6 +199,7 @@ namespace OBG.Actor
                         ball.GetPosition(), ball.pPosition))
                     {
                         ball.Hit(pin);
+                        ball.Lhitflag = true;
                     }
                 }
 

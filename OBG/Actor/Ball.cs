@@ -23,6 +23,7 @@ namespace OBG.Actor
     class Ball : Character, IGameMediator
     {
         private float speed = 10f; //スピード
+        private float startspeed = 10f;
         private Vector2 distance; //目的地
         private Vector2 velocity; //移動量
         public Vector2 vector; //ベクトルの向き
@@ -36,7 +37,7 @@ namespace OBG.Actor
 
         public float angle;
         public int rr;
-
+        public bool Lhitflag;
         public Vector2 pPosition;
 
         float rad = 0;
@@ -79,31 +80,36 @@ namespace OBG.Actor
             rr = -1;
             ballState = BallState.Start;
             nowPinNum = 0;
+            Lhitflag = false;
         }
 
         public override void Update(GameTime gameTime)
         {
-            rndNum = rnd.Next(0, 2);
-            if (rndNum == 0)
-                mediator.AddActor(new RayLine("particleSmall", position));
-            else
-                mediator.AddActor(new RayLine("particle", position));
-
-
-            if (LRflag)
-                LR = 1;
-            else
-                LR = -1;
-            Move();
-            //Debug.WriteLine(rad);
-            if (hitflag == true)
+            if(isDeadFlag == false)
             {
-                count++;
-                if (count >= 5)
+                rndNum = rnd.Next(0, 2);
+                if (rndNum == 0)
+                    mediator.AddActor(new RayLine("particleSmall", position));
+                else
+                    mediator.AddActor(new RayLine("particle", position));
+
+
+                if (LRflag)
+                    LR = 1;
+                else
+                    LR = -1;
+                Move();
+                //Debug.WriteLine(rad);
+                if (hitflag == true)
                 {
-                    hitflag = false;
+                    count++;
+                    if (count >= 5)
+                    {
+                        hitflag = false;
+                    }
                 }
             }
+            
         }
 
         public override void Shutdown()
@@ -168,21 +174,21 @@ namespace OBG.Actor
 
         public override void Move()
         {
-            if(GamePlay.timeflag == true)
+            if(GamePlay.timeflag == true && Transition.irisState == Transition.IrisState.None)
             {
+                
                 if (ballState == BallState.Start)
-                    position = position + new Vector2(0, -1) * (speed / 10);
-                if (ballState == BallState.Free) //移動可能なら
+                    position = position + new Vector2(0, -1) * (startspeed / 10);
+                if (position.Y  < 0 || position.Y + pixelSize>= Screen.Width)
                 {
-                    if (freeFlag)
-                        
+                    startspeed *= -1;
+                }
+                if (ballState == BallState.Free ) //移動可能なら
+                {
+                    
+                    if (freeFlag == true)
                     {
-                        //まっすぐに移動
-                        if (position.X + pixelSize < 0 || position.X >= Screen.Width ||
-                            position.Y + pixelSize < 0 || position.Y >= Screen.Width)
-                        {
-                            isDeadFlag = true;
-                        }
+
                         if (position.X < 0 || position.X + pixelSize >= Screen.Width)
                         {
                             effectpos = position;
@@ -207,6 +213,13 @@ namespace OBG.Actor
                             yflag = false;
                             effectfrag = true;
                         }
+                        //まっすぐに移動
+                        if (position.X + pixelSize < 0 || position.X >= Screen.Width ||
+                            position.Y + pixelSize < 0 || position.Y >= Screen.Width)
+                        {
+                            isDeadFlag = true;
+                        }
+                        
                         if (yflag == true)
                         {
                             position.X += ((float)Math.Cos(rad + MathHelper.ToRadians(270)) * speed) * -LR;
@@ -219,6 +232,7 @@ namespace OBG.Actor
                         }
                         ang = 0;
                     }
+                   
                 }
                 if (ballState == BallState.Link)
                 {
@@ -263,7 +277,12 @@ namespace OBG.Actor
         {
             if (ballState == BallState.Link)
             {
-                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32),Color.Red);
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32),Color.White);
+                base.Draw(renderer);
+            }
+            if(ballState == BallState.Link && Lhitflag == true)
+            {
+                renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
                 base.Draw(renderer);
             }
             else

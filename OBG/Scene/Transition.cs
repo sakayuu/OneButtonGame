@@ -16,10 +16,10 @@ namespace OBG.Scene
         /// <summary>
         /// フェードシーン状態
         /// </summary>
-        private enum IrisState
+        public enum IrisState
         { In, Out, None };
 
-        private IrisState irisState; //現在の状態
+        public static  IrisState irisState; //現在の状態
         private Timer timer; //フェード時間
 
         //フェード切り替えの時間
