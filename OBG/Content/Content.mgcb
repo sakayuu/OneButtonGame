@@ -475,7 +475,11 @@
 /processorParam:TextureFormat=Color
 /build:Texture/kiiro.png
 
+<<<<<<< HEAD
 #begin Texture/Ggo2.png
+=======
+#begin Texture/taitle4.png
+>>>>>>> origin/hayabusa
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -485,5 +489,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+<<<<<<< HEAD
 /build:Texture/Ggo2.png
+=======
+/build:Texture/taitle4.png
+>>>>>>> origin/hayabusa
 

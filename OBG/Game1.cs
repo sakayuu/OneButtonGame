@@ -85,6 +85,7 @@ namespace OBG
             renderer.LoadContent("stage", filepathT);
             renderer.LoadContent("white", filepathT);
             renderer.LoadContent("title", filepathT);
+            renderer.LoadContent("taitle4", filepathT);
             renderer.LoadContent("ending", filepathT);
             renderer.LoadContent("particle", filepathT);
             renderer.LoadContent("particleSmall", filepathT);

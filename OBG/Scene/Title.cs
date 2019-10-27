@@ -22,6 +22,11 @@ namespace OBG.Scene
 
         private int ypos;
         private bool yflag;
+
+        private int count;
+        private bool changescene;
+
+
         ///<summary>
         ///コンストラクタ
         /// </summary>
@@ -30,6 +35,8 @@ namespace OBG.Scene
             isEndFlag = false;
             var gamedevice = GameDevice.Instance();
             sound = gamedevice.GetSound();
+            changescene = false;
+            count = 0;
         }
 
         /// <summary>
@@ -39,16 +46,92 @@ namespace OBG.Scene
         public void Draw(Renderer renderer)
         {
             renderer.Begin();
-            renderer.DrawTexture("back2", Vector2.Zero);
-            //renderer.DrawTexture("Player2", new Vector2(250, 50+ypos/2), null, Color.White * 0.5f, 0.0f, new Vector2(1f, 1f),new Vector2(10.0f,10.0f));
-            //renderer.DrawTexture("ウイルスバスター1", new Vector2(50,350+ypos/4), null, Color.White * 1.0f, -0.3f, Vector2.Zero, new Vector2(0.5f, 0.5f));
-            //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
-            renderer.DrawTexture("Player2", new Vector2(80, 50), null, Color.White * 0.1f, 0.0f, new Vector2(1f, 1f), new Vector2(12.0f, 12.0f));
-            //renderer.DrawTexture("ウイルスバスター1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
-            renderer.DrawTexture("Virusbastard1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
-            //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
-            renderer.DrawTexture("Push", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
-            //renderer.DrawVideo("PickKillerPV3_2", Vector2.Zero);
+            if(count<10)
+            {
+                renderer.DrawTexture("back2", Vector2.Zero);
+                //renderer.DrawTexture("Player2", new Vector2(250, 50+ypos/2), null, Color.White * 0.5f, 0.0f, new Vector2(1f, 1f),new Vector2(10.0f,10.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(50,350+ypos/4), null, Color.White * 1.0f, -0.3f, Vector2.Zero, new Vector2(0.5f, 0.5f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Player2", new Vector2(80, 50), null, Color.White * 0.1f, 0.0f, new Vector2(1f, 1f), new Vector2(12.0f, 12.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                renderer.DrawTexture("Virusbastard1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Push", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+            }else 
+            if(count<15)
+            {
+                renderer.DrawTexture("taitle4", new Vector2(-360,0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.85f, 0.85f));
+            }
+            else if (count < 75)
+            {
+                renderer.DrawTexture("back2", Vector2.Zero);
+                //renderer.DrawTexture("Player2", new Vector2(250, 50+ypos/2), null, Color.White * 0.5f, 0.0f, new Vector2(1f, 1f),new Vector2(10.0f,10.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(50,350+ypos/4), null, Color.White * 1.0f, -0.3f, Vector2.Zero, new Vector2(0.5f, 0.5f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Player2", new Vector2(80, 50), null, Color.White * 0.1f, 0.0f, new Vector2(1f, 1f), new Vector2(12.0f, 12.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                renderer.DrawTexture("Virusbastard1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Push", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+            }
+            else
+            if (count < 80)
+            {
+                renderer.DrawTexture("taitle4", new Vector2(-360, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.85f, 0.85f));
+            }
+            else if (count < 110)
+            {
+                renderer.DrawTexture("back2", Vector2.Zero);
+                //renderer.DrawTexture("Player2", new Vector2(250, 50+ypos/2), null, Color.White * 0.5f, 0.0f, new Vector2(1f, 1f),new Vector2(10.0f,10.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(50,350+ypos/4), null, Color.White * 1.0f, -0.3f, Vector2.Zero, new Vector2(0.5f, 0.5f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Player2", new Vector2(80, 50), null, Color.White * 0.1f, 0.0f, new Vector2(1f, 1f), new Vector2(12.0f, 12.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                renderer.DrawTexture("Virusbastard1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Push", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+            }
+            else
+            if (count < 115)
+            {
+                renderer.DrawTexture("taitle4", new Vector2(-360, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.85f, 0.85f));
+            }
+            else if (count <175)
+            {
+                renderer.DrawTexture("back2", Vector2.Zero);
+                //renderer.DrawTexture("Player2", new Vector2(250, 50+ypos/2), null, Color.White * 0.5f, 0.0f, new Vector2(1f, 1f),new Vector2(10.0f,10.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(50,350+ypos/4), null, Color.White * 1.0f, -0.3f, Vector2.Zero, new Vector2(0.5f, 0.5f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Player2", new Vector2(80, 50), null, Color.White * 0.1f, 0.0f, new Vector2(1f, 1f), new Vector2(12.0f, 12.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                renderer.DrawTexture("Virusbastard1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Push", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+            }
+            else
+            if (count < 180)
+            {
+                renderer.DrawTexture("taitle4", new Vector2(-360, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.85f, 0.85f));
+            }
+            else if (count < 185)
+            {
+                renderer.DrawTexture("back2", Vector2.Zero);
+                //renderer.DrawTexture("Player2", new Vector2(250, 50+ypos/2), null, Color.White * 0.5f, 0.0f, new Vector2(1f, 1f),new Vector2(10.0f,10.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(50,350+ypos/4), null, Color.White * 1.0f, -0.3f, Vector2.Zero, new Vector2(0.5f, 0.5f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Player2", new Vector2(80, 50), null, Color.White * 0.1f, 0.0f, new Vector2(1f, 1f), new Vector2(12.0f, 12.0f));
+                //renderer.DrawTexture("ウイルスバスター1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                renderer.DrawTexture("Virusbastard1", new Vector2(100, 350 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.6f, 0.6f));
+                //renderer.DrawTexture("プッシュ", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                renderer.DrawTexture("Push", new Vector2(150, 500 + ypos / 4), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+            }
+            else
+            if (count < 240)
+            {
+                renderer.DrawTexture("taitle4", new Vector2(-360, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.85f, 0.85f));
+                isEndFlag = true;
+            }
+
             renderer.End();
         }
 
@@ -107,9 +190,11 @@ namespace OBG.Scene
             //スペースキーが押されたか？
             if (Input.GetKeyRelease(Keys.Enter))
             {
-                isEndFlag = true;
+                changescene = true;
                 sound.PlaySE("titlese");
             }
+            if (changescene)
+                count++;
         }
     }
 }
