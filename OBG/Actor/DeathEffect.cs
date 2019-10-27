@@ -13,7 +13,7 @@ namespace OBG.Actor
     {
         Timer timer;
         Random rnd = new Random();
-
+        int sacle;
         public DeathEffect(string name, Vector2 position)
         {
             Initialize();
@@ -23,7 +23,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            renderer.DrawTexture(name, position);
+            renderer.DrawTexture(name, position, null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(sacle/100, sacle/100));
         }
 
         public override void Hit(Character other)
@@ -43,7 +43,8 @@ namespace OBG.Actor
 
         public override void Update(GameTime gameTime)
         {
-            position += new Vector2(rnd.Next(1, 10), rnd.Next(0, 10));
+            position += new Vector2(rnd.Next(-10, 10), rnd.Next(-10, 10));
+            sacle = rnd.Next(150, 200);
             timer.Update(gameTime);
             if (timer.IsTime())
             {

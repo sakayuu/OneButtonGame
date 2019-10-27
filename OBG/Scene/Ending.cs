@@ -30,7 +30,7 @@ namespace OBG.Scene
             backGroundScene.Draw(renderer);
 
             renderer.Begin();
-            renderer.DrawTexture("ending", new Vector2(150, 150));
+            renderer.DrawTexture("gameover", new Vector2(0, 100), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.5f, 0.5f));
             //renderer.DrawTexture("Player1", new Vector2(200));
             renderer.End();
         }
@@ -59,7 +59,7 @@ namespace OBG.Scene
         {
             sound.PlayBGM("endingbgm");
 
-            if (Input.GetKeyTrigger(Keys.Space))
+            if (Input.GetKeyTrigger(Keys.Enter))
             {
                 isEndFlag = true;
                 sound.PlaySE("endingse");

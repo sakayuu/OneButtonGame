@@ -110,7 +110,7 @@ namespace OBG.Actor
             {
                 enemy.Hit(ball);
                 ball.Hit(enemy);
-                deathEffects.Add(new DeathEffect("particleBlue", ball.GetPosition()));
+                deathEffects.Add(new DeathEffect("Playerwaku1", ball.GetPosition()));
             }
             foreach (var pin in pins) //ピンで繰り返し
             {

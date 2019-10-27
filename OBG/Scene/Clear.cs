@@ -28,7 +28,7 @@ namespace OBG.Scene
             backGroundScene.Draw(renderer);
 
             renderer.Begin();
-            renderer.DrawTexture("ending", new Vector2(150, 150));
+            renderer.DrawTexture("stagecler1" ,new Vector2(-50, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.5f, 0.5f));
             renderer.End();
         }
 

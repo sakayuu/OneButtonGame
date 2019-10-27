@@ -297,7 +297,7 @@ namespace OBG.Scene
                         }
                     }
                    
-                    area = 30;
+                    area = 20;
                     break;
                 case Stage.stage4:
                     
