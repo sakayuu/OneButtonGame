@@ -16,6 +16,7 @@ namespace OBG.Scene
         Title,
         GamePlay,
         Ending,
+        Clear,
         GoodEnding
     }
     

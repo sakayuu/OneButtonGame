@@ -23,7 +23,7 @@ namespace OBG.Scene
         private Timer timer; //フェード時間
 
         //フェード切り替えの時間
-        private readonly float FADE_TIME = 1.5f;
+        private readonly float FADE_TIME = 1f;
         private IScene scene; //現在のシーン
         private bool isEndFlag = false; //終了フラグ 
         private bool? ballDeadFlag;

@@ -57,6 +57,7 @@ namespace OBG
             IScene addScene = new GamePlay();
             sceneManager.Add(Scene.Scene.GamePlay, new Transition(addScene, null));
             sceneManager.Add(Scene.Scene.Ending, new Transition(new Ending(addScene), null));
+            sceneManager.Add(Scene.Scene.Clear, new Transition(new Clear(addScene), null));
             sceneManager.Change(Scene.Scene.Title);
 
             //sceneManager.Add(Scene.Scene.Ending, addScene);
@@ -87,6 +88,7 @@ namespace OBG
             renderer.LoadContent("ending", filepathT);
             renderer.LoadContent("particle", filepathT);
             renderer.LoadContent("particleSmall", filepathT);
+            renderer.LoadContent("particleBlue", filepathT);
             renderer.LoadContent("kiiro", filepathT);
             renderer.LoadContent("back", filepathT);
             renderer.LoadContent("back2", filepathT);
@@ -108,6 +110,8 @@ namespace OBG
             renderer.LoadContent("Virusbastard1", filepathT);
             renderer.LoadContent("Push", filepathT);
             renderer.LoadContent("target", filepathT);
+            renderer.LoadContent("sikaku", filepathT);
+            renderer.LoadContent("sikaku2", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
@@ -158,7 +162,7 @@ namespace OBG
             gameDevice.Update(gameTime);
 
             sceneManager.Update(gameTime);
-            
+
 
             // この上にロジックを記述
             base.Update(gameTime); // 親クラスの更新処理呼び出し。絶対に消すな！！

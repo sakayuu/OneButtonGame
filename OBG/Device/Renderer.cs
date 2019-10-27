@@ -59,21 +59,21 @@ namespace OBG.Device
             textures.Add(assetName, contentManager.Load<Texture2D>(filepath + assetName));
         }
 
-//        public void LoadVideo(string assetName, string filepath = "./")
-//        {
-//            //すでにキー（assetName：アセット名）が登録されているとき
-//            if (videos.ContainsKey(assetName))
-//            {
-//#if DEBUG //DEBUGモードの時のみ下記エラー分をコンソールへ表示
-//                Console.WriteLine(assetName + "はすでに読み込まれています。\n プログラムを確認してください。");
-//#endif
+        //        public void LoadVideo(string assetName, string filepath = "./")
+        //        {
+        //            //すでにキー（assetName：アセット名）が登録されているとき
+        //            if (videos.ContainsKey(assetName))
+        //            {
+        //#if DEBUG //DEBUGモードの時のみ下記エラー分をコンソールへ表示
+        //                Console.WriteLine(assetName + "はすでに読み込まれています。\n プログラムを確認してください。");
+        //#endif
 
-//                //それ以上読み込まないのでここで終了
-//                return;
-//            }
-//            //画像の読み込みとDictionaryへアセット名と画像を登録
-//            videos.Add(assetName, contentManager.Load<Video>(filepath + assetName));
-//        }
+        //                //それ以上読み込まないのでここで終了
+        //                return;
+        //            }
+        //            //画像の読み込みとDictionaryへアセット名と画像を登録
+        //            videos.Add(assetName, contentManager.Load<Video>(filepath + assetName));
+        //        }
 
         /// <summary>
         /// アンロード
@@ -88,7 +88,7 @@ namespace OBG.Device
         /// </summary>
         public void Begin()
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.BackToFront);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace OBG.Device
         /// </summary>
         /// <param name="pos1">線の始まり</param>
         /// <param name="pos2">線の終わり</param>
-        public void DrawLine(Vector2 pos1, Vector2 pos2 , Color color)
+        public void DrawLine(Vector2 pos1, Vector2 pos2, Color color)
         {
             Primitives2D.DrawLine(spriteBatch, pos1, pos2, color, 10);
 

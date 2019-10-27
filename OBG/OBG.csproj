@@ -45,6 +45,7 @@
     <Compile Include="Actor\Character.cs" />
     <Compile Include="Actor\CharacterManager.cs" />
     <Compile Include="Actor\Collider.cs" />
+    <Compile Include="Actor\DeathEffect.cs" />
     <Compile Include="Actor\Enemy.cs" />
     <Compile Include="Actor\RayLine.cs" />
     <Compile Include="Def\Screen.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Primitives2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scene\Clear.cs" />
     <Compile Include="Scene\Ending.cs" />
     <Compile Include="Scene\GamePlay.cs" />
     <Compile Include="Scene\IGameMediator.cs" />

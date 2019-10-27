@@ -4,34 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
-using OBG.Device;
 using Microsoft.Xna.Framework.Input;
+using OBG.Device;
 
 namespace OBG.Scene
 {
-    class Ending : IScene
+    class Clear : IScene
     {
         private bool isEndFlag;
         IScene backGroundScene;
         private Sound sound;//
 
-        public Ending(IScene scene)
+        public Clear(IScene scene)
         {
             isEndFlag = false;
             backGroundScene = scene;
             var gameDevice = GameDevice.Instance();
             sound = gameDevice.GetSound();
         }
+
         public void Draw(Renderer renderer)
         {
-            //
-            //
-            //
             backGroundScene.Draw(renderer);
 
             renderer.Begin();
             renderer.DrawTexture("ending", new Vector2(150, 150));
-            renderer.DrawTexture("Player1", new Vector2(200));
             renderer.End();
         }
 
@@ -57,12 +54,10 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
-            sound.PlayBGM("endingbgm");
-
-            if (Input.GetKeyTrigger(Keys.Space))
+            if (Input.GetKeyTrigger(Keys.Enter))
             {
                 isEndFlag = true;
-                sound.PlaySE("endingse");
+                //sound.PlaySE("endingse");
             }
         }
     }

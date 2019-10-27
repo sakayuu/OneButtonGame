@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using OBG.Actor;
 using OBG.Def;
 using OBG.Device;
+using OBG.Util;
 
 namespace OBG.Scene
 {
@@ -17,19 +19,24 @@ namespace OBG.Scene
         stage1,
         stage2,
         stage3,
+        stage4,
+        stage5
     }
     class GamePlay : IScene, IGameMediator
     {
         private CharacterManager characterManager;
         private bool isEndFlag;
-        public Stage stage=Stage.stage1;
-        private float AllField,NowField;
+        public Stage stage = Stage.stage1;
+        private float AllField, NowField;
         private float pasent;
-        private float timecount ;
+        private float timecount;
         private int time = 3;
         public static bool timeflag = false;
-        public bool clearflag = false;
         private float area;
+
+        public Timer timer;
+
+        Scene nextScene;
         public GamePlay()
         {
             isEndFlag = false;
@@ -37,32 +44,27 @@ namespace OBG.Scene
             stage = Stage.stage1;
             AllField = Screen.Width * Screen.Width;
             area = 40;
-            
+
         }
         public void Draw(Renderer renderer)
         {
             //描画開始
             renderer.Begin();
             //背景を描画
-            //renderer.DrawTexture("stage", Vector2.Zero);
-            renderer.DrawTexture("back2", Vector2.Zero);
-            if(Ball.ballState == BallState.Free)
+            renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
+
+            characterManager.Draw(renderer);//キャラクター管理者の描画
+            if (Ball.ballState == BallState.Free)
             {
-                renderer.DrawTexture("target", characterManager.pin.GetPosition());
+                renderer.DrawTexture("target", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
             }
-            
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
             renderer.DrawNumber("number1", new Vector2(200, 13), area);
-            characterManager.Draw(renderer);//キャラクター管理者の描画
-            if(timeflag == false)
+            if (timeflag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
             }
-            if(timeflag == true && time == 0)
-            {
-                renderer.DrawTexture("Ggo2", new Vector2(200, 350));
-            }
-            
+
             renderer.End();
         }
 
@@ -70,47 +72,58 @@ namespace OBG.Scene
         {
             //シ－ン終了フラグを初期化
             isEndFlag = false;
-            
+            timer = new CountDownTimer(2);
             //キャラクターマネージャーの実体生成
 
             characterManager = new CharacterManager();
-            Ball ball = new Ball("Player4", new Vector2(300, 300), this);
+            Ball ball = new Ball("Player4", new Vector2(400, 800), this);
             characterManager.Add(ball);
             Ball.ballState = BallState.Start;
-            if (stage==Stage.stage1)
+            if (stage == Stage.stage1)
             {
-                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400), 0, this));
+                Enemy enemy = new Enemy("Enemy1", new Vector2(9000, 9000), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100), 0, this));
-                characterManager.Add(new Pin("pinmusic2", new Vector2(100, 100),1, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400),2, this));
-                characterManager.Add(new Pin("pinmovie2", new Vector2(800, 800), 3, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(100, 800), 4, this));  
             }
             if (stage == Stage.stage2)
             {
-                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("Enemy1", new Vector2(9000, 9000), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),0, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 300),1, this));
-                characterManager.Add(new Pin("pin", new Vector2(750, 400),2, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(200, 200), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(550, 550), 1, this));
             }
             if (stage == Stage.stage3)
             {
-                Enemy enemy = new Enemy("Enemy1", new Vector2(100, 700), this);
+                Enemy enemy = new Enemy("Enemy1", new Vector2(9000, 9000), this);
                 characterManager.Add(enemy);
-                characterManager.Add(new Pin("pinmusic2", new Vector2(800, 100),0, this)); //継承してるのでthisでmediatorを渡せる
-                characterManager.Add(new Pin("pin", new Vector2(750, 400),1, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 300), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(250, 500), 1, this));
+                characterManager.Add(new Pin("pingame2", new Vector2(550, 500), 2, this));
             }
+            if (stage == Stage.stage4)
+            {
+                Enemy enemy = new Enemy("Enemy1", new Vector2(400, 100), this);
+                characterManager.Add(enemy);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(200, 200), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(400, 400), 1, this));
+                characterManager.Add(new Pin("pingame2", new Vector2(600, 600), 2, this));
+            }
+            if (stage == Stage.stage5)
+            {
+                Enemy enemy = new Enemy("Enemy1", new Vector2(400, 100), this);
+                characterManager.Add(enemy);
+                characterManager.Add(new Pin("pinmusic2", new Vector2(400, 400), 0, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(200, 200), 1, this));
+                characterManager.Add(new Pin("pingame2", new Vector2(600, 600), 2, this));
+                characterManager.Add(new Pin("pinmusic2", new Vector2(600, 200), 3, this)); //継承してるのでthisでmediatorを渡せる
+                characterManager.Add(new Pin("pinmovie2", new Vector2(200, 600), 4, this));
+            }
+
             foreach (var a in characterManager.GetList())
             {
                 a.GetField(0);
             }
-            if(clearflag == true)
-            {
-                timeflag = false;
-                clearflag = false;
-            }
+
         }
 
         public bool IsEnd()
@@ -120,7 +133,9 @@ namespace OBG.Scene
 
         public Scene Next()
         {
-            Scene nextScene = Scene.Title;
+            if (characterManager.GetBall().IsDead())
+                nextScene = Scene.Ending;
+
             return nextScene;
         }
 
@@ -131,49 +146,48 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
-            
             characterManager.Update(gameTime); //キャラ一括更新
             if (Ball.ballState == BallState.Free)
             {
-                characterManager.GetBall().freeFlag = false;
                 characterManager.pin = null;
                 characterManager.GetAngleForBallToPins();
             }
-            
-            if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
-                isEndFlag = true;
-            
-            if(Transition.irisState == Transition.IrisState.None)
-            {
-                if (timecount >= 60 && timeflag == false)
-                {
-                    time--;
-                    timecount = 0;
-                }
-                timecount++;
-                if (time <= 0)
-                {
-                    timeflag = true;
-                    if (timecount >= 60)
-                    {
-                        time = 3;
-                    }
 
-                }
+            if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
+                timer.Update(gameTime);
+            if (timer.IsTime())
+                isEndFlag = true;
+
+
+            if (timecount >= 60 && timeflag == false)
+            {
+                time--;
+                timecount = 0;
             }
-            
+            if (timeflag == false)
+            {
+                timecount++;
+            }
+            if (time <= 0)
+            {
+                timeflag = true;
+            }
 
 
             if (timeflag == true)
             {
                 if (Input.GetKeyTrigger(Keys.Enter))
                 {
+                    characterManager.GetBall().freeFlag = false;
                     characterManager.pin = null;
                     characterManager.GetAngleForBallToPins();
-                    characterManager.GetBall().freeFlag = false;
-                    
 
-                    if (characterManager.GetBall().GetPosition().X < characterManager.pin.GetPosition().X)
+                    Vector2 vec = characterManager.GetBall().GetVector();
+                    Vector2 vec2 = characterManager.pin.GetPosition() - characterManager.GetBall().GetPosition();
+
+                    Vector3 w = Vector3.Cross(new Vector3(vec.X, vec.Y, 0), new Vector3(vec2.X, vec2.Y, 0));
+
+                    if (w.Z > 0)
                     {
                         characterManager.GetBall().LRflag = true;
 
@@ -201,9 +215,13 @@ namespace OBG.Scene
                 else if (Ball.ballState == BallState.Free)
                 {
                     characterManager.pin.catchFlag = false;
+                    foreach (var pin in characterManager.GetList())
+                    {
+                        pin.catchFlag = false;
+                    }
                     characterManager.GetBall().freeFlag = true;
                 }
-            
+
             }
             NowField = 0;
             foreach (var a in characterManager.GetList())
@@ -211,45 +229,83 @@ namespace OBG.Scene
                 NowField += a.SetField();
             }
             pasent = (NowField / AllField) * 100;
-            Debug.WriteLine(clearflag);
-            if (pasent>=area)
-            {
-                clearflag = true;
-                switch (stage)
-                {
-                    case Stage.stage1:
-                        if(Input.GetKeyRelease (Keys.Enter))
-                        {
-                            
-                            stage = Stage.stage2;
-                            Initialize();
-                            NowField = 0;
-                            clearflag = false;
-                        }
+            //Debug.WriteLine(pasent);
 
-                        break;
-                    case Stage.stage2:
-                        if (Input.GetKeyRelease(Keys.Enter))
+            switch (stage)
+            {
+                case Stage.stage1:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
+                        {
+
+                            stage = Stage.stage2;
+                            nextScene = Scene.Clear;
+                            isEndFlag = true;
+                            //Initialize();
+                            NowField = 0;
+                        }
+                    }
+                    area = 50;
+                    break;
+                case Stage.stage2:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             stage = Stage.stage3;
-                            Initialize();
+                            //Initialize();
+                            nextScene = Scene.Clear;
+                            isEndFlag = true;
                             NowField = 0;
-                            clearflag = false;
                         }
-                        break;
-                    case Stage.stage3:
-                        if(Input.GetKeyRelease(Keys.Enter))
+                    }
+                    area = 50;
+                    break;
+                case Stage.stage3:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
+                        {
+                            NowField = 0;
+                            stage = Stage.stage4;
+                            //Initialize();
+                            nextScene = Scene.Clear;
+                            isEndFlag = true;
+                        }
+                    }
+                    area = 30;
+                    break;
+                case Stage.stage4:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
+                        {
+                            NowField = 0;
+                            stage = Stage.stage5;
+                            nextScene = Scene.Clear;
+                            //Initialize();
+                            isEndFlag = true;
+                        }
+                    }
+                    area = 10;
+                    break;
+                case Stage.stage5:
+                    if (Input.GetKeyRelease(Keys.Enter))
+                    {
+                        if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
                             stage = Stage.stage1;
+                            nextScene = Scene.Title;
                             isEndFlag = true;
-                            clearflag = false;
                         }
-                        break;
-                }
-                
+                    }
+                    area = 30;
+                    break;
             }
-            
+
+
         }
 
         /// <summary>

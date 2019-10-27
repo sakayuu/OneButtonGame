@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OBG.Scene;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace OBG.Actor
 {
@@ -38,6 +39,8 @@ namespace OBG.Actor
         public float field;
 
         public float effect;
+
+        bool spinFlag;
         public Pin(string name, Vector2 position, int pinNum, IGameMediator mediator)
         {
             radius = 0;
@@ -49,10 +52,12 @@ namespace OBG.Actor
             collider = new Collider(position, 0);
             this.pinNum = pinNum;
             effect = 1;
+            catchFlag = false;
         }
 
         public override void Update(GameTime gameTime)
         {
+            Debug.WriteLine(angle);
             if (LRflag)
                 LR = 1;
             else
@@ -60,16 +65,22 @@ namespace OBG.Actor
             if (catchFlag)
             {
                 angle += speed / (radius / 100) * LR;
-                if (Math.Abs(angle / 360) >= 1 && Math.Abs(angle / 360) < 1.1f)
+                if (Math.Abs(angle / 360) >= 1)
                 {
-                    //Collider collider = new Collider(position, (radius * 2) - 80);
-                    collider.SetPixelSize(radius * 2 - 80);
-                    AddCollider(collider, pinNum);
-                    field = radius * radius * (float)Math.PI;
+                    if (!spinFlag)
+                    {
+                        collider.SetPixelSize(radius * 2 - 80);
+                        AddCollider(collider, pinNum);
+                        field = radius * radius * (float)Math.PI;
+                        spinFlag = true;
+                    }
                 }
             }
             else
+            {
                 angle = 0;
+                spinFlag = false;
+            }
         }
 
         public override Vector2 GetPosition()
@@ -86,6 +97,7 @@ namespace OBG.Actor
         public override void Initialize()
         {
             LR = 0;
+            spinFlag = false;
         }
 
         public override void Shutdown()
@@ -100,7 +112,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            base.Draw(renderer);
+            renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
             if (effect <= 0)
             {
                 effect = 1;

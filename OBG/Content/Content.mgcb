@@ -211,18 +211,6 @@
 /processorParam:TextureFormat=Color
 /build:Texture/ending.BMP
 
-#begin Texture/kiiro.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Texture/kiiro.png
-
 #begin Texture/Player1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -451,7 +439,7 @@
 /processorParam:TextureFormat=Color
 /build:Texture/Ggo.png
 
-#begin Texture/Ggo1.png
+#begin Texture/sikaku.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -461,9 +449,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Texture/Ggo1.png
+/build:Texture/sikaku.png
 
-#begin Texture/Ggo2.png
+#begin Texture/sikaku2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -473,5 +461,17 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Texture/Ggo2.png
+/build:Texture/sikaku2.png
+
+#begin Texture/kiiro.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Texture/kiiro.png
 
