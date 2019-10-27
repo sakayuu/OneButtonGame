@@ -77,7 +77,7 @@ namespace OBG.Scene
         {
             //シ－ン終了フラグを初期化
             isEndFlag = false;
-            timer = new CountDownTimer(2);
+            timer = new CountDownTimer(0.75f);
             //キャラクターマネージャーの実体生成
 
             characterManager = new CharacterManager();
@@ -157,7 +157,7 @@ namespace OBG.Scene
                 characterManager.pin = null;
                 characterManager.GetAngleForBallToPins();
             }
-            
+
             if (characterManager.GetBall().IsDead()) //プレイヤー死んだらゲームオーバー
                 timer.Update(gameTime);
             if (timer.IsTime())
@@ -172,9 +172,9 @@ namespace OBG.Scene
                         time--;
                         timecount = 0;
                     }
-                    
+
                 }
-                
+
                 if (time <= 0)
                 {
                     timeflag = true;
@@ -245,12 +245,12 @@ namespace OBG.Scene
             switch (stage)
             {
                 case Stage.stage1:
-                    
+
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
-                            
+
                             stage = Stage.stage2;
                             nextScene = Scene.Clear;
                             isEndFlag = true;
@@ -259,17 +259,17 @@ namespace OBG.Scene
                             timeflag = false;
                         }
                     }
-                    
+
                     area = 50;
                     break;
-                    
+
                 case Stage.stage2:
-                    
+
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
-                            
+
                             stage = Stage.stage3;
                             //Initialize();
                             nextScene = Scene.Clear;
@@ -280,14 +280,14 @@ namespace OBG.Scene
                     }
                     area = 50;
                     break;
-                    
+
                 case Stage.stage3:
-                    
+
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
-                            
+
                             NowField = 0;
                             stage = Stage.stage4;
                             //Initialize();
@@ -296,16 +296,16 @@ namespace OBG.Scene
                             timeflag = false;
                         }
                     }
-                   
+
                     area = 30;
                     break;
                 case Stage.stage4:
-                    
+
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
-                            
+
                             NowField = 0;
                             stage = Stage.stage5;
                             nextScene = Scene.Clear;
@@ -314,18 +314,18 @@ namespace OBG.Scene
                             timeflag = false;
                         }
                     }
-                   
+
                     area = 10;
                     break;
                 case Stage.stage5:
-                    
+
                     if (Input.GetKeyRelease(Keys.Enter))
                     {
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
                             stage = Stage.stage1;
-                            nextScene = Scene.Title;
+                            nextScene = Scene.Ending;
                             isEndFlag = true;
                             timeflag = false;
                         }
