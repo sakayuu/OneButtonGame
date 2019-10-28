@@ -190,20 +190,20 @@ namespace OBG.Scene
 
                 }
             }
-            if(startflag == false && timeflag == true && Transition.irisState == Transition.IrisState.None)
+            if (startflag == false && timeflag == true && Transition.irisState == Transition.IrisState.None)
             {
                 startcount++;
-                if(startcount >= 60)
+                if (startcount >= 60)
                 {
                     startflag = true;
                     startcount = 0;
                 }
             }
-            if(characterManager.GetBall().IsDead()&& timeflag == true)
+            if (characterManager.GetBall().IsDead() && timeflag == true)
             {
                 startflag = false;
             }
-            if (timeflag == true &&  startflag == true &&!characterManager.GetBall().IsDead() )
+            if (timeflag == true && startflag == true && !characterManager.GetBall().IsDead())
             {
                 if (Input.GetKeyTrigger(Keys.Enter))
                 {
