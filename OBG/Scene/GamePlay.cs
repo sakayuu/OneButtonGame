@@ -59,13 +59,16 @@ namespace OBG.Scene
             //背景を描画
             renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
 
-            if (Ball.ballState == BallState.Free)
-            {
-                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, Color.Red, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
-            }
             characterManager.Draw(renderer);//キャラクター管理者の描画
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
             renderer.DrawNumber("number1", new Vector2(200, 13), area);
+            renderer.DrawTexture("nolma", new Vector2(-50, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
+            renderer.DrawTexture("sizu", new Vector2(350, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
+
+            if (Ball.ballState == BallState.Free)
+            {
+                renderer.DrawTexture("target3", characterManager.pin.GetPosition(), null, Color.White, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
+            }
             if (timeflag == false && Transition.irisState == Transition.IrisState.None && isEndFlag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
