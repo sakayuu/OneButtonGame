@@ -14,7 +14,7 @@ namespace OBG.Scene
         private bool isEndFlag;
         IScene backGroundScene;
         private Sound sound;//
-        public int stagecount=1;
+        public int stagecount = 1;
 
         private Scene scene;
         public Clear(IScene scene)
@@ -31,10 +31,11 @@ namespace OBG.Scene
             backGroundScene.Draw(renderer);
 
             renderer.Begin();
-            if(stagecount<6)
+            if (stagecount < 6)
             {
-            renderer.DrawTexture("stagecler1" ,new Vector2(-50, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.5f, 0.5f));
-            }else
+                renderer.DrawTexture("stagecler1", new Vector2(-50, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.5f, 0.5f));
+            }
+            else
             {
                 renderer.DrawTexture("stagecler1", new Vector2(-50, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.5f, 0.5f));
             }
@@ -73,15 +74,37 @@ namespace OBG.Scene
         {
             if (Input.GetKeyTrigger(Keys.Enter))
             {
-                if(stagecount<=5)
+                if (stagecount <= 5)
                 {
-                    scene=Scene.GamePlay;
-                }else
+                    switch (GamePlay.stage)
+                    {
+                        case Stage.stage1:
+                            GamePlay.stage = Stage.stage2;
+                            break;
+                        case Stage.stage2:
+                            GamePlay.stage = Stage.stage3;
+                            break;
+                        case Stage.stage3:
+                            GamePlay.stage = Stage.stage4;
+                            break;
+                        case Stage.stage4:
+                            GamePlay.stage = Stage.stage5;
+                            break;
+                        case Stage.stage5:
+                            GamePlay.stage = Stage.stage1;
+                            break;
+                        default:
+                            break;
+                    }
+                    scene = Scene.GamePlay;
+                }
+                else
                 {
+                    GamePlay.stage = Stage.stage1;
                     scene = Scene.Title;
                 }
                 isEndFlag = true;
-                
+
                 //sound.PlaySE("endingse");
             }
         }

@@ -96,9 +96,12 @@ namespace OBG.Actor
 
         public void AddCollider(Collider collider, int pinNum)
         {
-            cols.Insert(pinNum, collider);
-            cols.RemoveAt(pinNum + 1);
-            Debug.WriteLine(pinNum);
+            if (!ball.IsDead())
+            {
+                cols.Insert(pinNum, collider);
+                cols.RemoveAt(pinNum + 1);
+                //Debug.WriteLine(pinNum);
+            }
         }
 
         /// <summary>
@@ -122,6 +125,10 @@ namespace OBG.Actor
                 if (ball.IsCollision(pin))
                 {
                     ball.Hit(pin);
+                    if (ball.IsDead())
+                    {
+                        deathEffects.Add(new DeathEffect("Playerwaku1", ball.GetPosition()));
+                    }
                 }
 
             }
@@ -202,7 +209,7 @@ namespace OBG.Actor
                 if (MathCollision.Circle_Segment(enemy.GetPosition() + new Vector2(32, 32),
                             32, ball.GetPosition(), ball.pPosition))
                 {
-
+                    deathEffects.Add(new DeathEffect("Playerwaku1", ball.GetPosition()));
                     ball.Hit(pin);
                     ball.Lhitflag = true;
                 }
@@ -214,6 +221,7 @@ namespace OBG.Actor
                         new Vector2(32, 32), 32,
                         ball.GetPosition(), ball.pPosition))
                     {
+                        deathEffects.Add(new DeathEffect("Playerwaku1", ball.GetPosition()));
                         ball.Hit(pin);
                         ball.Lhitflag = true;
                     }

@@ -57,7 +57,7 @@ namespace OBG.Actor
 
         public override void Update(GameTime gameTime)
         {
-            Debug.WriteLine(angle);
+            //Debug.WriteLine(angle);
             if (LRflag)
                 LR = 1;
             else

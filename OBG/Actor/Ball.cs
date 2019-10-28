@@ -24,6 +24,7 @@ namespace OBG.Actor
     class Ball : Character, IGameMediator
     {
         private float speed = 10f; //スピード
+        private float startspeed = 10f;
         private Vector2 distance; //目的地
         private Vector2 velocity; //移動量
         public Vector2 vector; //ベクトルの向き
@@ -180,46 +181,63 @@ namespace OBG.Actor
             {
                 if (ballState == BallState.Start)
                 {
-                    position += new Vector2(0, -1) * (speed / 10);
-                    nowVector = new Vector2(0, -1) * (speed / 10);
+                    position += new Vector2(0, -1) * (startspeed / 10);
+                    nowVector = new Vector2(0, -1) * (startspeed / 10);
+                }
+                if(position.Y < 0 || position.Y + pixelSize >= Screen.Width)
+                {
+                    startspeed *= -1;
                 }
                 if (ballState == BallState.Free && !IsDead()) //移動可能なら
                 {
                     if (freeFlag)
 
                     {
+                        if(position.X < 0 || position.X + pixelSize >= Screen.Width ||
+                            position.Y < 0 || position.Y + pixelSize >= Screen.Width)
+                        {
+                            effectpos = position;
+                            rad *= -1;
+                            effectfrag = true;
+                            sound.PlaySE("reflect");
+                        }
                         //まっすぐに移動
-                        if (position.X + pixelSize < 0 || position.X >= Screen.Width ||
-                            position.Y + pixelSize < 0 || position.Y >= Screen.Width)
+                        if (position.X + pixelSize /2 < 0 || position.X + pixelSize / 2 >= Screen.Width ||
+                            position.Y + pixelSize / 2 < 0 || position.Y + pixelSize / 2 >= Screen.Width)
                         {
                             isDeadFlag = true;
                         }
-                        if (position.X < 0 || position.X + pixelSize >= Screen.Width)
+                        if (position.X < 0)
                         {
-                            effectpos = position;
-                            rad *= -1;
-                            effectfrag = true;
-                            sound.PlaySE("reflect");
+                            position.X += pixelSize / 4;
                         }
-                        if (position.Y < 0 && yflag == false && hitflag == false
-                            || position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
+                        if (position.X + pixelSize >= Screen.Width)
                         {
-                            effectpos = position;
+                            position.X -= pixelSize / 4;
+                        }
+                        if (position.Y < 0 && yflag == false && hitflag == false)
+                        {
+                            position.Y += pixelSize / 4;
                             hitflag = true;
-                            rad *= -1;
                             yflag = true;
-                            effectfrag = true;
-                            sound.PlaySE("reflect");
                         }
-                        if (position.Y < 0 && yflag == true && hitflag == false
-                            || position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
+                        if(position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
                         {
-                            effectpos = position;
+                            position.Y -= pixelSize / 4;
                             hitflag = true;
-                            rad *= -1;
+                            yflag = true;
+                        }
+                        if (position.Y < 0 && yflag == true && hitflag == false)
+                        {
+                            position.Y += pixelSize / 4;
+                            hitflag = true;
                             yflag = false;
-                            effectfrag = true;
-                            sound.PlaySE("reflect");
+                        }
+                        if (position.Y + pixelSize >= Screen.Height && yflag == true && hitflag == false)
+                        {
+                            position.Y -= pixelSize / 4;
+                            hitflag = true;
+                            yflag = false;
                         }
                         if (yflag == true)
                         {
@@ -289,7 +307,10 @@ namespace OBG.Actor
             if (ballState == BallState.Link && Lhitflag == true)
             {
                 renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
-                //base.Draw(renderer);
+                if (Lhitflag && IsDead())
+                {
+                    renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.Red);
+                }
             }
             if (!isDeadFlag)
                 if (ballState == BallState.Link)
@@ -297,7 +318,6 @@ namespace OBG.Actor
                     renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
                     renderer.DrawLine(new Vector2(position.X + 32, position.Y + 32), new Vector2(pPosition.X + 32, pPosition.Y + 32), Color.White);
                 }
-
 
                 else
                 {
@@ -314,7 +334,7 @@ namespace OBG.Actor
             }
             if (effectfrag == true)
             {
-                renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(64/1280f, 64/1280f),
+                renderer.DrawTexture("Playerwaku1", new Vector2(effectpos.X + 32 - (32 * (1.5f - effect)), effectpos.Y + 32 - (32 * (1.5f - effect))), null, Color.White * effect, 0.0f, new Vector2(64 / 1280f, 64 / 1280f),
         new Vector2((1 * (1.5f - effect)), (1 * (1.5f - effect))));
             }
         }

@@ -26,7 +26,7 @@ namespace OBG.Scene
     {
         private CharacterManager characterManager;
         private bool isEndFlag;
-        public Stage stage = Stage.stage1;
+        public static Stage stage = Stage.stage1;
         private float AllField, NowField;
         private float pasent;
         private float timecount;
@@ -59,7 +59,7 @@ namespace OBG.Scene
 
             if (Ball.ballState == BallState.Free)
             {
-                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, new Vector2(1,1), SpriteEffects.None, 0, 1);
+                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
             }
             characterManager.Draw(renderer);//キャラクター管理者の描画
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
@@ -189,7 +189,7 @@ namespace OBG.Scene
                 }
             }
 
-            if (timeflag == true)
+            if (timeflag == true && !characterManager.GetBall().IsDead())
             {
                 if (Input.GetKeyTrigger(Keys.Enter))
                 {
@@ -254,7 +254,7 @@ namespace OBG.Scene
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
-                            stage = Stage.stage2;
+                            //stage = Stage.stage2;
                             nextScene = Scene.Clear;
                             isEndFlag = true;
                             //Initialize();
@@ -273,7 +273,7 @@ namespace OBG.Scene
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
-                            stage = Stage.stage3;
+                            //stage = Stage.stage3;
                             //Initialize();
                             nextScene = Scene.Clear;
                             isEndFlag = true;
@@ -292,7 +292,7 @@ namespace OBG.Scene
                         {
 
                             NowField = 0;
-                            stage = Stage.stage4;
+                            //stage = Stage.stage4;
                             //Initialize();
                             nextScene = Scene.Clear;
                             isEndFlag = true;
@@ -310,7 +310,7 @@ namespace OBG.Scene
                         {
 
                             NowField = 0;
-                            stage = Stage.stage5;
+                            //stage = Stage.stage5;
                             nextScene = Scene.Clear;
                             //Initialize();
                             isEndFlag = true;
@@ -327,7 +327,7 @@ namespace OBG.Scene
                         if (pasent >= area && !characterManager.GetBall().IsDead())
                         {
                             NowField = 0;
-                            stage = Stage.stage1;
+                            //stage = Stage.stage1;
                             nextScene = Scene.Clear;
                             isEndFlag = true;
                             timeflag = false;
