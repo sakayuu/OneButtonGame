@@ -113,6 +113,9 @@ namespace OBG
             renderer.LoadContent("Push", filepathT);
             renderer.LoadContent("target", filepathT);
             renderer.LoadContent("target1", filepathT);
+            renderer.LoadContent("target3", filepathT);
+            renderer.LoadContent("sizu", filepathT);
+            renderer.LoadContent("nolma", filepathT);
             renderer.LoadContent("sikaku", filepathT);
             renderer.LoadContent("sikaku2", filepathT);
             renderer.LoadContent("gameover", filepathT);
