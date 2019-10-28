@@ -72,6 +72,26 @@ namespace OBG.Scene
             if (timeflag == false && Transition.irisState == Transition.IrisState.None && isEndFlag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
+                switch (stage)
+                {
+                    case Stage.stage1:
+                        renderer.DrawTexture("50", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+
+                    case Stage.stage2:
+                        renderer.DrawTexture("50", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+
+                    case Stage.stage3:
+                        renderer.DrawTexture("20", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+                    case Stage.stage4:
+                        renderer.DrawTexture("10", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+                    case Stage.stage5:
+                        renderer.DrawTexture("30", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+                }
             }
             if (timeflag == true && time == 0)
             {
@@ -356,7 +376,7 @@ namespace OBG.Scene
                     area = 30;
                     break;
             }
-            sound.PlayBGM("GameBGM");
+            sound.PlayBGM("game");
 
 
         }
