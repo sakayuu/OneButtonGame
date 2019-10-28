@@ -138,6 +138,7 @@ namespace OBG.Actor
                 }
                 if (other is Pin || other is Collider)
                 {
+                    sound.PlaySE("reflect");
                     if (Yflag == false && Xflag == true && hitflag == false)
                     {
 

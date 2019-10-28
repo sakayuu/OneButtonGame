@@ -130,7 +130,6 @@ namespace OBG.Scene
                 renderer.DrawTexture("taitle4", new Vector2(-360, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.85f, 0.85f));
                 isEndFlag = true;
             }
-
             renderer.End();
         }
 
@@ -185,13 +184,18 @@ namespace OBG.Scene
                 yflag = true;
             if (ypos > 30)
                 yflag = false;
-            sound.PlayBGM("TitleBGM");
+            if(changescene==false)
+            {
+                sound.PlayBGM("TitleBGM");
+            }
+
 
             //スペースキーが押されたか？
-            if (Input.GetKeyRelease(Keys.Enter))
+            if (Input.GetKeyRelease(Keys.Enter)&&changescene==false)
             {
                 changescene = true;
                 sound.PlaySE("serect");
+                sound.StopBGM();
             }
             if (changescene)
                 count++;

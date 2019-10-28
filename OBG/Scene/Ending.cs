@@ -57,12 +57,12 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
-            sound.PlayBGM("endingbgm");
+            sound.PlayBGM("UNKNOWN_AREA");
 
             if (Input.GetKeyTrigger(Keys.Enter))
             {
                 isEndFlag = true;
-                sound.PlaySE("endingse");
+                sound.PlaySE("serect");
             }
         }
     }

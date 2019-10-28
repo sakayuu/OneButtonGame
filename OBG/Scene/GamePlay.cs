@@ -59,16 +59,39 @@ namespace OBG.Scene
             //背景を描画
             renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
 
-            if (Ball.ballState == BallState.Free)
-            {
-                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, Color.Red, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
-            }
             characterManager.Draw(renderer);//キャラクター管理者の描画
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
             renderer.DrawNumber("number1", new Vector2(200, 13), area);
+            renderer.DrawTexture("nolma", new Vector2(-50, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
+            renderer.DrawTexture("sizu", new Vector2(350, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
+
+            if (Ball.ballState == BallState.Free)
+            {
+                renderer.DrawTexture("target3", characterManager.pin.GetPosition(), null, Color.White, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
+            }
             if (timeflag == false && Transition.irisState == Transition.IrisState.None && isEndFlag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
+                switch (stage)
+                {
+                    case Stage.stage1:
+                        renderer.DrawTexture("50", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+
+                    case Stage.stage2:
+                        renderer.DrawTexture("50", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+
+                    case Stage.stage3:
+                        renderer.DrawTexture("20", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+                    case Stage.stage4:
+                        renderer.DrawTexture("10", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+                    case Stage.stage5:
+                        renderer.DrawTexture("30", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        break;
+                }
             }
             if (timeflag == true && time == 0)
             {
@@ -353,7 +376,7 @@ namespace OBG.Scene
                     area = 30;
                     break;
             }
-            sound.PlayBGM("GameBGM");
+            sound.PlayBGM("game");
 
 
         }

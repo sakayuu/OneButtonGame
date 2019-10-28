@@ -113,11 +113,19 @@ namespace OBG
             renderer.LoadContent("Push", filepathT);
             renderer.LoadContent("target", filepathT);
             renderer.LoadContent("target1", filepathT);
+            renderer.LoadContent("target3", filepathT);
+            renderer.LoadContent("sizu", filepathT);
+            renderer.LoadContent("nolma", filepathT);
             renderer.LoadContent("sikaku", filepathT);
             renderer.LoadContent("sikaku2", filepathT);
             renderer.LoadContent("gameover", filepathT);
             renderer.LoadContent("stagecler", filepathT);
             renderer.LoadContent("stagecler1", filepathT);
+            renderer.LoadContent("10", filepathT);
+            renderer.LoadContent("20", filepathT);
+            renderer.LoadContent("30", filepathT);
+            renderer.LoadContent("50", filepathT);
+            renderer.LoadContent("cler", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
@@ -127,11 +135,14 @@ namespace OBG
 
 
             sound.LoadBGM("TitleBGM", filepathS);
+            sound.LoadBGM("game", filepathS);
+            sound.LoadBGM("UNKNOWN_AREA", filepathS);
             sound.LoadBGM("GameBGM", filepathS);
             sound.LoadBGM("endingbgm", filepathS);
             sound.LoadBGM("congratulation", filepathS);
 
             sound.LoadSE("titlese", filepathS);
+            sound.LoadSE("noizu", filepathS);
             sound.LoadSE("gameplayse", filepathS);
             sound.LoadSE("endingse", filepathS);
             sound.LoadSE("serect", filepathS);
