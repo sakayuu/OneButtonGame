@@ -112,7 +112,7 @@ namespace OBG.Actor
 
         public override void Draw(Renderer renderer)
         {
-            renderer.DrawTexture(name, position, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 1);
+            renderer.DrawTexture(name, position, null, Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0, 0.75f);
             if (effect <= 0)
             {
                 effect = 1;

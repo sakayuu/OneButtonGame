@@ -32,6 +32,8 @@ namespace OBG.Scene
         private float timecount;
         private int time = 3;
         public static bool timeflag = false;
+        public static bool startflag = true;
+        private float startcount = 0;
         public bool clearflag = false;
         private float area;
 
@@ -57,12 +59,13 @@ namespace OBG.Scene
             //背景を描画
             renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
 
+            if (Ball.ballState == BallState.Free)
+            {
+                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, Color.Red, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
+            }
             characterManager.Draw(renderer);//キャラクター管理者の描画
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
             renderer.DrawNumber("number1", new Vector2(200, 13), area);
-            renderer.DrawTexture("nolma", new Vector2(-50, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
-            renderer.DrawTexture("sizu", new Vector2(350, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
-
             if (timeflag == false && Transition.irisState == Transition.IrisState.None && isEndFlag == false)
             {
                 renderer.DrawNumber("number1", new Vector2(400, 400), time);
@@ -72,10 +75,6 @@ namespace OBG.Scene
                 renderer.DrawTexture("Ggo2", new Vector2(200, 350));
             }
 
-            if (Ball.ballState == BallState.Free)
-            {
-                renderer.DrawTexture("target3", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
-            }
             renderer.End();
         }
 
@@ -191,8 +190,20 @@ namespace OBG.Scene
 
                 }
             }
-
-            if (timeflag == true && !characterManager.GetBall().IsDead())
+            if(startflag == false && timeflag == true && Transition.irisState == Transition.IrisState.None)
+            {
+                startcount++;
+                if(startcount >= 60)
+                {
+                    startflag = true;
+                    startcount = 0;
+                }
+            }
+            if(characterManager.GetBall().IsDead()&& timeflag == true)
+            {
+                startflag = false;
+            }
+            if (timeflag == true &&  startflag == true &&!characterManager.GetBall().IsDead() )
             {
                 if (Input.GetKeyTrigger(Keys.Enter))
                 {
@@ -246,8 +257,11 @@ namespace OBG.Scene
             {
                 NowField += a.SetField();
             }
-            pasent = (NowField / AllField) * 100;
-            Debug.WriteLine(clearflag);
+            if (!characterManager.GetBall().IsDead())
+            {
+                pasent = (NowField / AllField) * 100;
+            }
+            //Debug.WriteLine(clearflag);
             switch (stage)
             {
                 case Stage.stage1:
