@@ -177,7 +177,7 @@ namespace OBG.Actor
 
         public override void Move()
         {
-            if (GamePlay.timeflag == true)
+            if (GamePlay.timeflag == true && GamePlay.startflag == true)
             {
                 if (ballState == BallState.Start)
                 {

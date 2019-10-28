@@ -32,6 +32,8 @@ namespace OBG.Scene
         private float timecount;
         private int time = 3;
         public static bool timeflag = false;
+        public static bool startflag = true;
+        private float startcount = 0;
         public bool clearflag = false;
         private float area;
 
@@ -59,7 +61,7 @@ namespace OBG.Scene
 
             if (Ball.ballState == BallState.Free)
             {
-                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
+                renderer.DrawTexture("target1", characterManager.pin.GetPosition(), null, Color.Red, 0, Vector2.Zero, new Vector2(1, 1), SpriteEffects.None, 0, 1);
             }
             characterManager.Draw(renderer);//キャラクター管理者の描画
             renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
@@ -188,8 +190,20 @@ namespace OBG.Scene
 
                 }
             }
-
-            if (timeflag == true && !characterManager.GetBall().IsDead())
+            if(startflag == false && timeflag == true && Transition.irisState == Transition.IrisState.None)
+            {
+                startcount++;
+                if(startcount >= 60)
+                {
+                    startflag = true;
+                    startcount = 0;
+                }
+            }
+            if(characterManager.GetBall().IsDead()&& timeflag == true)
+            {
+                startflag = false;
+            }
+            if (timeflag == true &&  startflag == true &&!characterManager.GetBall().IsDead() )
             {
                 if (Input.GetKeyTrigger(Keys.Enter))
                 {
@@ -243,8 +257,11 @@ namespace OBG.Scene
             {
                 NowField += a.SetField();
             }
-            pasent = (NowField / AllField) * 100;
-            Debug.WriteLine(clearflag);
+            if (!characterManager.GetBall().IsDead())
+            {
+                pasent = (NowField / AllField) * 100;
+            }
+            //Debug.WriteLine(clearflag);
             switch (stage)
             {
                 case Stage.stage1:
