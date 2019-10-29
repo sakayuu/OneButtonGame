@@ -72,7 +72,7 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
-            if (Input.GetKeyTrigger(Keys.Enter)&&!isEndFlag)
+            if (Input.GetKeyTrigger(Keys.Enter) && !isEndFlag)
             {
                 if (stagecount <= 5)
                 {

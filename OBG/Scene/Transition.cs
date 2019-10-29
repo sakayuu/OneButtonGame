@@ -19,14 +19,15 @@ namespace OBG.Scene
         public enum IrisState
         { In, Out, None };
 
-        public static  IrisState irisState; //現在の状態
+        public static IrisState irisState; //現在の状態
         private Timer timer; //フェード時間
 
         //フェード切り替えの時間
-        private readonly float FADE_TIME = 1f;
+        private readonly float FADE_TIME = 0.5f;
         private IScene scene; //現在のシーン
         private bool isEndFlag = false; //終了フラグ 
-        private bool? ballDeadFlag;
+        public static bool ballDeadFlag;
+
 
         /// <summary>
         /// コンストラクタ
@@ -35,7 +36,6 @@ namespace OBG.Scene
         public Transition(IScene scene, bool? ballDeadFlag)
         {
             this.scene = scene;
-            this.ballDeadFlag = ballDeadFlag;
         }
 
         public void Draw(Renderer renderer)
@@ -95,7 +95,6 @@ namespace OBG.Scene
 
         public void Update(GameTime gameTime)
         {
-
             switch (irisState)
             {
                 case IrisState.In:
@@ -130,7 +129,10 @@ namespace OBG.Scene
             timer.Update(gameTime);
             if (timer.IsTime())
             {
-                irisState = IrisState.None;
+                if (!ballDeadFlag)
+                    irisState = IrisState.None;
+                else
+                    irisState = IrisState.Out;
                 timer.Initialize();
             }
         }
@@ -203,18 +205,7 @@ namespace OBG.Scene
         private void DrawEffect(Renderer renderer, float alpha)
         {
             renderer.Begin();
-            //renderer.DrawTexture(
-            //    "irisT",
-            //    new Vector2(Screen.Width / 2, Screen.Height / 2),
-            //    null,
-            //    null,
-            //    new Vector2(2000, 2000),
-            //    Color.White,
-            //    0.0f,
-            //    new Vector2(2f+(alpha-1)),
-            //    SpriteEffects.None,
-            //    0.0f,
-            //    1);
+
             renderer.DrawCircle(
                 new Vector2(Screen.Width / 2, Screen.Height / 2),
                 1000 * alpha);

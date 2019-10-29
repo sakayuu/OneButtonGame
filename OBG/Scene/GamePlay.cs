@@ -167,7 +167,12 @@ namespace OBG.Scene
         public Scene Next()
         {
             if (characterManager.GetBall().IsDead())
-                nextScene = Scene.Ending;
+            {
+                //Initialize();
+                nextScene = Scene.GamePlay;
+            }
+            else if (stage == Stage.stage5)
+                nextScene = Scene.Clear;
 
             return nextScene;
         }
@@ -180,6 +185,7 @@ namespace OBG.Scene
         public void Update(GameTime gameTime)
         {
             characterManager.Update(gameTime); //キャラ一括更新
+            Transition.ballDeadFlag = characterManager.GetBall().IsDead();
             if (Ball.ballState == BallState.Free)
             {
                 characterManager.pin = null;

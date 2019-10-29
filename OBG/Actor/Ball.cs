@@ -122,6 +122,10 @@ namespace OBG.Actor
 
         public override void Hit(Character other)
         {
+            if (other is Enemy)
+            {
+                isDeadFlag = true;
+            }
             if (ballState == BallState.Link)
             {
                 if (other is Pin)
@@ -132,10 +136,6 @@ namespace OBG.Actor
 
             if (ballState == BallState.Free)
             {
-                if (other is Enemy)
-                {
-                    isDeadFlag = true;
-                }
                 if (other is Pin || other is Collider)
                 {
                     sound.PlaySE("reflect");
@@ -185,7 +185,7 @@ namespace OBG.Actor
                     position += new Vector2(0, -1) * (startspeed / 10);
                     nowVector = new Vector2(0, -1) * (startspeed / 10);
                 }
-                if(position.Y < 0 || position.Y + pixelSize >= Screen.Width)
+                if (position.Y < 0 || position.Y + pixelSize >= Screen.Width)
                 {
                     startspeed *= -1;
                 }
@@ -194,7 +194,7 @@ namespace OBG.Actor
                     if (freeFlag)
 
                     {
-                        if(position.X < 0 || position.X + pixelSize >= Screen.Width ||
+                        if (position.X < 0 || position.X + pixelSize >= Screen.Width ||
                             position.Y < 0 || position.Y + pixelSize >= Screen.Width)
                         {
                             effectpos = position;
@@ -203,7 +203,7 @@ namespace OBG.Actor
                             sound.PlaySE("reflect");
                         }
                         //まっすぐに移動
-                        if (position.X + pixelSize /2 < 0 || position.X + pixelSize / 2 >= Screen.Width ||
+                        if (position.X + pixelSize / 2 < 0 || position.X + pixelSize / 2 >= Screen.Width ||
                             position.Y + pixelSize / 2 < 0 || position.Y + pixelSize / 2 >= Screen.Width)
                         {
                             isDeadFlag = true;
@@ -222,7 +222,7 @@ namespace OBG.Actor
                             hitflag = true;
                             yflag = true;
                         }
-                        if(position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
+                        if (position.Y + pixelSize >= Screen.Height && yflag == false && hitflag == false)
                         {
                             position.Y -= pixelSize / 4;
                             hitflag = true;
@@ -379,5 +379,6 @@ namespace OBG.Actor
         {
             mediator.AddCollider(collider, pinNum);
         }
+        
     }
 }
