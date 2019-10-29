@@ -75,21 +75,21 @@ namespace OBG.Scene
                 switch (stage)
                 {
                     case Stage.stage1:
-                        renderer.DrawTexture("50", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        renderer.DrawTexture("50", new Vector2(80, 150), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.4f, 0.4f));
                         break;
 
                     case Stage.stage2:
-                        renderer.DrawTexture("50", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        renderer.DrawTexture("50", new Vector2(80, 150), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.4f, 0.4f));
                         break;
 
                     case Stage.stage3:
-                        renderer.DrawTexture("20", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        renderer.DrawTexture("20", new Vector2(80, 150), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.4f, 0.4f));
                         break;
                     case Stage.stage4:
-                        renderer.DrawTexture("10", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        renderer.DrawTexture("10", new Vector2(80, 150), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.4f, 0.4f));
                         break;
                     case Stage.stage5:
-                        renderer.DrawTexture("30", new Vector2(150, 200), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.3f, 0.3f));
+                        renderer.DrawTexture("30", new Vector2(80, 150), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.4f, 0.4f));
                         break;
                 }
             }
