@@ -60,8 +60,8 @@ namespace OBG.Scene
             renderer.DrawTexture("back2", Vector2.Zero, null, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 1, 1);
 
             characterManager.Draw(renderer);//キャラクター管理者の描画
-            renderer.DrawNumber("number1", new Vector2(600, 13), pasent);
-            renderer.DrawNumber("number1", new Vector2(200, 13), area);
+            renderer.DrawNumber("number1", new Vector2(600, 0), pasent);
+            renderer.DrawNumber("number1", new Vector2(200, 0), area);
             renderer.DrawTexture("nolma", new Vector2(-50, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
             renderer.DrawTexture("sizu", new Vector2(350, -25), null, 0, Vector2.Zero, new Vector2(0.2f, 0.2f), SpriteEffects.None, 0, 1);
 

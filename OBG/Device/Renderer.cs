@@ -178,8 +178,13 @@ namespace OBG.Device
                 spriteBatch.Draw(
                     textures[assetName],
                     position,
-                    new Rectangle((n - '0') * width, 0, width, 64),
-                    Color.White * alpha);
+                    new Rectangle((n - '0') * width, 0, width, 556),
+                    Color.White * alpha,
+                        0,
+                        Vector2.One,
+                        3,
+                        SpriteEffects.None,
+                        1);
 
                 //1文字描画したら1桁分右にずらす
                 position.X += width;
@@ -197,7 +202,8 @@ namespace OBG.Device
             string assetName,
             Vector2 position,
             float number,
-            float alpha = 1.0f)
+            float alpha = 1.0f
+            )
         {
             Debug.Assert(textures.ContainsKey(assetName),
                 "描画時にアセット名の指定を間違えたか、" +
@@ -220,7 +226,12 @@ namespace OBG.Device
                         position,
                         new Rectangle(10 * width, 0, width,
                         64),//
-                        Color.White * alpha);
+                        Color.Red * alpha,
+                        0,
+                        Vector2.One,
+                        1.5f,
+                        SpriteEffects.None,
+                        1);
                 }
                 else
                 {
@@ -229,11 +240,16 @@ namespace OBG.Device
                         textures[assetName],
                         position,
                         new Rectangle((n - '0') * width, 0, width, 64),
-                        Color.White * alpha);
+                        Color.Red * alpha,
+                        0,
+                        Vector2.One,
+                        1.5f,
+                        SpriteEffects.None,
+                        1);
                 }
 
                 //一文字描画したら1桁分右にずらす
-                position.X += width;
+                position.X += width*1.5f;
             }
         }
 
