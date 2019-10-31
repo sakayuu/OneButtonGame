@@ -59,7 +59,7 @@ namespace OBG.Actor
             }
             if (Ball.ballState == BallState.Link)
             {
-                speed = 2.0f;
+                speed = 1.5f;
             }
         }
         

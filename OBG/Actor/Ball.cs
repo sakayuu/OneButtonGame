@@ -23,7 +23,7 @@ namespace OBG.Actor
 
     class Ball : Character, IGameMediator
     {
-        private float speed = 10f; //スピード
+        private float speed = 8f; //スピード
         private float startspeed = 10f;
         private Vector2 distance; //目的地
         private Vector2 velocity; //移動量

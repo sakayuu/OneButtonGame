@@ -31,7 +31,7 @@ namespace OBG.Scene
             backGroundScene.Draw(renderer);
 
             renderer.Begin();
-            if (stagecount < 6)
+            if (stagecount < 8)
             {
                 renderer.DrawTexture("stagecler1", new Vector2(-50, 0), null, Color.White * 1.0f, 0, Vector2.Zero, new Vector2(0.5f, 0.5f));
             }
@@ -45,7 +45,7 @@ namespace OBG.Scene
         public void Initialize()
         {
             isEndFlag = false;
-            if (stagecount < 6)
+            if (stagecount < 8)
             {
                 stagecount++;
             }
@@ -74,7 +74,7 @@ namespace OBG.Scene
         {
             if (Input.GetKeyTrigger(Keys.Enter) && !isEndFlag)
             {
-                if (stagecount <= 5)
+                if (stagecount <= 7)
                 {
                     switch (GamePlay.stage)
                     {
@@ -91,6 +91,12 @@ namespace OBG.Scene
                             GamePlay.stage = Stage.stage5;
                             break;
                         case Stage.stage5:
+                            GamePlay.stage = Stage.stage6;
+                            break;
+                        case Stage.stage6:
+                            GamePlay.stage = Stage.stage7;
+                            break;
+                        case Stage.stage7:
                             GamePlay.stage = Stage.stage1;
                             break;
                         default:

@@ -126,6 +126,7 @@ namespace OBG
             renderer.LoadContent("30", filepathT);
             renderer.LoadContent("50", filepathT);
             renderer.LoadContent("cler", filepathT);
+            renderer.LoadContent("noruma1", filepathT);
             Texture2D col = new Texture2D(GraphicsDevice, 1, 1);
             Color[] colors = new Color[1 * 1];
             colors[0] = Color.Gold;
